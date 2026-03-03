@@ -46,7 +46,7 @@ class BidRepository
     function getProductDate($id_product)
     {
         $pdo = $this->connection;
-        $request = "SELECT end_date FROM Product WHERE id_product = ?";
+        $request = "SELECT end_date FROM product WHERE id_product = ?";
         $temp = $pdo->prepare($request);
         $temp->execute([$id_product]);
 

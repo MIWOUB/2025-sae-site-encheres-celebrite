@@ -10,7 +10,7 @@ if (strlen($q) < 1) {
     exit;
 }
 
-$client = new Client('http://127.0.0.1:7700', 'CLE_TEST_SAE_SITE');
+$client = new Client('http://meilisearch:7700', 'CLE_TEST_SAE_SITE');
 $index = $client->index('search');
 
 // Recherche

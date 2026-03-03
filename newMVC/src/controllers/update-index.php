@@ -3,7 +3,7 @@ require __DIR__ . '/../../vendor/autoload.php';
 
 use Meilisearch\Client;
 
-$client = new Client('http://127.0.0.1:7700', 'CLE_TEST_SAE_SITE');
+$client = new Client('http://meilisearch:7700', 'CLE_TEST_SAE_SITE');
 
 try {
     $client->createIndex('search', ['primaryKey' => 'id']);
@@ -11,7 +11,7 @@ try {
 }
 $index = $client->index('search');
 
-$pdo = new PDO("mysql:host=localhost;dbname=auction_site;charset=utf8", "root", "");
+$pdo = new PDO("mysql:host=db;dbname=auction_site;charset=utf8", "root", "root");
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $documents = [];

@@ -4,10 +4,10 @@ date_default_timezone_set('Europe/Paris');
 
 function connection()
 {
-    $host = "localhost";
+    $host = "db";
     $dbname = "auction_site";
     $root = "root";
-    $password = "";
+    $password = "root";
 
     try {
         $pdo = new PDO("mysql:host=" . $host . ";dbname=" . $dbname . ";charset=utf8mb4", $root, $password);
@@ -210,7 +210,7 @@ function get_all_annoncement_notMailed(){
 /////////////////////////////////// Admin ////////////////////////////////////////////
 function getAllProduct_admin(){
     $pdo = connection();
-    $requete = "SELECT * FROM Product where status = 0 ";
+    $requete = "SELECT * FROM product where status = 0 ";
     try {
         $tmp = $pdo->prepare($requete);
         $tmp->execute();

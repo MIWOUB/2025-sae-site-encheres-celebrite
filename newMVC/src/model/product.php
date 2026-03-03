@@ -29,7 +29,7 @@ class ProductRepository
     function getAllProduct()
     {
         $pdo = $this->connection;
-        $requete = "SELECT * FROM Product";
+        $requete = "SELECT * FROM product";
         try {
             $tmp = $pdo->prepare($requete);
             $tmp->execute();
@@ -42,7 +42,7 @@ class ProductRepository
     function getProduct($id_product)
     {
         $pdo = $this->connection;
-        $requete = "SELECT * FROM Product WHERE id_product = ?";
+        $requete = "SELECT * FROM product WHERE id_product = ?";
         try {
             $tmp = $pdo->prepare($requete);
             $tmp->execute([$id_product]);
@@ -149,7 +149,7 @@ class ProductRepository
     function deleteProduct($id_product)
     {
         $pdo = $this->connection;
-        $request = "DELETE FROM Product WHERE id_product = ?";
+        $request = "DELETE FROM product WHERE id_product = ?";
         $temp = $pdo->prepare($request);
         $success = $temp->execute([$id_product]);
 
