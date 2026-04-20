@@ -8,24 +8,24 @@ function inscription(array $input)
     // Vérifier que le formulaire a bien été soumis
     if (
         isset(
-        $input['name'],
-        $input['firstname'],
-        $input['birth_date'],
-        $input['address'],
-        $input['city'],
-        $input['postal_code'],
-        $input['email'],
-        $input['password']
-    )
+            $input['name'],
+            $input['firstname'],
+            $input['birth_date'],
+            $input['address'],
+            $input['city'],
+            $input['postal_code'],
+            $input['email'],
+            $input['password']
+        )
     ) {
-        $name = trim(htmlentities($input['name']));
-        $firstname = trim(htmlentities($input['firstname']));
-        $birth_date = trim(htmlentities($input['birth_date']));
-        $address = trim(htmlentities($input['address']));
-        $city = trim(htmlentities($input['city']));
-        $postal_code = trim(htmlentities($input['postal_code']));
-        $email = trim(htmlentities($input['email']));
-        $password = trim(htmlentities(password_hash($input['password'], PASSWORD_ARGON2ID)));
+        $name = trim(($input['name']));
+        $firstname = trim(($input['firstname']));
+        $birth_date = trim(($input['birth_date']));
+        $address = trim(($input['address']));
+        $city = trim(($input['city']));
+        $postal_code = trim(($input['postal_code']));
+        $email = trim(($input['email']));
+        $password = trim((password_hash($input['password'], PASSWORD_ARGON2ID)));
     } else {
         throw new Exception("Les données du formulaire sont invalides !");
     }
