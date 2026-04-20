@@ -1,10 +1,9 @@
-# Pistes d'améliorations
+# Tâches à faire
 
 - Refactoriser le code pour passer sur une architecture MVC
 - Harmoniser les connexions BDD et Meilisearch avec des singleton et des variables d'environnement
 - Améliorer la gestion des erreurs
 - Améliorer le CSS
-- Corriger le problème d'encodage
 
 # Prérequis
 
