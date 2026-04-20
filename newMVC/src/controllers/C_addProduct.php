@@ -1,16 +1,16 @@
 <?php
 
-require_once('src/lib/database.php');
-require_once('src/model/product.php');
-require_once("src/controllers/C_emailing.php");
-require_once("src/model/pdo.php");
-require_once('src/model/celebrity.php');
+require_once __DIR__ . '/../lib/database.php';
+require_once __DIR__ . '/../model/product.php';
+require_once __DIR__ . '/C_emailing.php';
+require_once __DIR__ . '/../model/pdo.php';
+require_once __DIR__ . '/../model/celebrity.php';
 
 function addNewProduct($user, $input)
 {
-    $pdo = DatabaseConnection::getConnection();
-    $productRepository = new ProductRepository($pdo);
-    $CelebrityRepository = new CelebrityRepository($pdo);
+    $pdo = \DatabaseConnection::getConnection();
+    $productRepository = new \ProductRepository($pdo);
+    $celebrityRepository = new \CelebrityRepository($pdo);
 
     // var_dump($user);
     $id_user = $user['id_user'];
@@ -33,7 +33,7 @@ function addNewProduct($user, $input)
 
     // Au cas ou nouvelle categorie ou celebrite
     $statut_admin_Categorie = checkCategorie($category, $productRepository) ? 1 : 0;
-    $statut_admin_Celebrite = checkCelebrite($celebrite, $CelebrityRepository) ? 1 : 0;
+    $statut_admin_Celebrite = checkCelebrite($celebrite, $celebrityRepository) ? 1 : 0;
 
     if ($statut_admin_Celebrite == 0 || $statut_admin_Categorie == 0) {
         $statut = 0;
@@ -52,9 +52,9 @@ function addNewProduct($user, $input)
 
     //Insert Celebrity
     if ($statut_admin_Celebrite == 0) {
-        InsertCelebrity($celebrite, $id_product, $CelebrityRepository, $statut_admin_Celebrite);
+        insertCelebrity($celebrite, $id_product, $celebrityRepository, $statut_admin_Celebrite);
     } else {
-        $CelebrityRepository->linkCelebrityProduct($id_product, $celebrite);
+        $celebrityRepository->linkCelebrityProduct($id_product, $celebrite);
     }
 
     if (!$id_product) {
@@ -69,7 +69,7 @@ function addNewProduct($user, $input)
     }
 }
 
-function checkImage($id_product, ProductRepository $productRepository)
+function checkImage($id_product, \ProductRepository $productRepository)
 {
     try {
         //Verification de la présence d'images
@@ -142,9 +142,9 @@ function insertCategorie($categories, $id_product, $productRepository, $statut_a
     }
 }
 
-function checkCelebrite($saisie, $CelebrityRepository)
+function checkCelebrite($saisie, $celebrityRepository)
 {
-    $celebrite = $CelebrityRepository->getCelebrityMod($saisie);
+    $celebrite = $celebrityRepository->getCelebrityMod($saisie);
     if ($celebrite) {
         return true;
     } else {
@@ -152,11 +152,11 @@ function checkCelebrite($saisie, $CelebrityRepository)
     }
 }
 
-function InsertCelebrity($celebrite, $id_product, $CelebrityRepository, $statut_admin_Celebrite)
+function insertCelebrity($celebrite, $id_product, $celebrityRepository, $statut_admin_Celebrite)
 {
     try {
-        $CelebrityRepository->insertCelebrity($celebrite, $statut_admin_Celebrite);
-        $CelebrityRepository->linkCelebrityProduct($id_product, $celebrite);
+        $celebrityRepository->insertCelebrity($celebrite, $statut_admin_Celebrite);
+        $celebrityRepository->linkCelebrityProduct($id_product, $celebrite);
     } catch (Exception $e) {
         die('Error on insertion of your celebrity' . $e->getMessage());
     }

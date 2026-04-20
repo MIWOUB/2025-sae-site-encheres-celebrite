@@ -1,7 +1,7 @@
 <?php
 
-require_once('src/lib/database.php');
-require_once('src/model/user.php');
+require_once __DIR__ . '/../lib/database.php';
+require_once __DIR__ . '/../model/user.php';
 
 function inscription(array $input)
 {
@@ -31,8 +31,8 @@ function inscription(array $input)
     }
 
     // Appel de la fonction d'incription
-    $pdo = DatabaseConnection::getConnection();
-    $userRepository = new UserRepository($pdo);
+    $pdo = \DatabaseConnection::getConnection();
+    $userRepository = new \UserRepository($pdo);
     $success = $userRepository->createUser($name, $firstname, $birth_date, $address, $city, $postal_code, $email, $password);
     if (!$success) {
         throw new Exception("Impossible de s'inscrire pour le moment !");
