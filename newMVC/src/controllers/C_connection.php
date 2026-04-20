@@ -1,7 +1,7 @@
 <?php
 
-require_once('src/lib/database.php');
-require_once('src/model/user.php');
+require_once __DIR__ . '/../lib/database.php';
+require_once __DIR__ . '/../model/user.php';
 
 function userConnection(array $input)
 {
@@ -10,8 +10,8 @@ function userConnection(array $input)
         $hasedpassword = gethashPassword($email);
 
         if ($hasedpassword && password_verify($input['password'], $hasedpassword)) {
-            $pdo = DatabaseConnection::getConnection();
-            $userRepository = new UserRepository($pdo);
+            $pdo = \DatabaseConnection::getConnection();
+            $userRepository = new \UserRepository($pdo);
             $info_user = $userRepository->authentication($email, $hasedpassword);
             var_dump($info_user);
             $info_user['DateConnexion'] = date("Y-m-d H:i:s");
@@ -58,4 +58,3 @@ function userDisconnection()
     header('Location: index.php?action=connection');
     exit();
 }
-

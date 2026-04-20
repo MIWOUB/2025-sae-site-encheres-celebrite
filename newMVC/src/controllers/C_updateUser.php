@@ -27,7 +27,7 @@ function updatePassword(string $password)
     if (!empty($password)) {
         $user = $_SESSION["user"];
         $id_user = $user["id_user"];
-        $pass = trim(htmlentities(password_hash($password, PASSWORD_ARGON2ID)));
+        $pass = trim((password_hash($password, PASSWORD_ARGON2ID)));
 
         $pdo = DatabaseConnection::getConnection();
         $userRepository = new UserRepository($pdo);
