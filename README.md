@@ -24,6 +24,16 @@
 4. Ouvrir l'application dans le navigateur:
    - `http://localhost`
 
+# Identifiants de connexion
+
+Admin (permet d'accepter ou refuser des annonces publiées)
+email : admin@gmail.com
+mot de passe : Admin1234!
+
+Utilisateur de test (simple utilisateur ayant accès au site pour naviguer, enchérir et publier une annonce)
+email : test@gmail.com
+mot de passe : Test1234!
+
 # Services
 
 - Application PHP/Apache: `http://localhost`
