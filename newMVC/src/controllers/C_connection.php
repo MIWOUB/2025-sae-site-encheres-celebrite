@@ -13,10 +13,8 @@ function userConnection(array $input)
             $pdo = \DatabaseConnection::getConnection();
             $userRepository = new \UserRepository($pdo);
             $info_user = $userRepository->authentication($email, $hasedpassword);
-            var_dump($info_user);
-            $info_user['DateConnexion'] = date("Y-m-d H:i:s");
-
             if ($info_user) {
+                $info_user['DateConnexion'] = date("Y-m-d H:i:s");
                 $_SESSION['user'] = $info_user;
                 header('Location: index.php?action=user');
                 exit();
