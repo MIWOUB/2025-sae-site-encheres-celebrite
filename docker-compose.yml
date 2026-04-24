@@ -1,0 +1,29 @@
+services:
+  db:
+    image: mariadb
+    volumes: 
+      - ./BDD_constructor.sql:/docker-entrypoint-initdb.d/db.sql
+    environment:
+      # MARIADB_USER: root
+      MARIADB_DATABASE: auction_site
+      MARIADB_ROOT_PASSWORD: root
+    ports: 
+      - 3306:3306
+    
+  php:
+    build:
+      context: ./
+    ports:
+      - 80:80
+    volumes:
+      - ./newMVC:/var/www/html
+
+  meilisearch:
+    image: getmeili/meilisearch:latest
+    environment: 
+      MEILI_MASTER_KEY: CLE_TEST_SAE_SITE
+    ports:
+      - 7700:7700
+
+
+    
