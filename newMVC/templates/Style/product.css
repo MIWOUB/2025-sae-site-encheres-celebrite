@@ -1,29 +1,3 @@
-:root {
-    --Sapphire: #3C507D;
-    --Royal-blue: #112250;
-    --Quicksand: #E0C58F;
-    --Swan-wing: #F5F0E9;
-    --Sheelstone: #D9CBC2;
-    --Gold: #D2A047;
-    --Green: #3A7F4F;
-    --Red: #C0392B;
-
-    --H1-font: "Lora", serif;
-    --H1-size: 40px;
-    --H1-weight: 700;
-
-    --H2-font: "Lora", serif;
-    --H2-size: 32px;
-    --H2-weight: 700;
-
-    --H3-font: "Lora", serif;
-    --H3-size: 24px;
-    --H3-weight: 700;
-
-    --p-font: "Poppins", serif;
-    --p-size: 16px;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -47,9 +21,9 @@
     position: absolute;
     top: -15px;
     right: -15px;
-    background-color: var(--Gold);
+    background-color: var(--color-gold);
     padding: 20px;
-    border: 2px solid var(--Gold);
+    border: 2px solid var(--color-gold);
     border-radius: 50px;
 }
 
@@ -58,7 +32,7 @@
     left: 50%;
     height: 3px;
     width: 60%;
-    background-color: var(--Royal-blue);
+    background-color: var(--color-blue);
     border-radius: 25px;
     position: absolute;
 }
@@ -74,21 +48,19 @@
 .popup div {
     position: relative;
     top: 100px;
-    background-color: var(--Swan-wing);
-    color: var(--Royal-blue);
+    background-color: var(--color-cream);
+    color: var(--color-blue);
     margin: 10px auto;
     padding: 20px;
     width: 400px;
     border-radius: 20px;
-    font-size: var(--H3-size);
-    font-family: var(--H3-font);
+    font-family: var(--font-title);
 }
 
 .popup div h2 {
     padding-top: 10px;
     text-align: center;
-    font-size: var(--H2-size);
-    font-family: var(--H2-font);
+    font-family: var(--font-title);
     font-weight: normal;
     margin: 10px;
 }
@@ -107,40 +79,35 @@
 }
 
 input {
-    font-size: var(--H2-size);
-    font-family: var(--H2-font);
+    font-family: var(--font-title);
     text-align: center;
-    color: var(--Royal-blue);
-    background-color: var(--Swan-wing);
-    border: 1px solid var(--Royal-blue);
+    color: var(--color-blue);
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-blue);
     border-radius: 10px;
     box-shadow: none;
     outline: none;
 }
 
 .error-msg {
-    color: var(--Red);
+    color: var(--color-red);
 }
 
 .btn {
-    color: var(--Sheelstone);
-    background-color: var(--Royal-blue);
-    border: 1px solid var(--Royal-blue);
+    color: var(--color-cream);
+    background-color: var(--color-blue);
+    border: 1px solid var(--color-blue);
     border-radius: 10px;
-    font-size: var(--H2-size);
-    font-family: var(--H2-font);
-    font-weight: var(--H2-weight);
+    font-family: var(--font-title);
     padding: 10px;
 }
 
 .btn-second {
-    color: var(--Royal-blue);
-    background-color: var(--Swan-wing);
-    border: 1px solid var(--Royal-blue);
+    color: var(--color-blue);
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-blue);
     border-radius: 10px;
-    font-size: var(--H2-size);
-    font-family: var(--H2-font);
-    font-weight: var(--H2-weight);
+    font-family: var(--font-title);
     padding: 10px;
 }
 
@@ -181,15 +148,15 @@ input {
 .toast i {
     margin: 0 20px;
     font-size: 35px;
-    color: green;
+    color: var(--color-green);
 }
 
 .toast.error i {
-    color: red;
+    color: var(--color-red);
 }
 
 .toast.invalid i {
-    color: orange;
+    color: var(--color-orange);
 }
 
 .toast::after {
@@ -199,16 +166,16 @@ input {
     bottom: 0;
     width: 100%;
     height: 5px;
-    background: green;
+    background: var(--color-green);
     animation: toastAnim 5s linear forwards;
 }
 
 .toast.error::after {
-    background: red;
+    background: var(--color-red);
 }
 
 .toast.invalid::after {
-    background: orange;
+    background: var(--color-orange);
 }
 
 @keyframes toastAnim {

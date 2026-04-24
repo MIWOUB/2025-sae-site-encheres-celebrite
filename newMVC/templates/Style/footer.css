@@ -1,11 +1,3 @@
-:root {
-    --linear-blue: linear-gradient(#002366, #0046CC);
-    --color-blue: #002366;
-    --color-orange: #FFA347;
-    --color-gold: #D4AF37;
-    --color-background: #F8F9FA;
-}
-
 footer {
     background: var(--color-background);
     padding: 40px 20px;

@@ -31,11 +31,11 @@
 }
 
 .popup-box button#btnConfirm {
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--color-green);
+    color: var(--color-white);
 }
 
 .popup-box button#btnCancel {
-    background-color: #f44336;
-    color: white;
+    background-color: var(--color-red);
+    color: var(--color-white);
 }
