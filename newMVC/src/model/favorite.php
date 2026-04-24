@@ -11,54 +11,54 @@ class FavoriteRepository
         $this->connection = $pdo;
     }
 
-    function setProductFavorite($id_product, $id_user)
+    public function setProductFavorite($id_product, $id_user)
     {
-        $pdo = $this->connection;
-        $request = "INSERT INTO Interest(id_product, id_user) VALUES (:id_product, :id_user)";
-        $temp = $pdo->prepare($request);
-        $success = $temp->execute([
+        $request = "INSERT INTO interest (id_product, id_user) VALUES (:id_product, :id_user)";
+        $stmt = $this->connection->prepare($request);
+
+        return $stmt->execute([
             ':id_product' => $id_product,
             ':id_user' => $id_user
         ]);
-
-        return $success;
     }
 
-    function isProductFavorite($id_product, $id_user)
+    public function isProductFavorite($id_product, $id_user)
     {
-        $pdo = $this->connection;
         $request = "SELECT COUNT(*) FROM interest WHERE id_product = :id_product AND id_user = :id_user";
-        $temp = $pdo->prepare($request);
-        $temp->execute([
-            ':id_product' => $id_product,
-            ':id_user' => $id_user
-        ]);
-        $success = $temp->fetchColumn();
+        $stmt = $this->connection->prepare($request);
 
-        return $success > 0;
-    }
-
-    function unsetProductFavorite($id_product, $id_user)
-    {
-        $pdo = $this->connection;
-        $request = "DELETE FROM Interest WHERE id_product = :id_product AND id_user = :id_user";
-        $temp = $pdo->prepare($request);
-        $success = $temp->execute([
+        $stmt->execute([
             ':id_product' => $id_product,
             ':id_user' => $id_user
         ]);
 
-        return $success;
+        return $stmt->fetchColumn() > 0;
     }
 
-    function getLikes($id_product)
+    public function unsetProductFavorite($id_product, $id_user)
     {
-        $pdo = connection();
-        $requete = " SELECT COUNT(*) as nbLike from interest where id_product = :id ";
-        $temp = $pdo->prepare($requete);
-        $temp->execute([
-            ":id" => $id_product
+        $request = "DELETE FROM interest WHERE id_product = :id_product AND id_user = :id_user";
+        $stmt = $this->connection->prepare($request);
+
+        return $stmt->execute([
+            ':id_product' => $id_product,
+            ':id_user' => $id_user
         ]);
-        return $temp->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getLikes($id_product)
+    {
+        if (!is_numeric($id_product)) {
+            throw new InvalidArgumentException("ID produit invalide");
+        }
+
+        $request = "SELECT COUNT(*) AS nbLike FROM interest WHERE id_product = :id";
+        $stmt = $this->connection->prepare($request);
+
+        $stmt->execute([
+            ':id' => (int)$id_product
+        ]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
