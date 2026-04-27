@@ -11,12 +11,12 @@ $style = "templates/style/Accueil.css";
 <?php ob_start(); ?>
 
 <?php include('preset/header.php'); ?>
-<?php include("src/controllers/update-index.php"); ?>
+<?php include("src/controllers/SearchIndexUpdateController.php"); ?>
 
 <main>
     <?php
-    $pdo = DatabaseConnection::getConnection();
-    $productRepository = new ProductRepository($pdo);
+    $pdo = \DatabaseConnection::getConnection();
+    $productRepository = new \ProductRepository($pdo);
     $products = $productRepository->getAllProduct();
     ?>
 
@@ -90,7 +90,7 @@ $style = "templates/style/Accueil.css";
                     }
 
                     if (new DateTime($p['end_date']) > new DateTime()):
-                        ?>
+                    ?>
                         <div class="announce-card">
                             <?php
                             $images = getImage($p['id_product']);
@@ -111,7 +111,7 @@ $style = "templates/style/Accueil.css";
 
                 <?php
                 if ($count_displayed === 0):
-                    ?>
+                ?>
                     <p>Aucune annonce active disponible pour le moment.</p>
                 <?php endif; ?>
 
@@ -133,13 +133,13 @@ $style = "templates/style/Accueil.css";
 <script src="templates/JS/timer.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         new Swiper('.mySwiper', {
             autoplay: {
                 delay: 3000,
-                disableOnInteraction: false, 
+                disableOnInteraction: false,
             },
-            loop: true, 
+            loop: true,
             slidesPerView: 1,
             navigation: {
                 nextEl: '.swiper-button-next',
@@ -153,13 +153,13 @@ $style = "templates/style/Accueil.css";
 
         document.querySelectorAll('.timer').forEach(el => {
             const endDate = el.getAttribute('data-end');
-            startCountdown(endDate, el); 
+            startCountdown(endDate, el);
         });
     });
 </script>
 
 <script>
-    document.getElementById('searchButton').addEventListener('click', async function () {
+    document.getElementById('searchButton').addEventListener('click', async function() {
         const q = document.getElementById('searchInput').value.trim();
         if (q.length < 2) return;
 
@@ -201,7 +201,7 @@ $style = "templates/style/Accueil.css";
     const searchInput = document.getElementById('searchInput');
     const suggestionsBox = document.getElementById('suggestions');
 
-    searchInput.addEventListener('keyup', async function () {
+    searchInput.addEventListener('keyup', async function() {
         const q = this.value.trim();
 
         if (q.length < 2) {
@@ -261,7 +261,7 @@ $style = "templates/style/Accueil.css";
 
     async function loadCategory(categoryId) {
         const response = await fetch(
-            "src/controllers/filterByCategory.php?id=" + categoryId
+            "src/controllers/ProductFilterByCategoryController.php?id=" + categoryId
         );
         const products = await response.json();
 
@@ -283,7 +283,7 @@ $style = "templates/style/Accueil.css";
     }
     async function loadCelebrity(celebrityId) {
         const response = await fetch(
-            "src/controllers/filterByCelebrity.php?id=" + celebrityId
+            "src/controllers/ProductFilterByCelebrityController.php?id=" + celebrityId
         );
         const products = await response.json();
 
@@ -305,17 +305,17 @@ $style = "templates/style/Accueil.css";
     }
 
     function renderProductCard(p) {
-    console.log('Produit:', p);
-    console.log('Images:', p.images);
-    
-    let imageHtml = '<div style="height:100px;display:flex;align-items:center;justify-content:center;">Aucune image disponible</div>';
-    
-    if (p.images && p.images.length > 0) {
-        console.log('URL image:', p.images[0].url_image);
-        imageHtml = `<img src="${p.images[0].url_image}" alt="Image annonce">`;
-    }
-    
-    return `
+        console.log('Produit:', p);
+        console.log('Images:', p.images);
+
+        let imageHtml = '<div style="height:100px;display:flex;align-items:center;justify-content:center;">Aucune image disponible</div>';
+
+        if (p.images && p.images.length > 0) {
+            console.log('URL image:', p.images[0].url_image);
+            imageHtml = `<img src="${p.images[0].url_image}" alt="Image annonce">`;
+        }
+
+        return `
         <div class="announce-card">
             ${imageHtml}
             <h3>${p.title}</h3>
@@ -323,8 +323,7 @@ $style = "templates/style/Accueil.css";
             <a class="btn" href="index.php?action=product&id=${p.id_product ?? p.id}">Voir</a>
         </div>
     `;
-}
-
+    }
 </script>
 
 <?php $content = ob_get_clean(); ?>

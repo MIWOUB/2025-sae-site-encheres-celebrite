@@ -1,10 +1,9 @@
 <?php
 
-require_once('src/lib/database.php');
-require_once('src/model/product.php');
-require_once('src/model/comment.php');
-require_once('src/model/favorite.php');
-require_once("src/controllers/C_counterView.php");
+require_once __DIR__ . '/../../lib/database.php';
+require_once __DIR__ . '/../../model/product.php';
+require_once __DIR__ . '/../../model/comment.php';
+require_once __DIR__ . '/../../model/favorite.php';
 
 function Product($id_product)
 {
@@ -12,11 +11,11 @@ function Product($id_product)
         throw new Exception("Produit invalide.");
     }
 
-    $pdo = DatabaseConnection::getConnection();
+    $pdo = \DatabaseConnection::getConnection();
 
-    $productRepository = new ProductRepository($pdo);
-    $commentRepository = new CommentRepository($pdo);
-    $favoriteRepository = new FavoriteRepository($pdo);
+    $productRepository = new \ProductRepository($pdo);
+    $commentRepository = new \CommentRepository($pdo);
+    $favoriteRepository = new \FavoriteRepository($pdo);
 
     // =========================
     // PRODUIT
