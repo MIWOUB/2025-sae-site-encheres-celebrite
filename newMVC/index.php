@@ -6,8 +6,8 @@ require_once('src/controllers/C_addProduct.php');
 require_once('src/controllers/Auth/LoginController.php');
 require_once('src/controllers/Auth/RegisterController.php');
 require_once('src/controllers/C_pageProduct.php');
-require_once('src/controllers/C_pageUser.php');
-require_once('src/controllers/C_updateUser.php');
+require_once('src/controllers/User/UserController.php');
+require_once('src/controllers/User/ProfileUpdateController.php');
 require_once('src/controllers/C_favorite.php');
 require_once('src/controllers/C_unfavorite.php');
 require_once('src/controllers/C_bid.php');
@@ -39,12 +39,12 @@ try {
             exit;
         } elseif ($_GET['action'] === 'user') {
             if (isset($_GET['id']) && $_GET['id'] >= 0) {
-                $pdo = DatabaseConnection::getConnection();
-                $userRepository = new UserRepository($pdo);
+                $pdo = \DatabaseConnection::getConnection();
+                $userRepository = new \UserRepository($pdo);
                 $score = $userRepository->getRatingUser($_GET['id']);
                 $score == null ? $score = 0 : $score;
 
-                $productRepository = new ProductRepository($pdo);
+                $productRepository = new \ProductRepository($pdo);
                 $products = $productRepository->get_Annonce_User($_GET['id']);
                 $u = $userRepository->getUser($_GET['id']);
                 require("templates/userProfil.php");
@@ -85,9 +85,9 @@ try {
             addNewProduct($user, $_POST);
         } elseif ($_GET['action'] === 'deleteProduct') {
             if (isset($_POST['id_product']) && $_POST['id_product'] >= 0) {
-                $pdo = DatabaseConnection::getConnection();
-                $celebrityRepository = new CelebrityRepository(pdo: $pdo);
-                $productRepository = new ProductRepository($pdo);
+                $pdo = \DatabaseConnection::getConnection();
+                $celebrityRepository = new \CelebrityRepository(pdo: $pdo);
+                $productRepository = new \ProductRepository($pdo);
                 $id_product = $_POST['id_product'];
                 $success = $productRepository->deleteProduct($id_product);
                 if (!$success) {
@@ -99,9 +99,9 @@ try {
         } elseif ($_GET['action'] === 'validateAnnoncement') {
             if (isset($_POST['id_product']) && $_POST['id_product'] >= 0) {
                 $id_product = $_POST['id_product'];
-                $pdo = DatabaseConnection::getConnection();
-                $productRepository = new ProductRepository($pdo);
-                $celebrityRepository = new CelebrityRepository($pdo);
+                $pdo = \DatabaseConnection::getConnection();
+                $productRepository = new \ProductRepository($pdo);
+                $celebrityRepository = new \CelebrityRepository($pdo);
                 $productRepository->UpdateStatut($id_product);
                 $productRepository->UpdateStatutCategorie($id_product);
                 $celebrityRepository->UpdateStatutCelebrity($id_product);
@@ -146,16 +146,16 @@ try {
                 if (!empty($_GET['option'])) {
                     $id_product = $_GET['id_product'];
                     $option = $_GET['option'];
-                    $pdo = DatabaseConnection::getConnection();
-                    $productRepository = new ProductRepository($pdo);
+                    $pdo = \DatabaseConnection::getConnection();
+                    $productRepository = new \ProductRepository($pdo);
                     $data = $productRepository->getPriceWithOption($id_product, $option);
                     header('Content-Type: application/json');
                     echo json_encode($data);
                     exit();
                 } else {
                     $id_product = $_GET['id_product'];
-                    $pdo = DatabaseConnection::getConnection();
-                    $productRepository = new ProductRepository($pdo);
+                    $pdo = \DatabaseConnection::getConnection();
+                    $productRepository = new \ProductRepository($pdo);
                     $last_price = $productRepository->getLastPrice($id_product);
                     if ($last_price !== false) {
                         header('Content-Type: application/json');
@@ -174,8 +174,8 @@ try {
                 if (!empty($_GET['option'])) {
                     $id_product = $_GET['id_product'];
                     $option = $_GET['option'];
-                    $pdo = DatabaseConnection::getConnection();
-                    $productRepository = new ProductRepository($pdo);
+                    $pdo = \DatabaseConnection::getConnection();
+                    $productRepository = new \ProductRepository($pdo);
                     $data = $productRepository->getViewsWithOption($id_product, $option);
                     header('Content-Type: application/json');
                     echo json_encode($data);
@@ -278,8 +278,8 @@ try {
 
         } elseif ($_GET['action'] == 'getCategoriesMod') {
             if (isset($_GET['writting'])) {
-                $pdo = DatabaseConnection::getConnection();
-                $productRepository = new ProductRepository($pdo);
+                $pdo = \DatabaseConnection::getConnection();
+                $productRepository = new \ProductRepository($pdo);
                 $writting = $_GET['writting'];
                 $categories = $productRepository->getCategoryMod($writting);
                 if ($categories !== false) {
@@ -290,8 +290,8 @@ try {
             }
         } elseif ($_GET['action'] == 'getCelebrityMod') {
             if (isset($_GET['writting'])) {
-                $pdo = DatabaseConnection::getConnection();
-                $celebrityRepository = new CelebrityRepository($pdo);
+                $pdo = \DatabaseConnection::getConnection();
+                $celebrityRepository = new \CelebrityRepository($pdo);
                 $writting = $_GET['writting'];
                 $categories = $celebrityRepository->getCelebrityMod($writting);
                 if ($categories !== false) {
