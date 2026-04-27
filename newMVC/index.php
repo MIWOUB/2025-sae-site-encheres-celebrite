@@ -31,12 +31,16 @@ try {
             $_SESSION['show_login_modal'] = true;
             header("Location: index.php");
             exit();
+
         } elseif ($_GET['action'] === 'deconnexion') {
             require_once('src/controllers/C_deconnexion.php');
+
         } elseif ($_GET['action'] === 'inscription') {
             $_SESSION['show_register_modal'] = true;
             header('Location: index.php');
             exit;
+        } elseif ($_GET['action'] === 'favorites') {
+            require("templates/favorites.php");
         } elseif ($_GET['action'] === 'user') {
             if (isset($_GET['id']) && $_GET['id'] >= 0) {
                 $pdo = DatabaseConnection::getConnection();
@@ -227,6 +231,7 @@ try {
                 ]);
                 exit();
             }
+            
 
             // Image
         } elseif ($_GET['action'] === 'getImage') {

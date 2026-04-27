@@ -1,53 +1,88 @@
-const btnFav = document.querySelector('#fav')
+const btnFav = document.querySelector('#btn_Favoris');
 let active = false;
+
 const fullStar = '<i class="fa-solid fa-star"></i>';
 const emptyStar = '<i class="fa-regular fa-star"></i>';
 
-btnFav.addEventListener("click", async () => {
-    if (active) return;
+
+/* =========================
+   GET LIKES
+========================= */
+async function getLikes(id_product) {
     try {
-        active = true;
-        const idProduct = document.querySelector('#idProduct').value;
-        console.log(idProduct);
-        const value = !(btnFav.dataset.isFav === "true");
+        const response = await fetch(`index.php?action=getLikes&id_product=${id_product}`);
+        const data = await response.json();
 
-        if (value) {
-            console.log("j'ajoute le produit en favoris");
+        console.log("likes =", data);
 
-            const response = await fetch("index.php?action=favorite&id=" + idProduct);
-            const data = await response.text();
-
-            if (data === "not_logged") {
-                window.location.href = "index.php?action=connection";
-                return;
-            }
-
-            btnFav.innerHTML = fullStar;
-        } else {
-            console.log("j'enlève");
-
-            const response = await fetch("index.php?action=unfavorite&id=" + idProduct);
-            const data = await response.text();
-
-            if (data === "not_logged") {
-                window.location.href = "index.php?action=connection";
-                return;
-            }
-
-            btnFav.innerHTML = emptyStar;
+        // adapte selon ton PHP
+        if (data.nbLike !== undefined) {
+            console.log("Nombre de likes :", data.nbLike);
         }
 
-        btnFav.dataset.isFav = value;
-        // btnFav.textContent = value ? "★" : "☆";
-
-        // console.log(idProduct, value);
-
-        // window.location.reload();
-
-        // Réactive le clic après 1s (éviter les abus)
-        setTimeout(() => active = false, 1000);
     } catch (e) {
-        console.error("Erreur lors du fetch : ", e)
-        setTimeout(() => active = false, 1000);
+        console.error("Erreur getLikes :", e);
     }
-})
+}
+
+
+/* =========================
+   FAVORIS CLICK
+========================= */
+if (btnFav) {
+    btnFav.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        if (active) return;
+
+        try {
+            active = true;
+
+            const idProduct = document.querySelector('#idProduct')?.value;
+
+            if (!idProduct) {
+                console.error("id_product manquant !");
+                active = false;
+                return;
+            }
+
+            const value = !(btnFav.dataset.isFav === "true");
+
+            let url = value
+                ? "index.php?action=favorite&id=" + idProduct
+                : "index.php?action=unfavorite&id=" + idProduct;
+
+            const response = await fetch(url);
+            const data = await response.text();
+
+            if (data === "not_logged") {
+                window.location.href = "index.php?action=connection";
+                return;
+            }
+
+            btnFav.innerHTML = value ? fullStar : emptyStar;
+            btnFav.dataset.isFav = value;
+
+            // refresh likes
+            await getLikes(idProduct);
+
+            setTimeout(() => active = false, 500);
+
+        } catch (e) {
+            console.error("Erreur :", e);
+            active = false;
+        }
+    });
+}
+
+
+/* =========================
+   INIT
+========================= */
+document.addEventListener('DOMContentLoaded', () => {
+    const idProduct = document.querySelector('#idProduct')?.value;
+
+    if (idProduct) {
+        getLikes(idProduct);
+    }
+});

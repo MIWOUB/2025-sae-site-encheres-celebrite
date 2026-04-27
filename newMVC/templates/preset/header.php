@@ -2,11 +2,8 @@
 require(dirname(__DIR__, 2) . '/src/script/verif_online_annoncement.php');
 ?>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="templates/Style/header.css">
-
-
 
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-custom">
@@ -16,8 +13,7 @@ require(dirname(__DIR__, 2) . '/src/script/verif_online_annoncement.php');
                 <img src="templates/images/logo.png" alt="Logo">
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -33,6 +29,7 @@ require(dirname(__DIR__, 2) . '/src/script/verif_online_annoncement.php');
                             <a id="btn_vente" class="nav-link" href="index.php?action=sell">Vendre</a>
                         </li>
                     <?php } ?>
+
                     <?php if (isset($_SESSION['user']['admin']) && $_SESSION['user']['admin'] != 0) { ?>
                         <li class="nav-item">
                             <a id="btn_admin" class="nav-link" href="index.php?action=admin">Panneau Admin</a>
@@ -41,41 +38,49 @@ require(dirname(__DIR__, 2) . '/src/script/verif_online_annoncement.php');
                 </ul>
 
                 <ul class="navbar-nav">
+
                     <?php if (isset($_SESSION['user'])) { ?>
+
                         <li class="nav-item">
                             <a id="btn_historique" class="nav-link" href="index.php?action=historique_annonces_publiees">
-                                <img src="templates/images/historique.png" alt="Historique" style="width: 30px; height: 30px;">
+                                <img src="templates/images/historique.png" style="width:30px;height:30px;">
                             </a>
                         </li>
+
+                        <!-- FAVORIS -->
                         <li class="nav-item">
-                            <a id="btn_Favoris" class="nav-link" href="index.php?action=getLikes">
-                                <img src="templates/images/coeur.png" alt="Favoris" style="width: 30px; height: 30px;">
+                            <a id="btn_Favoris" class="nav-link" href="index.php?action=favorites">
+                                <img src="templates/images/coeur.png" style="width:30px;height:30px;">
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a id="btn_client" class="nav-link" href="index.php?action=user">
-                                <img src="templates/images/compte.png" alt="Client" style="width: 30px; height: 30px;">
+                                <img src="templates/images/compte.png" style="width:30px;height:30px;">
                             </a>
                         </li>
-                    <?php } ?>
-                    <?php if (isset($_SESSION['user'])) { ?>
+
                         <li class="nav-item">
-                            <a id="btn_deconnexion" class="nav-link" href="index.php?action=deconnexion">Déconnexion</a>
+                            <a id="btn_deconnexion" class="nav-link" href="index.php?action=deconnexion">
+                                Déconnexion
+                            </a>
                         </li>
-                    <?php } ?>
-                    <?php if (!isset($_SESSION['user'])) { ?>
+
+                    <?php } else { ?>
+
                         <li class="nav-item">
-                            <a id="btn_connexion" class="nav-link" href="index.php?action=connection">Connexion</a>
+                            <a id="btn_connexion" class="nav-link" href="index.php?action=connection">
+                                Connexion
+                            </a>
                         </li>
+
                     <?php } ?>
+
                 </ul>
 
             </div>
-
         </div>
     </nav>
 </header>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
