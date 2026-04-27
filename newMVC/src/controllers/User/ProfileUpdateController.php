@@ -64,3 +64,26 @@ function updateAddress(array $input)
         exit();
     }
 }
+
+function subscribeNewsletter(array $input)
+{
+    if (!isset($_SESSION['user'])) {
+        header('Location: index.php?action=connection');
+        exit();
+    }
+
+    $user = $_SESSION['user'];
+    $email = $input['email'] ?? $user['email'];
+    $id_user = $user['id_user'];
+
+    $pdo = \DatabaseConnection::getConnection();
+    $userRepository = new \UserRepository($pdo);
+    $userRepository->updateNewsletterUser($id_user, 1);
+
+    $_SESSION['user']['newsletter'] = 1;
+    routeurMailing('InscriptionNewsletter', [$email, $user['name']]);
+
+    $_SESSION['success'] = 'Abonnement confirmé 🎉';
+    header('Location: index.php');
+    exit();
+}
