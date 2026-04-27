@@ -62,7 +62,7 @@ try {
 
     $routes = [
         'home' => function (): void {
-            homepage();
+            home();
         },
         'connection' => function (): void {
             $_SESSION['show_login_modal'] = true;
@@ -87,7 +87,7 @@ try {
                 $score = $userRepository->getRatingUser($userId);
                 $score = $score ?? 0;
 
-                renderView('templates/userProfil.php', [
+                renderView('templates/user_profile.php', [
                     'u' => $u,
                     'products' => $products,
                     'score' => $score,
@@ -98,7 +98,7 @@ try {
             renderView('templates/user.php');
         },
         'sell' => function (): void {
-            renderView('templates/sellProduct.php');
+            renderView('templates/sell_product.php');
         },
         'buy' => function (): void {
             renderView('templates/buy.php');
@@ -305,7 +305,7 @@ try {
             jsonResponse($celebrityRepository->getCelebrityMod($_GET['writting']));
         },
         'admin' => function (): void {
-            renderView('templates/admin_pannel.php');
+            renderView('templates/admin_panel.php');
         },
         'sendNewsletter' => function (): void {
             PostNewsletter($_POST);

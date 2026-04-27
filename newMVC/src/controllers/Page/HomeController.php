@@ -1,6 +1,6 @@
 <?php
 
-function homepage()
+function home()
 {
     require __DIR__ . '/../../../templates/index.php';
 }
