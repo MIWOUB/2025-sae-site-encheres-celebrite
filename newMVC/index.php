@@ -160,11 +160,8 @@ try {
 
             ////////////////////////////// Page Produit //////////////////////////////
         } elseif ($_GET['action'] === 'product') {
-            // Product(id_product: $_GET['id']);
-
-            // A supprimer une fois le style de la effectué
-            $errorMessage = '<i class="fa-solid fa-hammer"></i>  <span>Désolé</span> En cours de développement ! Réessayez ultérieurement !';
-            require('templates/preset/error.php');
+            require_once('src/controllers/C_pageProduct.php');
+            Product($_GET['id']);
 
 
 
