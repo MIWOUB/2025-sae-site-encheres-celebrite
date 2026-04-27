@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../lib/database.php';
-require_once __DIR__ . '/../model/user.php';
+require_once __DIR__ . '/../../lib/database.php';
+require_once __DIR__ . '/../../model/user.php';
 
 function userConnection(array $input)
 {
@@ -44,7 +44,7 @@ function UserCheckConnexion($DateConnexion)
 
     $TotalHours = ($interval->days * 24) + $interval->h;
 
-    // Check if the unterval is upper or lower than 12 hours
+    // Check if the interval is upper or lower than 12 hours
     if ($TotalHours >= 12) {
         userDisconnection();
     }
