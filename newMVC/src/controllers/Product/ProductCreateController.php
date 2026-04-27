@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__ . '/../lib/database.php';
-require_once __DIR__ . '/../model/product.php';
-require_once __DIR__ . '/C_emailing.php';
-require_once __DIR__ . '/../model/pdo.php';
-require_once __DIR__ . '/../model/celebrity.php';
+require_once __DIR__ . '/../../lib/database.php';
+require_once __DIR__ . '/../../model/product.php';
+require_once __DIR__ . '/../C_emailing.php';
+require_once __DIR__ . '/../../model/pdo.php';
+require_once __DIR__ . '/../../model/celebrity.php';
 
 function addNewProduct($user, $input)
 {

@@ -2,22 +2,22 @@
 
 session_start();
 
-require_once('src/controllers/C_addProduct.php');
+require_once('src/controllers/Product/ProductCreateController.php');
 require_once('src/controllers/Auth/LoginController.php');
 require_once('src/controllers/Auth/RegisterController.php');
-require_once('src/controllers/C_pageProduct.php');
+require_once('src/controllers/Product/ProductController.php');
 require_once('src/controllers/User/UserController.php');
 require_once('src/controllers/User/ProfileUpdateController.php');
 require_once('src/controllers/C_favorite.php');
 require_once('src/controllers/C_unfavorite.php');
 require_once('src/controllers/C_bid.php');
 require_once('src/controllers/C_addComment.php');
-require_once('src/controllers/C_republishAnnoncement.php');
+require_once('src/controllers/Product/ProductRepublishController.php');
 require_once('src/controllers/C_addComment.php');
 require_once('src/controllers/C_index.php');
 require_once("src/controllers/C_newsletter.php");
-require_once('src/controllers/C_deleteProduct.php');
-require_once('src/controllers/C_updateProduct.php');
+require_once('src/controllers/Product/ProductDeleteController.php');
+require_once('src/controllers/Product/ProductUpdateController.php');
 
 require_once("src/model/pdo.php");
 require_once('src/lib/database.php');
