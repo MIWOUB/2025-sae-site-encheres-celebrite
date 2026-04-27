@@ -1,6 +1,6 @@
 <?php
 $title = "Page d'achats";
-$style = "templates/style/Accueil.css";
+$style = "templates/style/buy.css";
 
 ?>
 
