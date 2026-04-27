@@ -103,6 +103,9 @@ try {
         'buy' => function (): void {
             renderView('templates/buy.php');
         },
+        'favorites' => function (): void {
+            renderView('templates/favorites.php');
+        },
         'historique_annonces_publiees' => function (): void {
             renderView('templates/historique_annonces_publiees.php');
         },
