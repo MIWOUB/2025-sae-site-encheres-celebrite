@@ -53,27 +53,25 @@ h3 {
 /* BOUTONS */
 /* ====================== */
 
-.btns,
-button {
+.btns {
     display: inline-block;
-    background-color: #ffffff;
-    color: #002366;
-    border: 2px solid #D4AF37;
+    background-color: var(--color-white);
+    color: var(--color-blue);
+    border: 2px solid var(--color-gold);
     text-transform: uppercase;
     font-weight: 500;
     font-size: 18px;
-    font-family: 'Cormorant Garamond', serif;
+    font-family: var(--font-accent);
     padding: 5px 30px;
-    border-radius: 60px;
-    box-shadow: 0px 0px 6px -1px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
     text-decoration: none;
     margin-bottom: 15px;
     transition: background-color 0.3s ease;
 }
 
-.btns:hover,
-button:hover {
-    background-color: #D4AF37;
+.btns:hover {
+    background-color: var(--color-gold);
 }
 
 /* ====================== */
@@ -238,24 +236,9 @@ button:hover {
 
 .swiper {
     width: 100%;
-    height: 620px;
-    /* On garde la hauteur */
-    padding-top: 80px;
-    padding-bottom: 50px;
-    /* Augmente l'espace pour la pagination */
-    margin-bottom: 40px;
-    /* CRUCIAL : Crée un espace réel avec la suite */
-    position: relative;
+    height: 580px;
     overflow: hidden;
-    /* Empêche le débordement visuel */
-}
-
-.content {
-    clear: both;
-    /* Sécurité pour annuler d'éventuels floats */
-    padding-top: 20px;
-    position: relative;
-    z-index: 1;
+    margin-bottom: 50px;
 }
 
 .swiper-wrapper {
@@ -266,29 +249,23 @@ button:hover {
     flex-shrink: 0;
     width: 100%;
     position: relative;
-    display: block;
-    text-align: center;
 }
 
-/* 🔑 Le lien NE DOIT PAS forcer de hauteur */
 .swiper-slide.slide-link {
     display: block;
-    width: 100%;
     height: 100%;
     text-decoration: none;
     color: inherit;
 }
 
-/* Conteneur image = SEULE référence de hauteur */
 .swiper-slide .image-container {
-    height: 620px;
     width: 100%;
+    height: 580px;
     overflow: hidden;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f5f5f5;
-    position: relative;
 }
 
 .swiper-slide img {
@@ -298,85 +275,92 @@ button:hover {
     display: block;
 }
 
+.swiper-slide .image-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+    pointer-events: none;
+}
+
 .luxury-overlay {
     position: absolute;
-    top: 50%;
+    bottom: 60px;
     left: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.6);
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
-    padding: 40px;
-    border-radius: 15px;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    width: 90%;
-    max-width: 500px;
-    color: white;
+    padding: 28px 40px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-gold);
+    width: min(460px, 88%);
     text-align: center;
-    align-items: center;
     z-index: 10;
 }
 
 .luxury-overlay h3 {
-    font-family: 'Lora', sans-serif;
-    font-size: 32px;
-    color: #E0C58F;
-    margin-bottom: 20px;
-    text-transform: capitalize;
-    font-weight: bold;
-}
-
-.info-row .timer {
-    color: #3C507D;
-    font-family: 'Lora', sans-serif;
-    font-size: 40px;
-    font-weight: bold;
-    text-shadow:
-        -1px -1px 0 #fff,
-        1px -1px 0 #fff,
-        -1px 1px 0 #fff,
-        1px 1px 0 #fff;
+    font-family: var(--font-title);
+    font-size: var(--text-h3);
+    color: var(--color-gold-light);
+    margin-bottom: 16px;
+    font-weight: 600;
+    font-style: normal;
 }
 
 .info-row {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 15px;
-    font-size: 1.5rem;
-    margin-bottom: 15px;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.info-row .timer {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 600;
+    color: var(--color-white);
 }
 
 .price-box {
-    font-weight: bold;
-    font-size: 40px;
-    font-family: 'Lora', sans-serif;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 600;
+    color: var(--color-white);
 }
 
-/* Bouton spécifique à l'enchère */
+.icon-gold  { color: var(--color-white); }
+.icon-white { color: var(--color-white); }
+
 .bid-button {
-    margin-top: 20px;
-    background: var(--color-blue);
-    color: #E0C58F;
-    border: 1px solid #E0C58F;
-    padding: 12px 10px;
-    font-size: 1.1rem;
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
+    font-family: var(--font-accent);
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-decoration: none;
     cursor: pointer;
-    transition: all 0.3s;
-    border-radius: 8px;
+    box-shadow: var(--shadow-sm);
+    margin-top: 18px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
 }
 
 .bid-button:hover {
     background: var(--color-gold);
-    color: var(--color-blue);
+    color: var(--color-white);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px) scale(1.06);
 }
-
-/* Pagination (petits points en bas comme sur l'image) */
 .swiper-pagination-bullet {
-    background: #fff !important;
+    background: var(--color-white) !important;
     opacity: 0.5;
 }
 
 .swiper-pagination-bullet-active {
-    opacity: 1;
-    transform: scale(1.2);
+    opacity: 1 !important;
+    transform: scale(1.3);
 }
