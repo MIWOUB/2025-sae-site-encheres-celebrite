@@ -210,26 +210,18 @@ try {
 
             // Likes
         } elseif ($_GET['action'] === 'getLikes') {
-            if (isset($_GET['id_product']) && ctype_digit($_GET['id_product'])) {
-                $id_product = (int) $_GET['id_product'];
-                try {
-                    $likes = $favoriteRepository->getLikes($id_product);
+            if (isset($_GET['id_product']) && $_GET['id_product'] >= 0) {
+                $id_product = $_GET['id_product'];
+                $likes = getLikes($id_product);
+                if ($likes !== false) {
                     header('Content-Type: application/json');
                     echo json_encode($likes);
                     exit();
-                } catch (Throwable $e) {
-                    http_response_code(500);
-                    echo json_encode([
-                        "error" => "Impossible de récupérer les likes"
-                    ]);
-                    exit();
+                } else {
+                    throw new Exception("Impossible de récupérer les likes pour ce produit.");
                 }
             } else {
-                http_response_code(400);
-                echo json_encode([
-                    "error" => "ID de produit invalide pour récupérer les likes"
-                ]);
-                exit();
+                throw new Exception("ID de produit invalide pour récupérer les likes.");
             }
             
 

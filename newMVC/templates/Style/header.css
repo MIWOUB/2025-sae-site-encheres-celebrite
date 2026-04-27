@@ -1,3 +1,11 @@
+:root {
+    --linear-blue: linear-gradient(#002366, #0046CC);
+    --color-blue: #002366;
+    --color-orange: #FFA347;
+    --color-gold: #D4AF37;
+    --color-background: #F5F8FA;
+}
+
 .navbar-custom {
     position: fixed;
     top: 0;
@@ -61,7 +69,7 @@
 @media (min-width: 992px) {
 
     .navbar-custom .container-fluid {
-        height: var(--navbar-height);
+        height: var(--navbar-height-desktop);
     }
 
     .navbar-custom .navbar-brand {

@@ -15,7 +15,6 @@ class MailjetCampaignDataDTOTest extends TestCase
             202, 'Sender', 'sender@example.com', 1, 'Subject', 'http://example.com', true
         );
 
-        
         $expectedArray = [
             'AXFraction' => 'fraction',
             'AXFractionName' => 'fractionName',

@@ -12,6 +12,7 @@ if (isset($_SESSION['user'])) {
 <head>
     <meta charset="UTF-8">
     <title><?= $title ?> </title>
+    <link rel="stylesheet" href="templates/Style/variables.css">
     <link href="<?= $style ?>" rel="stylesheet">
 
     <script src="<?= empty($script) ? "" : $script ?>" defer></script>

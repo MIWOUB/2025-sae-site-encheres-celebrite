@@ -11,6 +11,7 @@ class FavoriteRepository
         $this->connection = $pdo;
     }
 
+<<<<<<< HEAD
     /* =========================
        AJOUT FAVORI
     ========================= */
@@ -22,11 +23,22 @@ class FavoriteRepository
         $stmt = $this->connection->prepare($request);
 
         return $stmt->execute([
+=======
+    function setProductFavorite($id_product, $id_user)
+    {
+        $pdo = $this->connection;
+        $request = "INSERT INTO Interest(id_product, id_user) VALUES (:id_product, :id_user)";
+        $temp = $pdo->prepare($request);
+        $success = $temp->execute([
+>>>>>>> 777ee3b3419f331434f0d8bee093c182a382a947
             ':id_product' => $id_product,
             ':id_user' => $id_user
         ]);
+
+        return $success;
     }
 
+<<<<<<< HEAD
     /* =========================
        SUPPRIMER FAVORI
     ========================= */
@@ -55,15 +67,36 @@ class FavoriteRepository
                     AND id_user = :id_user";
 
         $stmt = $this->connection->prepare($request);
+=======
+    function isProductFavorite($id_product, $id_user)
+    {
+        $pdo = $this->connection;
+        $request = "SELECT COUNT(*) FROM interest WHERE id_product = :id_product AND id_user = :id_user";
+        $temp = $pdo->prepare($request);
+        $temp->execute([
+            ':id_product' => $id_product,
+            ':id_user' => $id_user
+        ]);
+        $success = $temp->fetchColumn();
+>>>>>>> 777ee3b3419f331434f0d8bee093c182a382a947
 
-        $stmt->execute([
+        return $success > 0;
+    }
+
+    function unsetProductFavorite($id_product, $id_user)
+    {
+        $pdo = $this->connection;
+        $request = "DELETE FROM Interest WHERE id_product = :id_product AND id_user = :id_user";
+        $temp = $pdo->prepare($request);
+        $success = $temp->execute([
             ':id_product' => $id_product,
             ':id_user' => $id_user
         ]);
 
-        return $stmt->fetchColumn() > 0;
+        return $success;
     }
 
+<<<<<<< HEAD
     /* =========================
        COMPTER LES LIKES
     ========================= */
@@ -84,6 +117,17 @@ class FavoriteRepository
         ]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+=======
+    function getLikes($id_product)
+    {
+        $pdo = connection();
+        $requete = " SELECT COUNT(*) as nbLike from interest where id_product = :id ";
+        $temp = $pdo->prepare($requete);
+        $temp->execute([
+            ":id" => $id_product
+        ]);
+        return $temp->fetch(PDO::FETCH_ASSOC);
+>>>>>>> 777ee3b3419f331434f0d8bee093c182a382a947
     }
 
     /* =========================

@@ -15,7 +15,7 @@ class UserRepository
     function createUser($name, $firstname, $birth_date, $address, $city, $postal_code, $email, $password)
     {
         $pdo = $this->connection;
-        $requete = "INSERT INTO users (name, firstname, birth_date, address, city, postal_code, email, password) VALUES (:name, :firstname, :birth_date, :address, :city, :postal_code, :email, :password)";
+        $requete = "INSERT INTO Users (name, firstname, birth_date, address, city, postal_code, email, password) VALUES (:name, :firstname, :birth_date, :address, :city, :postal_code, :email, :password)";
         try {
             $tmp = $pdo->prepare($requete);
             return $tmp->execute([
@@ -37,7 +37,7 @@ class UserRepository
     function authentication($email, $password)
     {
         $pdo = $this->connection;
-        $requete = "SELECT * from users where email = :email and password = :password";
+        $requete = "SELECT * from Users where email = :email and password = :password";
         try {
             $tmp = $pdo->prepare($requete);
             $tmp->execute([
@@ -53,7 +53,7 @@ class UserRepository
     function updateEmailUser($email, $id_user)
     {
         $pdo = $this->connection;
-        $requete = "UPDATE users
+        $requete = "UPDATE Users
                 SET email = :email
                 where id_user = :id_user";
         try {
@@ -70,7 +70,7 @@ class UserRepository
     function updatePasswordUser($id_user, $password)
     {
         $pdo = $this->connection;
-        $requete = "UPDATE users
+        $requete = "UPDATE Users
                 SET password = :password
                 Where id_user = :id_user";
         try {
@@ -87,7 +87,7 @@ class UserRepository
     function updateFullAddress($address, $city, $postal_code, $id_user)
     {
         $pdo = $this->connection;
-        $requete = "UPDATE users
+        $requete = "UPDATE Users
                 set address = :address,
                     city = :city,
                     postal_code = :postal_code
@@ -109,7 +109,7 @@ class UserRepository
     {
         $pdo = $this->connection;
         $requete = "SELECT address, postal_code, city
-                from users
+                from Users
                 where id_user = :id_user
     ";
         try {
@@ -128,7 +128,7 @@ class UserRepository
     function getUser($id_user)
     {
         $pdo = $this->connection;
-        $request = "SELECT * FROM users WHERE id_user = :id_user";
+        $request = "SELECT * FROM Users WHERE id_user = :id_user";
         $temp = $pdo->prepare($request);
         $temp->execute([
             "id_user" => $id_user
@@ -149,8 +149,7 @@ class UserRepository
         return $temp->fetchColumn();
     }
 
-    function getUserNewsletter()
-    {
+    function getUserNewsletter(){
         $pdo = $this->connection;
         $requete = "SELECT name,email from users where newsletter = 1";
         $tmp = $pdo->prepare($requete);
