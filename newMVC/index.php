@@ -131,12 +131,28 @@ try {
 
 
             ////////////////////////////// Favoris //////////////////////////////
-        } elseif ($_GET['action'] === 'favorite') { // favorite
+        } elseif ($_GET['action'] === 'favorite') {
+            require_once('src/controllers/C_favorite.php');
             favorite();
-        } elseif ($_GET['action'] === 'unfavorite') { // unfavorite
+
+        } elseif ($_GET['action'] === 'unfavorite') {
+            require_once('src/controllers/C_favorite.php');
             unfavorite();
 
+        } elseif ($_GET['action'] === 'getLikes') {
+            require_once('src/lib/database.php');
+            require_once('src/model/favorite.php');
 
+            $pdo = DatabaseConnection::getConnection();
+            $favoriteRepository = new FavoriteRepository($pdo);
+
+            $id_product = $_GET['id_product'];
+
+            $likes = $favoriteRepository->getLikes($id_product);
+
+            header('Content-Type: application/json');
+            echo json_encode($likes);
+            exit;
             ////////////////////////////// Bid //////////////////////////////
         } elseif ($_GET['action'] === 'bid') {
             bid();

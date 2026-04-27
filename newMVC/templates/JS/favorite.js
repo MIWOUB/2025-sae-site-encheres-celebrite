@@ -5,9 +5,7 @@ const fullStar = '<i class="fa-solid fa-star"></i>';
 const emptyStar = '<i class="fa-regular fa-star"></i>';
 
 
-/* =========================
-   GET LIKES
-========================= */
+
 async function getLikes(id_product) {
     try {
         const response = await fetch(`index.php?action=getLikes&id_product=${id_product}`);
@@ -15,7 +13,6 @@ async function getLikes(id_product) {
 
         console.log("likes =", data);
 
-        // adapte selon ton PHP
         if (data.nbLike !== undefined) {
             console.log("Nombre de likes :", data.nbLike);
         }
@@ -26,9 +23,7 @@ async function getLikes(id_product) {
 }
 
 
-/* =========================
-   FAVORIS CLICK
-========================= */
+
 if (btnFav) {
     btnFav.addEventListener("click", async (e) => {
         e.preventDefault();
@@ -76,9 +71,7 @@ if (btnFav) {
 }
 
 
-/* =========================
-   INIT
-========================= */
+
 document.addEventListener('DOMContentLoaded', () => {
     const idProduct = document.querySelector('#idProduct')?.value;
 
