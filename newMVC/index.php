@@ -7,7 +7,6 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/src/controllers/Product/ProductCreateController.php';
 require_once __DIR__ . '/src/controllers/Auth/LoginController.php';
 require_once __DIR__ . '/src/controllers/Auth/RegisterController.php';
-require_once __DIR__ . '/src/controllers/Auth/LogoutController.php';
 require_once __DIR__ . '/src/controllers/User/ProfileUpdateController.php';
 require_once __DIR__ . '/src/controllers/User/UserController.php';
 require_once __DIR__ . '/src/controllers/Interaction/FavoriteController.php';
@@ -17,6 +16,7 @@ require_once __DIR__ . '/src/controllers/Interaction/CommentController.php';
 require_once __DIR__ . '/src/controllers/Product/ProductUpdateController.php';
 require_once __DIR__ . '/src/controllers/Product/ProductDeleteController.php';
 require_once __DIR__ . '/src/controllers/Product/ProductRepublishController.php';
+require_once __DIR__ . '/src/controllers/Product/ProductController.php';
 require_once __DIR__ . '/src/controllers/Admin/NewsletterController.php';
 require_once __DIR__ . '/src/controllers/Page/HomeController.php';
 require_once __DIR__ . '/src/controllers/EmailingController.php';
@@ -185,9 +185,11 @@ try {
             bid();
         },
         'product' => function (): void {
-            renderView('templates/preset/error.php', [
-                'errorMessage' => '<i class="fa-solid fa-hammer"></i>  <span>Désolé</span> En cours de développement ! Réessayez ultérieurement !',
-            ]);
+            if (!isset($_GET['id']) || (int) $_GET['id'] <= 0) {
+                throw new Exception('ID de produit invalide.');
+            }
+
+            Product((int) $_GET['id']);
         },
         'getLastPrice' => function (): void {
             if (!isset($_GET['id_product']) || (int) $_GET['id_product'] < 0) {

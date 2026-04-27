@@ -1,7 +1,7 @@
 <?php
 
-require_once("/../../model/product.php");
-require_once('/../../lib/database.php');
+require_once __DIR__ . '/../../model/product.php';
+require_once __DIR__ . '/../../lib/database.php';
 
 function republishAnnoncement($id_product)
 {

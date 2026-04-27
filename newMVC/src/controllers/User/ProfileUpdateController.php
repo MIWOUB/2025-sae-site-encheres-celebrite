@@ -1,7 +1,7 @@
 <?php
 
-require_once('/../../model/user.php');
-require_once('/../../lib/database.php');
+require_once __DIR__ . '/../../model/user.php';
+require_once __DIR__ . '/../../lib/database.php';
 
 function updateEmail(string $email)
 {
