@@ -59,7 +59,7 @@ $products = $productRepository->getAllProduct();
                         ?>
 
                         <div class="luxury-overlay">
-                            <h3><?= htmlspecialchars($p['title']) ?></h3>
+                            <h3><?= html_entity_decode(htmlspecialchars($p['title'])) ?></h3>
 
                             <div class="info-row">
                                 <i class="fa-regular fa-clock icon-gold"></i>
@@ -121,7 +121,7 @@ $products = $productRepository->getAllProduct();
 
                 <div class="card-body">
 
-                    <h3><?= htmlspecialchars($p['title']) ?></h3>
+                    <h3><?= html_entity_decode(htmlspecialchars($p['title'])) ?></h3>
 
                     <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
 
