@@ -3,7 +3,7 @@
 require_once('/../../lib/database.php');
 require_once('/../../model/comment.php');
 require_once('/../../model/favorite.php');
-require_once("/../../controllers/C_counterView.php");
+require_once("/../../controllers/ViewCounterController.php");
 
 function Product($id_product)
 {
