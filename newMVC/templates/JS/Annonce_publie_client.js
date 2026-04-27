@@ -34,9 +34,18 @@ async function afficher() {
 }
 
 async function print_tab_annoncements(annoncements, div) {
-    let html = ""
+    let html = "";
+
     for (const annonce of annoncements) {
-        if(annonce.status == 0){continue}
+        if (!annonce.id_product) {
+            console.warn("Annonce ignorée : id_product manquant", annonce);
+            continue;
+        }
+
+        if (annonce.status == 0) {
+            continue;
+        }
+
         let price = await getPrice(annonce.id_product);
         if (price.last_price === null) {
             price.last_price = annonce.start_price;
@@ -46,6 +55,7 @@ async function print_tab_annoncements(annoncements, div) {
         if (like.nbLike === null) {
             like.nbLike = 0;
         }
+
         let image_url = await getImage(annonce.id_product);
         let firstImg = (
             Array.isArray(image_url) &&
@@ -53,33 +63,32 @@ async function print_tab_annoncements(annoncements, div) {
             image_url[0].url_image
         ) ? image_url[0].url_image : "assets/default.png";
 
-        html +=
-            `
+        html += `
             <input type="hidden" id="id_product" value="${annonce.id_product}"/>
             <div class="annonce_user" style="padding: 10px; display: flex; background: white; border: 2px solid black; box-shadow: black 0px 3px 6px, black 0px 3px 6px; width: 50%; border-radius: 15px; align-items: center; margin-left: 5%; padding: 15px; gap:15px; margin-top:20px;">
                 <table>
                     <tbody>
-                    <tr>
-                        <img src="${firstImg}" style="width: 80px;height: 80px; border-radius: 15px;"/>
-                        <td>${annonce.title}</td>
-                        <td><span class="timer" data-end="${annonce.end_date}">Chargement...</span></td>
-                        <td class="price_annonce_${annonce.id_product}"> ${price.last_price} €</td>
-                        <td><a href="index.php?action=product&id=${annonce.id_product}">See Annonce</a></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>photo user</td>
-                        <td>utilisateur</td>
-                        <td>Like(s) : ${like.nbLike}</td>
-                        <td><button type="button" class="stat_button" style="display: block;"> See stats </button></td>
-                    </tr>
-                </tbody>
+                        <tr>
+                            <img src="${firstImg}" style="width: 80px;height: 80px; border-radius: 15px;"/>
+                            <td>${annonce.title}</td>
+                            <td><span class="timer" data-end="${annonce.end_date}">Chargement...</span></td>
+                            <td class="price_annonce_${annonce.id_product}">${price.last_price} €</td>
+                            <td><a href="index.php?action=product&id=${annonce.id_product}">See Annonce</a></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>photo user</td>
+                            <td>utilisateur</td>
+                            <td>Like(s) : ${like.nbLike}</td>
+                            <td><button type="button" class="stat_button" style="display: block;">See stats</button></td>
+                        </tr>
+                    </tbody>
                 </table>
                 <button type='button' class='btn_moreoption' onclick='ShowPopUpOption(${annonce.id_product})'>...</button>
             </div>
             <div class="stat_annonce${annonce.id_product}"></div>
-            `
-    };
+        `;
+    }
 
     div.innerHTML += html;
 
@@ -98,18 +107,28 @@ async function print_tab_annoncements(annoncements, div) {
 }
 
 async function print_unverifed_product(div, annoncements) {
-    let annonce_attente = "<div class='annonce_attente_validation'> <p style='text-align:center; font-size=15px;'> Annonce en attente de validation par nos Administrateurs </p>"
+    let annonce_attente = "<div class='annonce_attente_validation'><p style='text-align:center; font-size:15px;'>Annonce en attente de validation par nos Administrateurs</p>";
+
     for (const annonce of annoncements) {
-        if(annonce.status == 1){continue}
+        if (!annonce.id_product) {
+            console.warn("Annonce ignorée : id_product manquant", annonce);
+            continue;
+        }
+
+        if (annonce.status == 1) {
+            continue;
+        }
+
         let price = await getPrice(annonce.id_product);
         if (price.last_price === null) {
             price.last_price = annonce.start_price;
         }
-        
+
         let like = await getLikes(annonce.id_product);
         if (like.nbLike === null) {
             like.nbLike = 0;
         }
+
         let image_url = await getImage(annonce.id_product);
         let firstImg = (
             Array.isArray(image_url) &&
@@ -117,29 +136,29 @@ async function print_unverifed_product(div, annoncements) {
             image_url[0].url_image
         ) ? image_url[0].url_image : "assets/default.png";
 
-        annonce_attente += 
-            `
+        annonce_attente += `
             <input type="hidden" id="id_product" value="${annonce.id_product}"/>
             <div class="annonce_user" style="padding: 10px; display: flex; background: white; border: 2px solid black; box-shadow: black 0px 3px 6px, black 0px 3px 6px; width: 50%; border-radius: 15px; align-items: center; margin-left: 5%; padding: 15px; gap:15px; margin-top:20px;">
                 <table>
                     <tbody>
-                    <tr>
-                        <img src="${firstImg}" style="width: 80px;height: 80px; border-radius: 15px;"/>
-                        <td>${annonce.title}</td>
-                        <td><a href="index.php?action=product&id=${annonce.id_product}">See Annonce</a></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>photo user</td>
-                        <td>utilisateur</td>
-                    </tr>
-                </tbody>
+                        <tr>
+                            <img src="${firstImg}" style="width: 80px;height: 80px; border-radius: 15px;"/>
+                            <td>${annonce.title}</td>
+                            <td><a href="index.php?action=product&id=${annonce.id_product}">See Annonce</a></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>photo user</td>
+                            <td>utilisateur</td>
+                        </tr>
+                    </tbody>
                 </table>
                 <button type='button' class='btn_moreoption' onclick='ShowPopUpOption(${annonce.id_product})'>...</button>
             </div>
-            `
-    };
-    annonce_attente += '</div>'
+        `;
+    }
+
+    annonce_attente += '</div>';
     div.innerHTML += annonce_attente;
 }
 
@@ -494,11 +513,12 @@ async function getViewsWithOption(id_product, option) {
 }
 
 async function getLikes(id_product) {
-    // Appel pour fetch le nombre total de likes
-    const likes = await fetch(`index.php?action=getLikes&id_product=${id_product}`);
-    const likes_json = await likes.json();
-    console.log(likes_json);
-    return likes_json;
+    console.trace("getLikes appelé avec :", id_product);
+
+    const response = await fetch(`index.php?action=getLikes&id_product=${id_product}`);
+    const data = await response.json();
+
+    console.log("LIKES =", data);
 }
 
 async function getAnnonceReserved($id_user) {

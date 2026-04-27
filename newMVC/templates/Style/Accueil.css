@@ -1,3 +1,11 @@
+:root {
+  --linear-blue: linear-gradient(#002366, #0046CC);
+  --color-blue: #002366;
+  --color-orange: #FFA347;
+  --color-gold: #D4AF37;
+  --color-background: #F5F8FA;
+}
+
 /* ====================== */
 /* RESET GLOBAL & STRUCTURE */
 /* ====================== */
@@ -11,13 +19,22 @@ html, body {
 }
 
 body {
-  font-family: var(--font-accent);
+  font-family: 'Poppins', sans-serif;
   background-color: var(--color-background) !important;
   color: #000;
   min-height: 100vh;
   overflow-x: hidden;
 
 }
+
+
+/* Définir une variable pour la hauteur de la barre de navigation */
+:root {
+  --navbar-height-desktop: 60px;
+}
+
+
+
 
 /* ====================== */
 /* MAIN */
@@ -47,7 +64,7 @@ main p {
 }
 
 #menu_deroulant {
-  background-color: var(--color-red);
+  background-color: red;
 }
 
 main #accueil {
@@ -62,13 +79,13 @@ main #accueil {
 /* ====================== */
 .btns {
   display: inline-block;
-  background-color: var(--color-white);
+  background-color: #ffffff;
   color: #002366;
-  border: 2px solid var(--color-gold);
+  border: 2px solid #D4AF37;
   text-transform: uppercase;
   font-weight: 500;
   font-size: 18px;
-  font-family: var(--font-accent);
+  font-family: 'Cormorant Garamond', serif;
   padding: 5px 30px;
   border-radius: 60px;
   box-shadow: 0px 0px 6px -1px;
@@ -89,7 +106,7 @@ button {
   text-transform: uppercase;
   font-weight: 500;
   font-size: 18px;
-  font-family: var(--font-accent);
+  font-family: 'Cormorant Garamond', serif;
   padding: 5px 30px;
   border-radius: 60px;
   box-shadow: 0px 0px 6px -1px;
@@ -99,7 +116,7 @@ button {
 }
 
 button:hover {
-  background-color: var(--color-gold);
+  background-color: #D4AF37;
 }
 
 .content {
@@ -136,8 +153,8 @@ padding: 40px 0;
 
 /* --- CARTE D’ANNONCE --- */
 .announce-card {
-  background-color: var(--color-white);
-  border: 2px solid var(--color-gold);
+  background-color: #ffffff;
+  border: 2px solid #D4AF37;
   border-radius: 30px;
   box-shadow: 0 4px 8px rgba(0, 4, 20, 0.1);
   width: 220px;
@@ -165,7 +182,7 @@ padding: 40px 0;
   font-size: 24px;
   font-weight: 500;
   font-style: bold;
-  font-family: var(--font-accent);
+  font-family: 'Cormorant Garamond', serif;
   color: #002366;
   margin: 15px 0 8px 0;
 }
@@ -179,13 +196,13 @@ padding: 40px 0;
 /* --- BOUTON VOIR --- */
 .announce-card a.btn {
   display: inline-block;
-  background-color: var(--color-white);
+  background-color: #ffffff;
   color: #002366;
-  border: 2px solid var(--color-gold);
+  border: 2px solid #D4AF37;
   text-transform: uppercase;
   font-weight: 500;
   font-size: 18px;
-  font-family: var(--font-accent);
+  font-family: 'Cormorant Garamond', serif;
   padding: 2px 30px;
   border-radius: 60px;
   box-shadow: 0px 0px 6px -1px;
@@ -195,12 +212,12 @@ padding: 40px 0;
 }
 
 .announce-card a.btn:hover {
-  background-color: var(--color-gold);
+  background-color: #D4AF37;
 }
 
 /* --- Aucune image disponible --- */
 .announce-card .no-image {
-  background-color: var(--color-white);
+  background-color: #f0f0d8;
   color: #777;
   font-size: 14px;
   height: 60px;
@@ -240,8 +257,8 @@ padding: 40px 0;
 
 /* --- CARTE CATÉGORIE --- */
 .category-card {
-  background-color: var(--color-white);
-  border: 2px solid var(--color-gold);
+  background-color: #ffffff;
+  border: 2px solid #D4AF37;
   border-radius: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -282,7 +299,7 @@ padding: 40px 0;
   text-transform: uppercase;
   font-weight: 500;
   font-size: 18px;
-  font-family: var(--font-accent);
+  font-family: 'Cormorant Garamond', serif;
   padding: 2px 30px;
   border-radius: 60px;
   box-shadow: 0px 0px 6px -1px;
@@ -292,11 +309,11 @@ padding: 40px 0;
 }
 
 .category-card a.btn:hover {
-  background-color: var(--font-accent);
+  background-color: #D4AF37;
 }
 
 .category-card .no-image {
-  background-color: var(--color-white);
+  background-color: #f0f0d8;
   color: #777;
   font-size: 14px;
   height: 80px;
@@ -486,12 +503,12 @@ main #connexion input[type="submit"]:hover {
 }
 
 #searchButton:hover {
-  background-color: var(--color-blue-light);
+  background-color: #0046CC;
 }
 
 #suggestions {
   margin: 0 auto;
-  background: var(--color-white);
+  background: white;
   border: 1px solid #ccc;
   width: 300px;
   display: none;
@@ -536,7 +553,7 @@ main #connexion input[type="submit"]:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--color-background);
+    background-color: #f5f5f5;
     /* IMPORTANT pour la superposition */
     position: relative; 
 }
@@ -721,9 +738,9 @@ input.information_produit{
   width: 200px;
   border-radius: 60px;
   color: var(--color-blue);
-  background-color: var(--color-white);
+  background-color: #ffffff;
   border: 2px solid var(--color-gold);
-  font-family: var(--font-accent);
+  font-family: 'Cormorant Garamond', serif;
 }
 
 .img_preview {
@@ -779,8 +796,8 @@ input.information_produit{
 }
 
 .card {
-    background-color: var(--color-white);
-    border: 2px solid var(--color-gold);
+    background-color: #ffffff;
+    border: 2px solid #D4AF37;
     border-radius: 60px;
     box-shadow: 0 4px 8px rgba(0, 4, 20, 0.1);
     overflow: hidden;
@@ -813,7 +830,7 @@ input.information_produit{
 .card h3 {
     font-size: 24px;
     font-weight: 500;
-    font-family: var(--font-accent);
+    font-family: 'Cormorant Garamond', serif;
     color: #002366;
     margin: 15px 0 8px 0;
 }
@@ -836,13 +853,13 @@ input.information_produit{
 
 .card a {
     display: block;
-    background-color: var(--color-white);
+    background-color: #ffffff;
     color: #002366;
     border: 2px solid #D4AF37;
     text-transform: uppercase;
     font-weight: 500;
     font-size: 18px;
-    font-family: var(--font-accent);
+    font-family: 'Cormorant Garamond', serif;
     padding: 2px 30px;
     border-radius: 80px;
     box-shadow: 0px 0px 6px -1px;
@@ -856,12 +873,12 @@ input.information_produit{
 }
 
 .card button:hover {
-    background-color: var(--color-gold);
-    color: var(--color-white);
+    background-color: #D4AF37;
+    color: white;
 }
 
 #valider:hover {
-    background-color: var(--color-gold);
+    background-color: #D4AF37;
 }
 
 .Annonces_en_cours p:not(.timer) {

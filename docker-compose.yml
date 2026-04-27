@@ -1,28 +1,29 @@
 services:
   db:
     image: mariadb
-    volumes:
+    volumes: 
       - ./BDD_constructor.sql:/docker-entrypoint-initdb.d/db.sql
-    # Force l'encodage de la base de données en utf8mb4 pour supporter les caractères spéciaux.
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_520_ci
     environment:
       # MARIADB_USER: root
       MARIADB_DATABASE: auction_site
       MARIADB_ROOT_PASSWORD: root
-    ports:
+    ports: 
       - "${DB_PORT}:3306"
-
+    
   php:
     build:
       context: ./
     ports:
       - 80:80
     volumes:
-      - ./newMVC:/var/www/html:ro
+      - ./newMVC:/var/www/html
 
   meilisearch:
     image: getmeili/meilisearch:latest
-    environment:
+    environment: 
       MEILI_MASTER_KEY: CLE_TEST_SAE_SITE
     ports:
       - 7700:7700
+
+
+    

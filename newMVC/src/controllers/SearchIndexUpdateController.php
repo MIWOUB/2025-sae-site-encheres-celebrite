@@ -11,7 +11,7 @@ try {
 }
 $index = $client->index('search');
 
-$pdo = new PDO("mysql:host=db;dbname=auction_site;charset=utf8mb4", "root", "root");
+$pdo = new PDO("mysql:host=db;dbname=auction_site;charset=utf8", "root", "root");
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $documents = [];
@@ -67,8 +67,8 @@ $index->addDocuments($documents);
 
 $index->updateSettings([
     'searchableAttributes' => ['title'],
-    'filterableAttributes' => ['type', 'category_id', 'celebrity_id'],
-    'displayedAttributes' => ['id', 'type', 'title', 'product_id', 'category_id', 'celebrity_id']
+    'filterableAttributes' => ['type','category_id','celebrity_id'],
+    'displayedAttributes' => ['id','type','title','product_id','category_id','celebrity_id']
 ]);
 
 echo "Index 'search' mis à jour avec succès. Total documents : " . count($documents);

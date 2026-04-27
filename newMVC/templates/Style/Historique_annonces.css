@@ -6,7 +6,7 @@
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: 'Poppins', sans-serif;
   background-color: #F0F0F0;
   /* fond doux */
   color: #000;
@@ -16,13 +16,13 @@ body {
 /* HEADER */
 /* ====================== */
 header nav {
-  background: var(--gradient-blue);
+  background: linear-gradient(to right, #002366, #0046CC);
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 30px;
   font-size: 20px;
-  color: var(--color-cream);
+  color: #F5F5DC;
 }
 
 header ul {
@@ -33,7 +33,7 @@ header ul {
 
 header a {
   text-decoration: none;
-  color: var(--color-white);
+  color: #f0f0f0;
 }
 
 header img {
@@ -50,10 +50,10 @@ header img {
 /* FOOTER */
 /* ====================== */
 footer {
-  background: var(--gradient-blue);
+  background: linear-gradient(to top, #002366, #0046CC);
   padding: 30px;
   width: 100%;
-  color: var(--color-white);
+  color: #f0f0f0;
 }
 
 footer section {
@@ -73,20 +73,20 @@ h2 {
   text-align: center;
   margin: 30px 0;
   color: #002366;
-  font-family: var(--font-accent);
+  font-family: 'Cormorant Garamond', serif;
   font-size: 25px;
   font-style: bold;
 }
 
 .btn {
   display: inline-block;
-  background-color: var(--color-white);
-  color: var(--color-blue);
-  border: 2px solid var(--color-gold);
+  background-color: #ffffff;
+  color: #002366;
+  border: 2px solid #D4AF37;
   text-transform: uppercase;
   font-weight: 500;
   font-size: 18px;
-  font-family: var(--font-accent);
+  font-family: 'Cormorant Garamond', serif;
   padding: 5px 30px;
   border-radius: 60px;
   box-shadow: 0px 0px 6px -1px;
@@ -96,19 +96,19 @@ h2 {
 }
 
 button.btn:hover {
-  background-color: var(--color-gold);
+  background-color: #D4AF37;
   color: #ffffff;
 }
 
 button {
-  display: inline-block;
-  background-color: var(--color-white);
+     display: inline-block;
+  background-color: #ffffff;
   color: #002366;
-  border: 2px solid var(--color-gold);
+  border: 2px solid #D4AF37;
   text-transform: uppercase;
   font-weight: 500;
   font-size: 18px;
-  font-family: var(--font-accent);
+  font-family: 'Cormorant Garamond', serif;
   padding: 5px 30px;
   border-radius: 60px;
   box-shadow: 0px 0px 6px -1px;
