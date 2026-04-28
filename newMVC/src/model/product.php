@@ -115,15 +115,16 @@ class ProductRepository
     function createProduct($title, $description, $start_date, $end_date, $reserve_price, $id_user, $status)
     {
         $pdo = $this->connection;
-        $requete1 = "INSERT INTO Product (title, description, start_date, end_date, reserve_price, status)
-                values (:title, :description, :start_date, :end_date, :reserve_price, :status);
-    ";
 
-        $requete2 = "INSERT INTO Published (id_product, id_user) values (:id_product, :id_user);";
+        $requete1 = "INSERT INTO product 
+            (title, description, start_date, end_date, reserve_price, status)
+            VALUES (:title, :description, :start_date, :end_date, :reserve_price, :status)";
+
+        $requete2 = "INSERT INTO published (id_product, id_user) VALUES (:id_product, :id_user)";
 
         try {
-            $temp = $pdo->prepare($requete1);
-            $temp->execute([
+            $stmt = $pdo->prepare($requete1);
+            $stmt->execute([
                 ":title" => $title,
                 ":description" => $description,
                 ":start_date" => $start_date,
@@ -134,15 +135,16 @@ class ProductRepository
 
             $id_product = $pdo->lastInsertId();
 
-            $temp = $pdo->prepare($requete2);
-            $temp->execute([
+            $stmt = $pdo->prepare($requete2);
+            $stmt->execute([
                 ":id_product" => $id_product,
                 ":id_user" => $id_user
             ]);
 
             return $id_product;
+
         } catch (PDOException $e) {
-            die("Error inserting your product into the database, try again !\n Error : " . $e->getMessage());
+            die("Error inserting product: " . $e->getMessage());
         }
     }
 
