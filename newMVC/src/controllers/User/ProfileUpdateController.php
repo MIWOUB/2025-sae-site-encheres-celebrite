@@ -68,7 +68,7 @@ function updateAddress(array $input)
 function subscribeNewsletter(array $input)
 {
     if (!isset($_SESSION['user'])) {
-        header('Location: index.php?action=connection');
+        redirectTo('index.php?action=login');
         exit();
     }
 

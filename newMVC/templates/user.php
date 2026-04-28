@@ -4,7 +4,7 @@ $style = "templates/style/Accueil.css";
 $script = "";
 
 if (!isset($_SESSION['user'])) {
-    header('location: index.php?action=connection');
+    redirectTo('index.php?action=login');
     exit();
 }
 
@@ -35,32 +35,32 @@ $user = $_SESSION['user'];
             <div class="card">
                 <h3>Nom</h3>
                 <input type="text"
-                       value="<?= htmlspecialchars(strip_tags($user['name'])) ?>"
-                       disabled>
+                    value="<?= htmlspecialchars(strip_tags($user['name'])) ?>"
+                    disabled>
             </div>
 
             <div class="card">
                 <h3>Prénom</h3>
                 <input type="text"
-                       value="<?= htmlspecialchars(strip_tags($user['firstname'])) ?>"
-                       disabled>
+                    value="<?= htmlspecialchars(strip_tags($user['firstname'])) ?>"
+                    disabled>
             </div>
 
             <div class="card">
                 <h3>Email</h3>
                 <input type="email"
-                       value="<?= htmlspecialchars(strip_tags($user['email'])) ?>"
-                       disabled>
+                    value="<?= htmlspecialchars(strip_tags($user['email'])) ?>"
+                    disabled>
                 <button class="btns" type="button" onclick="ouvrirPopup('Email')">Modifier</button>
             </div>
 
             <div class="card">
                 <h3>Adresse</h3>
                 <input type="text"
-                       value="<?= htmlspecialchars(strip_tags($user['address'])) . ' ' .
+                    value="<?= htmlspecialchars(strip_tags($user['address'])) . ' ' .
                                 htmlspecialchars(strip_tags($user['postal_code'])) . ' ' .
                                 htmlspecialchars(strip_tags($user['city'])) ?>"
-                       disabled>
+                    disabled>
                 <button class="btns" type="button" onclick="ouvrirPopup('Adresse')">Modifier</button>
             </div>
 
@@ -84,7 +84,7 @@ $user = $_SESSION['user'];
 
         <input type="hidden" id="number_annoncement" name="action">
         <input type="hidden" id="values_annoncements"
-               value='<?= htmlspecialchars(json_encode($annoncements, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), ENT_QUOTES, "UTF-8"); ?>'>
+            value='<?= htmlspecialchars(json_encode($annoncements, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), ENT_QUOTES, "UTF-8"); ?>'>
 
         <div class="stat_annonce"></div>
     </div>
@@ -110,8 +110,8 @@ $user = $_SESSION['user'];
                 <h3>Historique</h3>
                 <p>Consultez toutes vos annonces publiées.</p>
                 <a id="btn_historique_annonce_published"
-                   class="btns"
-                   href="index.php?action=historique_annonces_publiees">
+                    class="btns"
+                    href="index.php?action=historique_annonces_publiees">
                     Voir
                 </a>
             </div>

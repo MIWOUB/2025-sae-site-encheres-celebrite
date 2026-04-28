@@ -6,6 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . '/src/controllers/Product/ProductCreateController.php';
 require_once __DIR__ . '/src/controllers/Auth/LoginController.php';
+require_once __DIR__ . '/src/controllers/Auth/LogoutController.php';
 require_once __DIR__ . '/src/controllers/Auth/RegisterController.php';
 require_once __DIR__ . '/src/controllers/User/ProfileUpdateController.php';
 require_once __DIR__ . '/src/controllers/User/UserController.php';
@@ -64,14 +65,19 @@ try {
         'home' => function (): void {
             home();
         },
-        'connection' => function (): void {
+        'login' => function (): void {
+            $controller = new \LoginController();
+            if (!empty($_SESSION['user']['DateConnexion'])) {
+                $controller->checkconnection($_SESSION['user']['DateConnexion']);
+            }
             $_SESSION['show_login_modal'] = true;
             redirectTo('index.php');
         },
-        'deconnexion' => function (): void {
-            userDisconnection();
+        'logout' => function (): void {
+            $controller = new \LogoutController();
+            $controller->logout();
         },
-        'inscription' => function (): void {
+        'register' => function (): void {
             $_SESSION['show_register_modal'] = true;
             redirectTo('index.php');
         },
@@ -109,11 +115,13 @@ try {
         'historique_annonces_publiees' => function (): void {
             renderView('templates/historique_annonces_publiees.php');
         },
-        'userConnection' => function (): void {
-            userConnection($_POST);
+        'userLogin' => function (): void {
+            $controller = new \LoginController();
+            $controller->connect($_POST);
         },
-        'userInscription' => function (): void {
-            inscription($_POST);
+        'userRegister' => function (): void {
+            $controller = new \RegisterController();
+            $controller->register($_POST);
         },
         'update_email' => function (): void {
             updateEmail($_POST['email'] ?? '');
@@ -133,7 +141,7 @@ try {
         },
         'addProduct' => function (): void {
             if (!isset($_SESSION['user'])) {
-                redirectTo('index.php?action=connection');
+                redirectTo('index.php?action=login');
             }
 
             addNewProduct($_SESSION['user'], $_POST);

@@ -4,7 +4,7 @@ $style = "templates/style/Accueil.css";
 $script = "";
 
 if (!isset($_SESSION['user'])) {
-    header('Location: index.php?action=connection');
+    redirectTo('index.php?action=login');
     exit();
 }
 
@@ -12,9 +12,9 @@ require_once __DIR__ . '/../src/model/pdo.php';
 require_once __DIR__ . '/../src/model/celebrity.php';
 require_once __DIR__ . '/../src/model/product.php';
 
-$pdo = DatabaseConnection::getConnection();
-$celebrityRepository = new CelebrityRepository($pdo);
-$productRepository   = new ProductRepository($pdo);
+$pdo = \DatabaseConnection::getConnection();
+$celebrityRepository = new \CelebrityRepository($pdo);
+$productRepository   = new \ProductRepository($pdo);
 
 $user = $_SESSION['user'];
 $products = getAllProduct_admin();
@@ -54,7 +54,7 @@ $products = getAllProduct_admin();
         background: #fff;
         border-radius: 18px;
         padding: 25px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         margin-bottom: 40px;
     }
 
@@ -154,7 +154,7 @@ $products = getAllProduct_admin();
         background: white;
         border-radius: 18px;
         overflow: hidden;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         transition: 0.25s ease;
         display: flex;
         flex-direction: column;
@@ -227,14 +227,14 @@ $products = getAllProduct_admin();
         border-radius: 18px;
         text-align: center;
         color: #666;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
     }
 
     /* POPUP */
     .popup-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.45);
+        background: rgba(0, 0, 0, 0.45);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -247,7 +247,7 @@ $products = getAllProduct_admin();
         border-radius: 16px;
         min-width: 320px;
         text-align: center;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     }
 
     .popup-box button {

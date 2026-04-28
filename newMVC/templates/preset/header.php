@@ -61,7 +61,7 @@ require(dirname(__DIR__, 2) . '/src/script/verif_online_annoncement.php');
                         </li>
 
                         <li class="nav-item">
-                            <a id="btn_deconnexion" class="nav-link" href="index.php?action=deconnexion">
+                            <a id="btn_deconnexion" class="nav-link" href="index.php?action=logout">
                                 Déconnexion
                             </a>
                         </li>
@@ -69,8 +69,14 @@ require(dirname(__DIR__, 2) . '/src/script/verif_online_annoncement.php');
                     <?php } else { ?>
 
                         <li class="nav-item">
-                            <a id="btn_connexion" class="nav-link" href="index.php?action=connection">
+                            <a id="btn_connexion" class="nav-link" href="index.php?action=login">
                                 Connexion
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a id="btn_inscription" class="nav-link" href="index.php?action=register">
+                                Inscription
                             </a>
                         </li>
 
