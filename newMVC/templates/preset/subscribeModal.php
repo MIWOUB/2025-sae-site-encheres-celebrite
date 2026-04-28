@@ -21,8 +21,7 @@
                         name="email"
                         value="<?= htmlspecialchars($_SESSION['user']['email']) ?>"
                         readonly
-                        class="nl-email"
-                    >
+                        class="nl-email">
 
                     <button type="submit" class="nl-submit">
                         Confirmer l’abonnement
@@ -36,8 +35,8 @@
                 </p>
 
                 <button class="nl-submit"
-                    onclick="window.location.href='index.php?action=connection'">
-                    Se connecter
+                    onclick="window.location.href='index.php?action=login'">
+                    Login
                 </button>
 
             <?php endif; ?>
@@ -47,20 +46,20 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const popup = document.getElementById('newsletterPopup');
-    const closeBtn = document.getElementById('nlClose');
+    document.addEventListener('DOMContentLoaded', () => {
+        const popup = document.getElementById('newsletterPopup');
+        const closeBtn = document.getElementById('nlClose');
 
-    closeBtn.addEventListener('click', () => popup.style.display = 'none');
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') popup.style.display = 'none';
+        closeBtn.addEventListener('click', () => popup.style.display = 'none');
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') popup.style.display = 'none';
+        });
+
+        const showNewsletter = <?= isset($_SESSION['show_newsletter_modal']) ? 'true' : 'false' ?>;
+        if (showNewsletter) {
+            popup.style.display = 'flex';
+        }
     });
-
-    const showNewsletter = <?= isset($_SESSION['show_newsletter_modal']) ? 'true' : 'false' ?>;
-    if (showNewsletter) {
-        popup.style.display = 'flex';
-    }
-});
 </script>
 
 <?php unset($_SESSION['show_newsletter_modal']); ?>

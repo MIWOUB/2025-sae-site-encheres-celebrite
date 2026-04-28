@@ -1,7 +1,8 @@
 <?php
 
 if (isset($_SESSION['user'])) {
-    UserCheckConnexion($_SESSION['user']['DateConnexion']);
+    $loginController = new \LoginController();
+    $loginController->checkconnection($_SESSION['user']['DateConnexion']);
 }
 
 ?>

@@ -10,7 +10,7 @@
                 <button class="rp-close" id="rpClose">&times;</button>
                 <h2 class="rp-title">Inscrivez-vous</h2>
 
-                <form action="index.php?action=userInscription" method="post" class="rp-form">
+                <form action="index.php?action=userRegister" method="post" class="rp-form">
 
                     <section class="rp-section">
                         <h3>Identité</h3>
@@ -64,9 +64,9 @@
 
                     </section>
 
-                    <button type="submit" class="rp-submit">Inscription</button>
-                    <button type="button" class="rp-alt" onclick="window.location.href='index.php?action=connection'">
-                        Déjà un compte ?
+                    <button type="submit" class="rp-submit">S'inscrire</button>
+                    <button type="button" class="rp-alt" onclick="window.location.href='index.php?action=login'">
+                        J'ai déjà un compte
                     </button>
 
                 </form>
