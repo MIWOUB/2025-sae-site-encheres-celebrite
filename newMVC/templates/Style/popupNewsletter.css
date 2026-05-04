@@ -1,87 +1,130 @@
+/* Overlay wrapper */
+#newsletterPopup {
+    display: none;
+}
+
+/* Overlay */
 #newsletterPopup .nl-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.65);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: calc(var(--navbar-height) + 50px);
     z-index: 9999;
 }
 
+/* Conteneur */
 #newsletterPopup .nl-modal {
-    background: #f6f1ea;
+    background: var(--color-background);
     width: 450px;
     padding: 28px;
-    border-radius: 24px;
+    border-radius: var(--radius-sm);
     position: relative;
-    font-family: Georgia, serif;
+    font-family: var(--font-body);
 }
 
-.nl-close {
+/* Bouton fermer */
+#newsletterPopup .nl-close {
     position: absolute;
-    top: 14px;
-    right: 14px;
-    z-index: 20;
-    width: 28px;
-    height: 28px;
+    top: 10px;
+    right: 10px;
+
+    width: 34px;
+    height: 34px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+
+    background: transparent;
     border: none;
-    background: #D2A047;
-    font-size: 18px;
+
+    font-size: 30px;
+    color: var(--color-blue);
     cursor: pointer;
-    padding: 0;
-    color: #333;
+    appearance: none;
+    -webkit-appearance: none;
     box-shadow: none;
+    outline: none;
+
+    transition: all 0.2s ease;
 }
 
-.nl-title {
+#newsletterPopup .nl-close:hover {
+    color: var(--color-gold);
+    transform: scale(1.3);
+}
+
+/* Titre */
+#newsletterPopup .nl-title {
     text-align: center;
+    font-size: var(--text-h3);
+    font-family: var(--font-title);
+    font-weight: bold;
+    color: var(--color-blue);
+    padding-right: 50px;
     margin-bottom: 16px;
-    color: #1d2b4f;
+    display: inline-block;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 6px;
 }
 
-.nl-text {
+/* Texte */
+#newsletterPopup .nl-text {
     text-align: center;
-    font-size: 15px;
+    font-size: var(--text-body);
     margin-bottom: 14px;
-    color: #333;
+    color: var(--color-blue);
 }
 
-.nl-email {
+/* Input email */
+#newsletterPopup .nl-email {
     width: 100%;
-    padding: 10px;
+    padding: 0.5rem 1rem;
     margin-bottom: 16px;
-    border-radius: 10px;
-    border: 1.5px solid #1d2b4f;
-    background: #eee;
-    font-size: 14px;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-gold);
+    background: var(--color-white);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-blue);
+    transition: border-color 0.2s ease;
 }
 
-.nl-submit {
+#newsletterPopup .nl-email:focus {
+    border-color: var(--color-blue-light);
+    outline: none;
+}
+
+/* Bouton */
+#newsletterPopup .nl-submit {
     width: 100%;
     padding: 12px;
-    background: #1d2b4f;
-    color: white;
+    background: var(--color-blue);
+    color: var(--color-white);
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     font-size: 16px;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-.nl-submit:hover {
-    background: #16203a;
+#newsletterPopup .nl-submit:hover {
+    background: var(--color-blue-light);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
 }
 
-.newsletter-warning {
+/* Warning */
+#newsletterPopup .newsletter-warning {
     padding: 16px;
     margin: 20px 0;
-    background: #fdecea;
-    color: #c0392b;
-    border: 1px solid #f5c6cb;
-    border-radius: 8px;
+    background: var(--color-background);
+    color: var(--color-red);
+    border: 1px solid var(--color-blue);
+    border-radius: var(--radius-sm);
     font-weight: 500;
     text-align: center;
 }

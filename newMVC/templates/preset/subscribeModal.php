@@ -4,6 +4,7 @@
 
 <div id="newsletterPopup" style="display:none;">
     <div class="nl-overlay">
+
         <div class="nl-modal">
 
             <button class="nl-close" id="nlClose">&times;</button>
@@ -49,16 +50,29 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const popup = document.getElementById('newsletterPopup');
+    const overlay = popup.querySelector('.nl-overlay');
     const closeBtn = document.getElementById('nlClose');
 
-    closeBtn.addEventListener('click', () => popup.style.display = 'none');
+    const openPopup = () => {
+        popup.style.display = 'block';
+        overlay.style.display = 'flex';
+    };
+
+    const closePopup = () => {
+        overlay.style.display = 'none';
+        popup.style.display = 'none';
+    };
+
+    closeBtn.addEventListener('click', closePopup);
+
     document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') popup.style.display = 'none';
+        if (e.key === 'Escape') closePopup();
     });
 
     const showNewsletter = <?= isset($_SESSION['show_newsletter_modal']) ? 'true' : 'false' ?>;
+
     if (showNewsletter) {
-        popup.style.display = 'flex';
+        openPopup();
     }
 });
 </script>
