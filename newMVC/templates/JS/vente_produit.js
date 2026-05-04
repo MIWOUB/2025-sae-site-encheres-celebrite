@@ -37,7 +37,7 @@ async function checkExistingCategory() {
         });
     }
     else{
-        html = "<p>Vous avez inséré une nouvelle catégorie vôtre annonce seras validé par nos administrateur</p>";
+        html = "<p>Vous avez inséré une nouvelle catégorie. Votre annonce sera validé par nos administrateur.</p>";
         div.innerHTML += html;
     }
 }
@@ -76,7 +76,7 @@ async function checkExistingCelebrity() {
         });
     }
     else{
-        html = "<p>Vous avez inséré une nouvelle catégorie vôtre annonce seras validé par nos administrateur</p>";
+        html = "<p>Vous avez inséré une nouvelle catégorie. Votre annonce sera validée par nos administrateurs.</p>";
         div.innerHTML += html;
     }
 }
@@ -129,6 +129,11 @@ const pdfPreview = document.getElementById('pdf_preview');
 if (pdfInput && pdfPreview) {
     pdfInput.addEventListener('change', function () {
         const file = this.files[0];
+
+        // Mise à jour du nom de fichier
+        document.getElementById('certificat-filename').textContent = file ? file.name : 'Aucun fichier choisi';
+
+        // Prévisualisation PDF
         if (file && file.type === "application/pdf") {
             // Création d'une URL temporaire pour le PDF
             const blobUrl = URL.createObjectURL(file);
