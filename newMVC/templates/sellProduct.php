@@ -11,7 +11,6 @@ $style = "templates/style/sellProduct.css";
 ?>
 
 <?php ob_start(); ?>
-<?php include('preset/header.php'); ?>
 
 <div class="page-vendre">
 
@@ -111,8 +110,6 @@ $style = "templates/style/sellProduct.css";
         <button type="submit" class="submit-btn">Publier</button>
     </form>
 </div>
-
-<?php include('preset/footer.php'); ?>
 
 <script src="templates/JS/vente_produit.js"></script>
 
