@@ -1,13 +1,11 @@
 <?php
 $title = "Mes favoris";
-$style = "templates/style/Accueil.css";
+$style = "templates/style/favorites.css";
 
 $user = $_SESSION['user'] ?? null;
 ?>
 
 <?php ob_start(); ?>
-
-<?php include('preset/header.php'); ?>
 
 <?php
 if (!$user) {
@@ -30,16 +28,15 @@ $productRepository = new ProductRepository($pdo);
 $favorites = $favoriteRepository->getUserFavorites($user['id_user']);
 ?>
 
-<main>
+<main id="favoris">
 
-<div class="Historique_annonces">
     <h1>Mes favoris</h1>
 
     <?php if (empty($favorites)): ?>
         <p>Vous n'avez aucun favori pour le moment.</p>
     <?php endif; ?>
 
-    <div class="Annonces-list-cards">
+    <div class="annonces-list-cards">
 
         <?php foreach ($favorites as $p): ?>
 
@@ -56,32 +53,41 @@ $favorites = $favoriteRepository->getUserFavorites($user['id_user']);
                 <div class="card-img">
                     <?php
                     $images = getImage($p['id_product']);
-                    if (!empty($images)) {
-                        echo '<img src="' . htmlspecialchars($images[0]['url_image']) . '" alt="image">';
-                    }
-                    ?>
+                    if (!empty($images)): ?>
+                        <img src="<?= htmlspecialchars($images[0]['url_image']) ?>" alt="image">
+                    <?php else: ?>
+                        <div class="no-image">Aucune image</div>
+                    <?php endif; ?>
                 </div>
 
                 <h3><?= htmlspecialchars($p['title']) ?></h3>
 
-                <p class="timer" data-end="<?= htmlspecialchars($p['end_date'] ?? '') ?>"></p>
-
-                <p>Prix actuel : <?= htmlspecialchars($current_price) ?> €</p>
-
-                <a class="btns" href="index.php?action=product&id=<?= $p['id_product'] ?>">
-                    Voir
-                </a>
+                <!-- BAS DE CARTE -->
+                <div class="card-bottom">
+                    <p class="timer" data-end="<?= htmlspecialchars($p['end_date'] ?? '') ?>"></p>
+                    <p>Prix actuel : <?= htmlspecialchars($current_price) ?> €</p>
+                    <a class="main-btn" href="index.php?action=product&id=<?= $p['id_product'] ?>">
+                        Voir
+                    </a>
+                </div>
 
             </div>
 
         <?php endforeach; ?>
 
     </div>
-</div>
 
 </main>
 
-<?php include('preset/footer.php'); ?>
+<script src="templates/JS/timer.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.timer').forEach(el => {
+            startCountdown(el.getAttribute('data-end'), el);
+        });
+    });
+</script>
 
 <?php $content = ob_get_clean(); ?>
 

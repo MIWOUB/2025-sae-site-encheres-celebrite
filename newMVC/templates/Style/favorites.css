@@ -1,0 +1,174 @@
+#favoris {
+    text-align: center;
+    padding-top: 105px;
+    padding-bottom: 80px;
+}
+
+
+/* Titre */
+#favoris h1 {
+    font-size: var(--text-h1);
+    font-family: var(--font-title);
+    color: var(--color-blue);
+    font-weight: bold;
+
+    display: inline-block;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 5px;
+    padding-right: 60px;
+    padding-left: 60px;
+    margin-top: 0;
+    margin-bottom: 50px;
+}
+
+#favoris > p {
+    margin: 20px 0;
+    color: var(--color-blue);
+    font-family: var(--font-body);
+}
+
+/* ========== */
+/* CARDS      */
+/* ========== */
+#favoris .annonces-list-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    column-gap: 40px;
+    row-gap: 50px;
+    padding: 20px 0;
+    justify-items: center;
+    justify-content: center;
+}
+
+#favoris .card {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-gold);
+    box-shadow: var(--shadow-md);
+
+    width: 100%;
+    max-width: 300px;
+    min-height: 340px;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    margin: 0;
+    padding: 0;
+}
+
+#favoris .card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Image */
+#favoris .card-img {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+#favoris .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+}
+
+/* Si aucune image disponible dans une carte */
+#favoris .card-img .no-image {
+    width: 100%;
+    height: 100%;
+    background-color: #f0f0d8;
+    color: #777;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Titre */
+#favoris .card h3 {
+    font-size: 1.4rem;
+    font-family: var(--font-accent);
+    font-weight: 700;
+    color: var(--color-blue);
+    margin: 8px 10px 4px 10px;
+    text-align: center;
+}
+
+/* Bas de carte */
+#favoris .card-bottom {
+    padding: 8px 20px 12px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+}
+
+/* Timer */
+#favoris .card-bottom .timer {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-blue-light);
+    background: rgba(0, 70, 204, 0.12);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    display: inline-block;
+}
+
+/* Prix */
+#favoris .card-bottom p {
+    font-size: var(--text-body);
+    font-family: var(--font-body);
+    color: var(--color-blue);
+    margin: 0;
+}
+
+/* Bouton "Voir" */
+#favoris .main-btn {
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
+    font-family: var(--font-accent);
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+#favoris .main-btn:hover {
+    background: var(--color-gold);
+    color: var(--color-white);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px) scale(1.05);
+}
+
+/* ============= */
+/* RESPONSIVE    */
+/* ============= */
+
+/* Tablette */
+@media (max-width: 1023px) {
+    #favoris .annonces-list-cards {
+        grid-template-columns: repeat(2, 300px);
+    }
+}
+
+/* Mobile */
+@media (max-width: 699px) {
+    #favoris .annonces-list-cards {
+        grid-template-columns: repeat(1, 300px);
+    }
+}
