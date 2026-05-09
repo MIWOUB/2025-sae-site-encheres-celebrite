@@ -15,6 +15,8 @@ $user = $_SESSION['user'];
 <?php include('preset/header.php'); ?>
 <link href="templates/style/stylePopup.css" rel="stylesheet" />
 
+<?php require_once __DIR__ . '/../src/controllers/User/UserController.php'; ?>
+
 <main>
 
     <!-- ================= TITRE ================= -->
@@ -80,7 +82,7 @@ $user = $_SESSION['user'];
     <div class="Historique_annonces">
         <h2>Mes statistiques</h2>
 
-        <?php $annoncements = get_all_annoncement($user["id_user"]); ?>
+        <?php $annoncements = getAllAnnouncements($user["id_user"]); ?>
 
         <input type="hidden" id="number_annoncement" name="action">
         <input type="hidden" id="values_annoncements"

@@ -331,8 +331,8 @@ $products = getAllProduct_admin();
                 if ($count_displayed >= $max_to_display) break;
 
                 $images = getImage($p['id_product']);
-                $cate   = $productRepository->getCategoryFromAnnoncement($p['id_product']);
-                $cele   = $celebrityRepository->getCelebrityFromAnnoncement($p['id_product']);
+                $cate   = $productRepository->getCategoryFromAnnouncement($p['id_product']);
+                $cele   = $celebrityRepository->getCelebrityFromAnnouncement($p['id_product']);
                 ?>
 
                 <div class="announce-card">
@@ -359,12 +359,12 @@ $products = getAllProduct_admin();
 
                         <div class="admin-actions">
                             <button class="btn_valide"
-                                onclick="alertConfirmation('Valider cette annonce ?', 'validateAnnoncement', <?= $p['id_product']; ?>)">
+                                onclick="alertConfirmation('Valider cette annonce ?', 'validateAnnouncement', <?= $p['id_product']; ?>)">
                                 Valider
                             </button>
 
                             <button class="btn_supp"
-                                onclick="alertConfirmation('Supprimer cette annonce ?', 'deleteProductAdmin', <?= $p['id_product']; ?>)">
+                                onclick="alertConfirmation('Supprimer cette annonce ?', 'deleteProductAsAdmin', <?= $p['id_product']; ?>)">
                                 Supprimer
                             </button>
                         </div>

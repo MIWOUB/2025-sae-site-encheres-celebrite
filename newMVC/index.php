@@ -89,7 +89,7 @@ try {
 
                 $userId = (int) $_GET['id'];
                 $u = $userRepository->getUser($userId);
-                $products = $productRepository->get_Annonce_User($userId);
+                $products = $productRepository->getUserAnnouncements($userId);
                 $score = $userRepository->getRatingUser($userId);
                 $score = $score ?? 0;
 
@@ -144,32 +144,38 @@ try {
                 redirectTo('index.php?action=login');
             }
 
-            addNewProduct($_SESSION['user'], $_POST);
+            $controller = new \ProductCreateController();
+            $controller->createProduct($_SESSION['user'], $_POST);
         },
         'deleteProduct' => function (): void {
-            if (isset($_POST['id_product']) && (int) $_POST['id_product'] >= 0) {
-                $pdo = \DatabaseConnection::getConnection();
-                $productRepository = new \ProductRepository($pdo);
-                $success = $productRepository->deleteProduct((int) $_POST['id_product']);
+            $idProduct = $_GET['id_product'] ?? $_POST['id_product'] ?? null;
 
-                if (!$success) {
-                    throw new Exception('This product cannot be deleted.');
+            if ($idProduct !== null && (int) $idProduct > 0) {
+                try {
+                    $controller = new \ProductDeleteController();
+                    $controller->deleteOwnProduct((int) $idProduct);
+
+                    jsonResponse(['success' => true]);
+                } catch (Throwable $throwable) {
+                    jsonResponse([
+                        'success' => false,
+                        'error' => $throwable->getMessage(),
+                    ], 403);
                 }
-                return;
             }
 
             throw new Exception('Impossible to delete this product !');
         },
-        'validateAnnoncement' => function (): void {
+        'validateAnnouncement' => function (): void {
             if (isset($_POST['id_product']) && (int) $_POST['id_product'] >= 0) {
                 $idProduct = (int) $_POST['id_product'];
                 $pdo = \DatabaseConnection::getConnection();
                 $productRepository = new \ProductRepository($pdo);
                 $celebrityRepository = new \CelebrityRepository($pdo);
 
-                $productRepository->UpdateStatut($idProduct);
-                $productRepository->UpdateStatutCategorie($idProduct);
-                $celebrityRepository->UpdateStatutCelebrity($idProduct);
+                $productRepository->updateStatus($idProduct);
+                $productRepository->updateCategoryStatus($idProduct);
+                $celebrityRepository->updateCelebrityStatus($idProduct);
                 return;
             }
 
@@ -177,7 +183,9 @@ try {
         },
         'updateProduct' => function (): void {
             if (isset($_POST['id_product']) && (int) $_POST['id_product'] >= 0) {
-                UpdateProduct((int) $_POST['id_product']);
+                $controller = new \ProductUpdateController();
+                $result = $controller->updateProduct((int) $_POST['id_product'], $_POST);
+                jsonResponse($result);
                 return;
             }
 
@@ -200,7 +208,8 @@ try {
                 throw new Exception('ID de produit invalide.');
             }
 
-            Product((int) $_GET['id']);
+            $controller = new \ProductController();
+            $controller->showProduct((int) $_GET['id']);
         },
         'getLastPrice' => function (): void {
             if (!isset($_GET['id_product']) || (int) $_GET['id_product'] < 0) {
@@ -293,29 +302,40 @@ try {
             jsonResponse($annoncements);
         },
         'republish' => function (): void {
-            if (!isset($_GET['id_product']) || (int) $_GET['id_product'] < 0) {
+            $idProduct = $_GET['id_product'] ?? $_POST['id_product'] ?? null;
+
+            if ($idProduct === null || (int) $idProduct <= 0) {
                 throw new Exception('Impossible de re-publée l\'annonce');
             }
 
-            republishAnnoncement((int) $_GET['id_product']);
+            try {
+                $controller = new \ProductRepublishController();
+                $result = $controller->republishProduct((int) $idProduct);
+                jsonResponse($result);
+            } catch (Throwable $throwable) {
+                jsonResponse([
+                    'success' => false,
+                    'error' => $throwable->getMessage(),
+                ], 403);
+            }
         },
-        'getCategoriesMod' => function (): void {
+        'searchCategories' => function (): void {
             if (!isset($_GET['writting'])) {
                 jsonResponse([]);
             }
 
             $pdo = \DatabaseConnection::getConnection();
             $productRepository = new \ProductRepository($pdo);
-            jsonResponse($productRepository->getCategoryMod($_GET['writting']));
+            jsonResponse($productRepository->searchCategories($_GET['writting']));
         },
-        'getCelebrityMod' => function (): void {
+        'searchCelebrities' => function (): void {
             if (!isset($_GET['writting'])) {
                 jsonResponse([]);
             }
 
             $pdo = \DatabaseConnection::getConnection();
             $celebrityRepository = new \CelebrityRepository($pdo);
-            jsonResponse($celebrityRepository->getCelebrityMod($_GET['writting']));
+            jsonResponse($celebrityRepository->searchCelebrities($_GET['writting']));
         },
         'admin' => function (): void {
             renderView('templates/admin_panel.php');
@@ -323,9 +343,10 @@ try {
         'sendNewsletter' => function (): void {
             PostNewsletter($_POST);
         },
-        'deleteProductAdmin' => function (): void {
+        'deleteProductAsAdmin' => function (): void {
             if (isset($_POST['id_product']) && (int) $_POST['id_product'] >= 0) {
-                deleteProductAdmin((int) $_POST['id_product']);
+                $controller = new \ProductDeleteController();
+                $controller->deleteProductAsAdmin((int) $_POST['id_product']);
                 return;
             }
 
