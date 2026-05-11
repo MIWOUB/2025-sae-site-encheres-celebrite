@@ -1,6 +1,8 @@
 async function afficher() {
-    const values_annoncements = document.getElementById("values_annoncements")
-    const div = document.querySelector(".section_annonce_publier")
+    const values_annoncements = document.getElementById("values_annoncements");
+    if (!values_annoncements) return; // Page admin, on sort
+
+    const div = document.querySelector(".section_annonce_publier");
     const id_user = document.getElementById('id_user');
 
     json_values = JSON.parse(values_annoncements.value)
