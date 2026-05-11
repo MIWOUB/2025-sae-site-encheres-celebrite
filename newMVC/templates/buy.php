@@ -8,6 +8,7 @@ $style = "templates/style/buy.css";
 
 <?php ob_start(); ?>
 
+<?php include('preset/header.php'); ?>
 <?php include("src/controllers/SearchIndexUpdateController.php"); ?>
 
 <main>
@@ -127,6 +128,7 @@ $style = "templates/style/buy.css";
         </div>
     </div>
 </main>
+<?php include('preset/footer.php'); ?>
 
 <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
