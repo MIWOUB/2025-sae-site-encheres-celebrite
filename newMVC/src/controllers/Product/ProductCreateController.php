@@ -79,46 +79,60 @@ class ProductCreateController
     }
 
     private function uploadImages(int $id_product, \ProductRepository $productRepository)
-    {
-        try {
-            //Verification de la présence d'images
-            if (!isset($_FILES['image_produit'])) {
-                echo ("Erreur : Aucune image sélectionnée.");
-                exit();
-            }
-            // Crée le dossier avec le nom de l'annonce
-            $DirAnnonce = __DIR__ . "../../../Annonce/" . $id_product;
+{
+    try {
 
-            // Vérifie si le dossier existe déjà
-            if (!is_dir($DirAnnonce)) {
-                //creation du dossier
-                mkdir($DirAnnonce, 0777, true);
-            } else {
-                echo ("Erreur : Le dossier existe déjà.");
-                exit();
-            }
+        // Vérifie si images envoyées
+        if (!isset($_FILES['image_produit'])) {
+            return;
+        }
 
-            // Ajoute les images dans le dossier
-            for ($i = 0; $i < count($_FILES["image_produit"]['name']); $i++) {
-                $tmpFilePath = $_FILES['image_produit']['tmp_name'][$i];
-                if ($tmpFilePath != "") {
-                    $newFilePath = $DirAnnonce . "/" . $id_product . "_" . $i . ".jpg";
-                    if (move_uploaded_file($tmpFilePath, $newFilePath)) {
-                        //Ajouter dans un tableau qui sera inséré en base de données
-                        $name_image = $id_product . "_" . $i . ".jpg";
-                        $newFilePath = "Annonce/" . $id_product . "/" . $name_image;
-                        $productRepository->addImage($id_product, $newFilePath, $name_image);
-                    }
+        // Dossier annonce
+        $DirAnnonce = __DIR__ . "/../../../Annonce/" . $id_product;
+
+        // Création dossier seulement si inexistant
+        if (!is_dir($DirAnnonce)) {
+            mkdir($DirAnnonce, 0777, true);
+        }
+
+        // Upload images
+        for ($i = 0; $i < count($_FILES["image_produit"]['name']); $i++) {
+
+            $tmpFilePath = $_FILES['image_produit']['tmp_name'][$i];
+
+            if (!empty($tmpFilePath)) {
+
+                $name_image = $id_product . "_" . $i . ".jpg";
+
+                $newFilePath = $DirAnnonce . "/" . $name_image;
+
+                if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+
+                    $dbPath = "Annonce/" . $id_product . "/" . $name_image;
+
+                    $productRepository->addImage(
+                        $id_product,
+                        $dbPath,
+                        $name_image
+                    );
                 }
             }
-            if (isset($_FILES['certificat_autenticite'])) {
-                $this->uploadCertificate($id_product, $DirAnnonce);
-            }
-        } catch (Exception $e) {
-            echo ("Erreur lors de l'ajout des images : " . $e->getMessage());
-            exit();
         }
+
+        // Certificat
+        if (
+            isset($_FILES['certificat_autenticite']) &&
+            !empty($_FILES['certificat_autenticite']['tmp_name'])
+        ) {
+
+            $this->uploadCertificate($id_product, $DirAnnonce);
+        }
+
+    } catch (Exception $e) {
+
+        die("Erreur upload image : " . $e->getMessage());
     }
+}
 
     private function uploadCertificate(int $id_annonce, string $DirAnnonce)
     {
