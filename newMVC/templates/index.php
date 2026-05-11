@@ -64,6 +64,7 @@ $style = "templates/style/index.css";
                                     <div class="info-row">
                                         <i class="fa-regular fa-clock icon-gold"></i>
                                         <span class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></span>
+                                        <time class="local-date" data-local-datetime="<?= htmlspecialchars($p['end_date']) ?>"></time>
                                     </div>
 
                                     <div class="info-row price-box">
@@ -124,6 +125,7 @@ $style = "templates/style/index.css";
                         <h3><?= html_entity_decode(htmlspecialchars($p['title'])) ?></h3>
 
                         <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
+                        <p><time class="local-date" data-local-datetime="<?= htmlspecialchars($p['end_date']) ?>"></time></p>
 
                         <div class="celebrity-row">
                             <div class="avatar-wrapper">

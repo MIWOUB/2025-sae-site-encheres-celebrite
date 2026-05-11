@@ -27,7 +27,7 @@ $style = "templates/style/buy.css";
                     <?php if (new DateTime($p['end_date']) > new DateTime()): ?>
 
                         <a href="index.php?action=product&id=<?= htmlspecialchars($p['id_product']) ?>"
-                           class="swiper-slide swiper-slide-link">
+                            class="swiper-slide swiper-slide-link">
 
                             <div class="image-container">
                                 <?php
@@ -49,6 +49,7 @@ $style = "templates/style/buy.css";
 
                                     <p>Prix actuel : <?= htmlspecialchars($current_price) ?> €</p>
                                     <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
+                                    <p><time class="local-date" data-local-datetime="<?= htmlspecialchars($p['end_date']) ?>"></time></p>
                                 </div>
                             </div>
 
@@ -105,6 +106,7 @@ $style = "templates/style/buy.css";
 
                             <div class="card-bottom">
                                 <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
+                                <p><time class="local-date" data-local-datetime="<?= htmlspecialchars($p['end_date']) ?>"></time></p>
                                 <a class="main_btn" href="index.php?action=product&id=<?= $p['id_product'] ?>">Voir</a>
                             </div>
 
@@ -135,11 +137,14 @@ $style = "templates/style/buy.css";
 <script src="templates/JS/timer.js"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const slides = document.querySelectorAll('.swiper-slide-link');
 
         new Swiper('.mySwiper', {
-            autoplay: { delay: 3000, disableOnInteraction: false },
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false
+            },
             loop: slides.length > 2,
             slidesPerView: 1,
             navigation: {
@@ -183,11 +188,14 @@ $style = "templates/style/buy.css";
                     <div class="card-bottom">
                         <p>Prix : ${p.price ?? '-'} €</p>
                         <p class="timer" data-end="${p.end_date}"></p>
+                        <p><time class="local-date" data-local-datetime="${p.end_date}"></time></p>
                         <a class="main_btn" href="index.php?action=product&id=${p.id}">Voir</a>
                     </div>
                 `;
                 container.appendChild(card);
             });
+
+            formatLocalDateTime(container);
 
             document.querySelectorAll('.timer').forEach(el => {
                 startCountdown(el.getAttribute('data-end'), el);

@@ -29,7 +29,9 @@ $script = "templates/JS/favorite.js";
     <div class="product-header">
         <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
         <div class="product-price">
-            <?php if ($current_price === null) { $current_price = $p['start_price']; } ?>
+            <?php if ($current_price === null) {
+                $current_price = $p['start_price'];
+            } ?>
             <p>Offre actuelle :<br>
                 <span><?= htmlspecialchars(number_format($current_price, 0, ',', ' ')) ?> €</span>
             </p>
@@ -46,57 +48,73 @@ $script = "templates/JS/favorite.js";
 
     <div class="product-layout">
 
-    <!-- Swiper GAUCHE -->
-    <div class="container">
-        <?php if (empty($images)) { ?>
-            <p>Aucune image disponible pour cette annonce.</p>
-        <?php } else { ?>
-            <div style="--swiper-navigation-color: var(--color-gold); --swiper-pagination-color: var(--color-gold);" class="swiper mySwiper2">
-                <div class="swiper-wrapper">
-                    <?php foreach ($images as $image) { ?>
-                        <div class="swiper-slide">
-                            <img src=<?= $image["url_image"] ?>>
-                        </div>
-                    <?php } ?>
+        <!-- Swiper GAUCHE -->
+        <div class="container">
+            <?php if (empty($images)) { ?>
+                <p>Aucune image disponible pour cette annonce.</p>
+            <?php } else { ?>
+                <div style="--swiper-navigation-color: var(--color-gold); --swiper-pagination-color: var(--color-gold);" class="swiper mySwiper2">
+                    <div class="swiper-wrapper">
+                        <?php foreach ($images as $image) { ?>
+                            <div class="swiper-slide">
+                                <img src=<?= $image["url_image"] ?>>
+                            </div>
+                        <?php } ?>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
                 </div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-            <div thumbsSlider="" class="swiper mySwiper">
-                <div class="swiper-wrapper">
-                    <?php foreach ($images as $image) { ?>
-                        <div class="swiper-slide">
-                            <img src=<?= $image["url_image"] ?>>
-                        </div>
-                    <?php } ?>
+                <div thumbsSlider="" class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        <?php foreach ($images as $image) { ?>
+                            <div class="swiper-slide">
+                                <img src=<?= $image["url_image"] ?>>
+                            </div>
+                        <?php } ?>
+                    </div>
                 </div>
-            </div>
-        <?php } ?>
+            <?php } ?>
+        </div>
+
+        <!-- Description DROITE -->
+        <section id="product-description">
+            <h2>Description</h2>
+            <p><?= strip_tags($p['description']) ?></p>
+        </section>
+
     </div>
 
-    <!-- Description DROITE -->
-    <section id="product-description">
-        <h2>Description</h2>
-        <p><?= strip_tags($p['description']) ?></p>
-    </section>
-
-</div>
-
-<section class="product-title">
+    <section class="product-title">
         <hr>
         <h2>Commentaires</h2>
         <hr>
     </section>
 
     <section id="product-comment">
+        <?php $currentUserId = $_SESSION['user']['id_user'] ?? null; ?>
         <?php foreach ($comments as $comment) { ?>
-            <h3>
-                <a href="index.php?action=user&id=<?= $comment['id_user'] ?>">
-                    <?= htmlspecialchars(strip_tags($comment['full_name'])) ?>
-                </a>
-                <?= " " . $comment["comment_date"] ?>
-            </h3>
-            <p><?= htmlspecialchars(strip_tags($comment['comment'])) ?></p>
+            <div class="comment-item">
+                <h3>
+                    <a href="index.php?action=user&id=<?= $comment['id_user'] ?>">
+                        <?= htmlspecialchars(strip_tags($comment['full_name'])) ?>
+                    </a>
+                    <time data-local-datetime="<?= htmlspecialchars($comment['comment_date']) ?>"></time>
+                </h3>
+                <p><?= htmlspecialchars(strip_tags($comment['comment'])) ?></p>
+                <?php if ($currentUserId !== null && (int) $currentUserId === (int) $comment['id_user']) { ?>
+                    <form method="POST" action="index.php?action=updateComment" style="margin-bottom: 10px;">
+                        <input type="hidden" name="id" value="<?= (int) $p['id_product'] ?>">
+                        <input type="hidden" name="id_comment" value="<?= (int) $comment['id_comment'] ?>">
+                        <textarea name="comment" required><?= htmlspecialchars($comment['comment']) ?></textarea>
+                        <button type="submit">Modifier</button>
+                    </form>
+                    <form method="POST" action="index.php?action=deleteComment" onsubmit="return confirm('Supprimer ce commentaire ?');">
+                        <input type="hidden" name="id" value="<?= (int) $p['id_product'] ?>">
+                        <input type="hidden" name="id_comment" value="<?= (int) $comment['id_comment'] ?>">
+                        <button type="submit">Supprimer</button>
+                    </form>
+                <?php } ?>
+            </div>
         <?php } ?>
         <form id="comment-form" method="POST" action="index.php?action=addComment">
             <input type="hidden" name="id" value=<?= $p['id_product'] ?>>
@@ -104,76 +122,75 @@ $script = "templates/JS/favorite.js";
             <button type="submit">Publier</button>
         </form>
     </section>
-    
 
-    
 
-<?php include('preset/footer.php'); ?>
 
-<!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<!-- Initialize Swiper -->
-<script>
-    var swiper = new Swiper(".mySwiper", {
-        spaceBetween: 10,
-        slidesPerView: 4,
-        freeMode: true,
-        watchSlidesProgress: true,
-    });
-    var swiper2 = new Swiper(".mySwiper2", {
-        spaceBetween: 10,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        thumbs: {
-            swiper: swiper,
-        },
-    });
-</script>
+    <?php include('preset/footer.php'); ?>
 
-<!-- <script src="templates/JS/manageImagesProduct.js"></script> -->
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<script src="templates/JS/OuverturePopUp.js"></script>
-
-<script src="templates/JS/timer.js"></script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Lancer tous les timers de la page
-        document.querySelectorAll('.timer').forEach(el => {
-            const endDate = el.getAttribute('data-end');
-            startCountdown(endDate, el); // Fonction importée depuis timer.js
+    <!-- Initialize Swiper -->
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            spaceBetween: 10,
+            slidesPerView: 4,
+            freeMode: true,
+            watchSlidesProgress: true,
         });
-    });
-</script>
+        var swiper2 = new Swiper(".mySwiper2", {
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            thumbs: {
+                swiper: swiper,
+            },
+        });
+    </script>
 
-<script>
-    const toastBox = document.querySelector('#toastBox')
+    <!-- <script src="templates/JS/manageImagesProduct.js"></script> -->
 
-    function showToast(numberValidation, msg) {
-        let toast = document.createElement('div');
-        toast.classList.add('toast');
+    <script src="templates/JS/OuverturePopUp.js"></script>
 
-        if (numberValidation === 1) {
-            toast.classList.add('invalid');
-            toast.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${msg}`;
+    <script src="templates/JS/timer.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Lancer tous les timers de la page
+            document.querySelectorAll('.timer').forEach(el => {
+                const endDate = el.getAttribute('data-end');
+                startCountdown(endDate, el); // Fonction importée depuis timer.js
+            });
+        });
+    </script>
+
+    <script>
+        const toastBox = document.querySelector('#toastBox')
+
+        function showToast(numberValidation, msg) {
+            let toast = document.createElement('div');
+            toast.classList.add('toast');
+
+            if (numberValidation === 1) {
+                toast.classList.add('invalid');
+                toast.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${msg}`;
+            } else if (numberValidation > 1) {
+                toast.classList.add('error');
+                toast.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ${msg}`;
+            } else {
+                toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
+            }
+
+            toastBox.appendChild(toast);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 6000);
         }
-        else if (numberValidation > 1) {
-            toast.classList.add('error');
-            toast.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ${msg}`;
-        } else {
-            toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
-        }
+    </script>
+    <?php $content = ob_get_clean() ?>
 
-        toastBox.appendChild(toast);
-
-        setTimeout(() => {
-            toast.remove();
-        }, 6000);
-    }
-</script>
-<?php $content = ob_get_clean() ?>
-
-<?php require('preset/layout.php'); ?>
+    <?php require('preset/layout.php'); ?>

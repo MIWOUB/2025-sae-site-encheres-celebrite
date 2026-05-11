@@ -42,6 +42,7 @@ $annonces_en_cours = $productRepository->get_actual_annonces_by_client($id_clien
                     </h3>
                     <!--- Timer --->
                     <p class="timer" data-end="<?= htmlspecialchars($a['end_date']) ?>"></p>
+                    <p><time class="local-date" data-local-datetime="<?= htmlspecialchars($a['end_date']) ?>"></time></p>
                     <p>Prix actuel :
                         <?php
                         // get_price_annoncement retourne un array (fetchAll). On convertit en valeur string.

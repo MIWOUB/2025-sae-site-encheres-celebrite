@@ -1,5 +1,7 @@
 <?php
 
+date_default_timezone_set('Europe/Paris');
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -11,7 +13,6 @@ require_once __DIR__ . '/src/controllers/Auth/RegisterController.php';
 require_once __DIR__ . '/src/controllers/User/ProfileUpdateController.php';
 require_once __DIR__ . '/src/controllers/User/UserController.php';
 require_once __DIR__ . '/src/controllers/Interaction/FavoriteController.php';
-require_once __DIR__ . '/src/controllers/Interaction/UnfavoriteController.php';
 require_once __DIR__ . '/src/controllers/Interaction/BidController.php';
 require_once __DIR__ . '/src/controllers/Interaction/CommentController.php';
 require_once __DIR__ . '/src/controllers/Product/ProductUpdateController.php';
@@ -192,16 +193,28 @@ try {
             throw new Exception('Impossible to update the product !');
         },
         'addComment' => function (): void {
-            addComment();
+            $controller = new \CommentController();
+            $controller->addComment();
+        },
+        'updateComment' => function (): void {
+            $controller = new \CommentController();
+            $controller->updateComment();
+        },
+        'deleteComment' => function (): void {
+            $controller = new \CommentController();
+            $controller->deleteComment();
         },
         'favorite' => function (): void {
-            favorite();
+            $controller = new \FavoriteController();
+            $controller->favorite();
         },
         'unfavorite' => function (): void {
-            unfavorite();
+            $controller = new \FavoriteController();
+            $controller->unfavorite();
         },
         'bid' => function (): void {
-            bid();
+            $controller = new \BidController();
+            $controller->bid();
         },
         'product' => function (): void {
             if (!isset($_GET['id']) || (int) $_GET['id'] <= 0) {

@@ -20,3 +20,5 @@
     </section>
     <p>&copy; 2026 Bidstars. Tous droits réservés.</p>
 </footer>
+
+<script src="templates/JS/localDateTime.js"></script>

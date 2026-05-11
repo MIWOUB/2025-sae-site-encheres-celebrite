@@ -9,6 +9,7 @@ class DatabaseConnection
                 charset=utf8', 'root', 'root');
             /// Permet de lancer une exception si le pdo a une problème (requête SQL, connection, ...)
             self::$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            self::$pdo->exec("SET time_zone = '" . date('P') . "'");
             ///
         }
         return self::$pdo;

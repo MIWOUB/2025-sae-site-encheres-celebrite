@@ -3,42 +3,111 @@
 require_once('src/model/comment.php');
 require_once('src/lib/database.php');
 
-function addComment()
+class CommentController
 {
-    // Vérifie si utilisateur connecté
-    if (!isset($_SESSION['user'])) {
-        header('Location: index.php?action=connection');
-        exit();
+    public function addComment()
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?action=connection');
+            exit();
+        }
+
+        if (
+            !isset($_POST['id']) ||
+            !isset($_POST['comment']) ||
+            empty(trim($_POST['comment']))
+        ) {
+            die("Erreur : données du commentaire invalides.");
+        }
+
+        $id_product = (int) $_POST['id'];
+        $comment = trim($_POST['comment']);
+        $id_user = (int) $_SESSION['user']['id_user'];
+
+        try {
+            $pdo = \DatabaseConnection::getConnection();
+            $commentRepository = new \CommentRepository($pdo);
+
+            $commentRepository->addCommentToProduct(
+                $id_product,
+                $id_user,
+                $comment
+            );
+
+            header("Location: index.php?action=product&id=" . $id_product);
+            exit();
+        } catch (Exception $e) {
+            die("Erreur ajout commentaire : " . $e->getMessage());
+        }
     }
 
-    // Vérifie les données POST
-    if (
-        !isset($_POST['id']) ||
-        !isset($_POST['comment']) ||
-        empty(trim($_POST['comment']))
-    ) {
-        die("Erreur : données du commentaire invalides.");
+    public function updateComment()
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?action=connection');
+            exit();
+        }
+
+        if (
+            !isset($_POST['id']) ||
+            !isset($_POST['id_comment']) ||
+            !isset($_POST['comment']) ||
+            empty(trim($_POST['comment']))
+        ) {
+            die("Erreur : données du commentaire invalides.");
+        }
+
+        $id_product = (int) $_POST['id'];
+        $id_comment = (int) $_POST['id_comment'];
+        $comment = trim($_POST['comment']);
+        $id_user = (int) $_SESSION['user']['id_user'];
+
+        try {
+            $pdo = \DatabaseConnection::getConnection();
+            $commentRepository = new \CommentRepository($pdo);
+
+            if (!$commentRepository->isCommentOwnedByUser($id_comment, $id_user)) {
+                die("Erreur : vous ne pouvez modifier que vos propres commentaires.");
+            }
+
+            $commentRepository->updateComment($id_comment, $id_user, $comment);
+
+            header("Location: index.php?action=product&id=" . $id_product);
+            exit();
+        } catch (Exception $e) {
+            die("Erreur modification commentaire : " . $e->getMessage());
+        }
     }
 
-    $id_product = (int) $_POST['id'];
-    $comment = trim($_POST['comment']);
-    $id_user = $_SESSION['user']['id_user'];
+    public function deleteComment()
+    {
+        if (!isset($_SESSION['user'])) {
+            header('Location: index.php?action=connection');
+            exit();
+        }
 
-    try {
+        if (!isset($_POST['id']) || !isset($_POST['id_comment'])) {
+            die("Erreur : données du commentaire invalides.");
+        }
 
-        $pdo = \DatabaseConnection::getConnection();
-        $commentRepository = new \CommentRepository($pdo);
+        $id_product = (int) $_POST['id'];
+        $id_comment = (int) $_POST['id_comment'];
+        $id_user = (int) $_SESSION['user']['id_user'];
 
-        $commentRepository->addCommentToProduct(
-            $id_product,
-            $id_user,
-            $comment
-        );
+        try {
+            $pdo = \DatabaseConnection::getConnection();
+            $commentRepository = new \CommentRepository($pdo);
 
-        header("Location: index.php?action=product&id=" . $id_product);
-        exit();
+            if (!$commentRepository->isCommentOwnedByUser($id_comment, $id_user)) {
+                die("Erreur : vous ne pouvez supprimer que vos propres commentaires.");
+            }
 
-    } catch (Exception $e) {
-        die("Erreur ajout commentaire : " . $e->getMessage());
+            $commentRepository->deleteComment($id_comment, $id_user);
+
+            header("Location: index.php?action=product&id=" . $id_product);
+            exit();
+        } catch (Exception $e) {
+            die("Erreur suppression commentaire : " . $e->getMessage());
+        }
     }
 }
