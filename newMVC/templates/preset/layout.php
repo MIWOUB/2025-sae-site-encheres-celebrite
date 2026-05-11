@@ -12,11 +12,15 @@ if (isset($_SESSION['user'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title><?= $title ?> </title>
+    <title><?= htmlspecialchars($title ?? '') ?></title>
     <link rel="stylesheet" href="templates/Style/variables.css">
-    <link href="<?= $style ?>" rel="stylesheet">
+    <?php if (!empty($style)) : ?>
+        <link href="<?= htmlspecialchars($style) ?>" rel="stylesheet">
+    <?php endif; ?>
 
-    <script src="<?= empty($script) ? "" : $script ?>" defer></script>
+    <?php if (!empty($script)) : ?>
+        <script src="<?= htmlspecialchars($script) ?>" defer></script>
+    <?php endif; ?>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

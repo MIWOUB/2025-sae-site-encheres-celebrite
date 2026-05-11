@@ -1,0 +1,406 @@
+/* ======== */
+/* TEXTES   */
+/* ======== */
+h1 {
+    font-size: var(--text-h1);
+    font-family: var(--font-title);
+    color: var(--color-blue) !important;
+    font-weight: bold;
+
+    display: inline-block;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 5px;
+    padding-right: 60px;
+    padding-left: 60px;
+    margin-top: 40px;
+    margin-bottom: 50px !important;
+}
+
+h2 {
+    font-size: var(--text-h2);
+    font-family: var(--font-title);
+}
+
+h3 {
+    font-size: var(--text-h3);
+    font-family: var(--font-title);
+}
+
+p {
+    font-size: var(--text-body);
+    font-family: var(--font-body);
+}
+
+/* ===================== */
+/*  BOUTONS              */
+/* ===================== */
+
+/* Bouton principal */
+.main_btn {
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
+    font-family: var(--font-accent);
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.main_btn:hover {
+    background: var(--color-gold);
+    color: var(--color-white);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px) scale(1.05);
+}
+
+/* Bouton de la barre de recherche */
+.searchbar_btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-blue);
+    color: var(--color-white);
+    font-size: var(--text-body);
+    font-family: var(--font-body);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.searchbar_btn:hover {
+    background: var(--color-blue-light);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px) scale(1.05);
+}
+
+/* ======= */
+/* SWIPER  */
+/* ======= */
+.swiper {
+    width: 100%;
+    height: 620px;
+    overflow: hidden;
+}
+
+/* Lien */
+.swiper-slide-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    width: 100%;
+    height: 100%;
+}
+
+/* Conteneur image */
+.swiper-slide .image-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Image */
+.swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background-color: #000;
+}
+
+/* Si aucune image */
+.swiper-slide .no-image-placeholder {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #777;
+    color: var(--color-red);
+    text-align: center;
+}
+
+/* Texte superposé en bas de l'image */
+.text-content-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(0, 0, 0, 0.7);
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+/* Titre overlay */
+.text-content-overlay h3 {
+    font-family: var(--font-title);
+    font-weight: bold;
+    color: var(--color-white);
+    text-align: center;
+}
+
+/* Textes overlay */
+.text-content-overlay p {
+    font-family: var(--font-body);
+    color: var(--color-white);
+    text-align: center;
+}
+
+/* Timer overlay */
+.text-content-overlay .timer {
+    display: block;
+    text-align: center;
+    background: transparent;
+    color: var(--color-white);
+}
+
+/* Flèches navigation */
+.swiper-button-next,
+.swiper-button-prev {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.swiper-button-next {
+    right: 10px;
+}
+
+.swiper-button-prev {
+    left: 10px;
+}
+
+/* ===================== */
+/* BARRE DE RECHERCHE    */
+/* ===================== */
+.searchbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 30px 0;
+}
+
+/* Conteneur relatif pour positionner les suggestions sous l'input */
+.searchbar-input-wrap {
+    position: relative;
+}
+
+#searchInput {
+    width: 340px;
+    padding: 10px 20px;
+    border: 2px solid var(--color-gold);
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    color: var(--color-blue);
+    outline: none;
+    transition: box-shadow 0.2s ease;
+}
+
+#searchInput:focus {
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+/* Boîte de suggestions — positionnée sous l'input */
+#suggestions {
+    position: absolute;
+    top: 105%;
+    left: 0;
+    width: 100%;
+    background: white;
+    border: 2px solid var(--color-gold);
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 35, 102, 0.12);
+    display: none;
+    z-index: 100;
+    overflow: hidden;
+}
+
+/* Item individuel */
+.suggestion-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #f5f0e0;
+    text-align: left;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-blue);
+    transition: background 0.15s ease, padding-left 0.15s ease;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background-color: rgba(212, 175, 55, 0.08);
+    padding-left: 20px;
+}
+
+/* Messages d'état */
+.suggestion-empty {
+    padding: 10px 16px;
+    color: #888;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.suggestion-error {
+    padding: 10px 16px;
+    color: var(--color-red);
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* ====================== */
+/* SECTION ANNONCES       */
+/* ====================== */
+.content {
+    text-align: center;
+}
+
+.announces {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    column-gap: 40px;
+    row-gap: 50px;
+    padding: 20px 0;
+    justify-items: center;
+    justify-content: center;
+}
+
+/* Style Carte */
+.announce-card {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-gold);
+    box-shadow: var(--shadow-md);
+
+    width: 100%;
+    max-width: 300px;
+    min-height: 340px;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.announce-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Partie haute */
+.card-top {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+}
+
+/* Affichage image */
+.card-top img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+    border-radius: 0;
+}
+
+/* Si aucune image disponible dans une carte */
+.no-image {
+    width: 100%;
+    height: 160px;
+    background-color: #f0f0d8;
+    color: #777;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Titre */
+.card-top h3 {
+    font-size: 1.4rem;
+    font-family: var(--font-accent);
+    font-weight: 700;
+    color: var(--color-blue);
+    margin: 8px 10px 4px 10px;
+    text-align: center;
+}
+
+/* Partie basse */
+.card-bottom {
+    padding: 8px 20px 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.timer {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-blue-light);
+    background: rgba(0, 70, 204, 0.12);
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    display: inline-block;
+}
+
+/* =========== */
+/* MESSAGES    */
+/* =========== */
+.text-newletters {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin: 40px 0;
+}
+
+.text-newletters p {
+    margin: 0;
+}
+
+.text-newletters .main_btn {
+    margin-top: 30px;
+}
+
+.error-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    margin: 20px 0;
+    color: var(--color-red);
+}
+
+/* ============= */
+/* RESPONSIVE    */
+/* ============= */
+@media (max-width: 1100px) {
+    .announces {
+        grid-template-columns: repeat(2, 300px);
+    }
+}

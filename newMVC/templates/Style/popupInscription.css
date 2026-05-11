@@ -1,3 +1,5 @@
+
+/* Overlay */
 #registerPopup {
     display: none;
 }
@@ -5,58 +7,134 @@
 #registerPopup .rp-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: calc(var(--navbar-height) + 50px);
     z-index: 9999;
 }
 
+/* Conteneur */
 #registerPopup .rp-modal {
-    background: #f6f1ea;
-    width: 520px;
-    max-height: 90vh;
-    overflow: hidden; 
-    padding: 28px 28px 20px;
-    border-radius: 24px;
+    background: var(--color-background);
+    width: 620px;
+    max-width: 95%;
+    padding: 34px 32px 24px;
+
+    border-radius: var(--radius-sm);
     position: relative;
-    font-family: Georgia, serif;
+    font-family: var(--font-body);
+    overflow: hidden;
 }
 
+/* Titre */
+#registerPopup .rp-title {
+    text-align: center;
+    font-size: var(--text-h3);
+    font-family: var(--font-title);
+    color: var(--color-blue) !important;
+    font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 35px;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 8px;
+}
+
+/* Bouton fermer */
 #registerPopup .rp-close {
     position: absolute;
-    top: 14px;
-    right: 14px;
-    z-index: 20;
-    width: 28px;
-    height: 28px;
+    top: 10px;
+    right: 10px;
+
+    width: 34px;
+    height: 34px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
+    background: transparent;
     border: none;
-    background: #D2A047;
-    font-size: 18px;
-    cursor: pointer;
     padding: 0;
-    color: #333;
+    font-size: 30px;
+    color: var(--color-blue);
+
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
     box-shadow: none;
+    outline: none;
+    transition: all 0.2s ease;
 }
 
-#registerPopup .rp-title {
-    text-align: center;
-    margin-bottom: 18px;
-    color: #1d2b4f;
+#registerPopup .rp-close:hover {
+    color: var(--color-gold);
+    transform: scale(1.3);
 }
 
+/* Sections */
+#registerPopup .rp-section {
+    margin-bottom: 25px;
+}
+
+#registerPopup .rp-section h3 {
+    border-bottom: 2px solid var(--color-gold);
+    margin: 20px 0 15px;
+    font-size: var(--text-sm);
+    color: var(--color-blue);
+}
+
+/* Labels */
+#registerPopup label {
+    display: block;
+    font-family: var(--font-title);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-blue);
+    margin-bottom: 0.5rem;
+}
+
+/* Inputs */
+#registerPopup input {
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-gold);
+
+    background: var(--color-white);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-blue);
+    transition: border-color 0.2s ease;
+    margin-bottom: 15px;
+}
+
+#registerPopup input:focus {
+    border-color: var(--color-blue-light);
+    outline: none;
+}
+
+/* Grid */
+#registerPopup .rp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+/* Scroll form */
 #registerPopup .rp-form {
-    max-height: calc(90vh - 120px);
+    max-height: calc(90vh - 130px);
     overflow-y: auto;
-    padding-right: 10px;
+    padding-right: 6px;
+    padding-bottom: 40px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(29, 43, 79, 0.4) transparent;
+    scroll-padding-bottom: 40px;
 }
 
 #registerPopup .rp-form::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
 }
 
 #registerPopup .rp-form::-webkit-scrollbar-track {
@@ -64,18 +142,12 @@
 }
 
 #registerPopup .rp-form::-webkit-scrollbar-thumb {
-    background-color: rgba(29, 43, 79, 0.35);
+    background-color: rgba(29, 43, 79, 0.4);
     border-radius: 6px;
 }
 
 #registerPopup .rp-form::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(29, 43, 79, 0.55);
-}
-
-
-#registerPopup .rp-form {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(29, 43, 79, 0.4) transparent;
+    background-color: rgba(29, 43, 79, 0.6);
 }
 
 
@@ -85,96 +157,110 @@
     bottom: 0;
     display: block;
     height: 20px;
-    background: linear-gradient(to top, #f6f1ea, transparent);
+    background: linear-gradient(to top, var(--color-background), transparent);
     pointer-events: none;
 }
 
-
-#registerPopup .rp-section {
-    margin-bottom: 16px;
-}
-
-#registerPopup .rp-section h3 {
-    border-bottom: 2px solid #7b84a6;
-    margin: 14px 0 10px;
-    font-size: 15px;
-    color: #1d2b4f;
-}
-
-
-#registerPopup label {
-    display: block;
-    font-size: 0.85rem;
-    margin: 6px 0 4px;
-}
-
-#registerPopup input {
-    width: 100%;
-    padding: 6px 10px;
-    border-radius: 8px;
-    border: 1.5px solid #1d2b4f;
-    background: #fdfaf6;
-    font-size: 0.9rem;
-}
-
-#registerPopup .rp-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-}
-
+/* Règles mot de passe */
 #registerPopup .rp-password-rules {
-    margin: 10px 0 18px;
-    font-size: 13px;
+    font-size: var(--text-sm);
+    margin: 12px 0 22px;
 }
 
 #registerPopup .rp-password-rules .ok {
-    color: #2e8b57;
+    color: var(--color-green);
 }
 
 #registerPopup .rp-password-rules .ko {
-    color: #c0392b;
+    color: var(--color-red);
 }
 
+#registerPopup .rp-password-rules .rule {
+    display: flex;
+    align-items: center;
+    font-size: var(--text-sm);
+    margin-bottom: 6px;
+}
+
+#registerPopup .rp-password-rules .rule::before {
+    content: "✖";
+    margin-right: 8px;
+    color: var(--color-red);
+    font-weight: bold;
+}
+
+#registerPopup .rp-password-rules .rule.valid::before {
+    content: "✔";
+    color: var(--color-green);
+}
+
+/* Boutons */
 #registerPopup .rp-submit {
     width: 100%;
     padding: 12px;
-    background: #1d2b4f;
-    color: white;
+    background: var(--color-blue);
+    color: var(--color-white);
     border: none;
-    border-radius: 12px;
+    border-radius: var(--radius-sm);
     font-size: 18px;
     cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#registerPopup .rp-submit:hover {
+    background: var(--color-blue-light);
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
 }
 
 #registerPopup .rp-alt {
     width: 100%;
     margin-top: 10px;
     padding: 10px;
-    background: transparent;
-    border: 2px solid #1d2b4f;
-    color: #1d2b4f;
-    border-radius: 12px;
+    background: var(--color-white);
+    border: 2px solid var(--color-blue);
+    color: var(--color-blue);
+    border-radius: var(--radius-sm);
     font-size: 16px;
     cursor: pointer;
-    box-shadow: none;
+    transition: all 0.2s ease;
 }
 
-.password-rules .rule {
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    margin-bottom: 4px;
+#registerPopup .rp-alt:hover {
+    background: var(--color-blue);
+    color: var(--color-white);
+    box-shadow: var(--shadow-sm);
 }
 
-.password-rules .rule::before {
-    content: "✖";
-    margin-right: 8px;
-    color: #c0392b;
-    font-weight: bold;
+/* ================= */
+/* RESPONSIVE        */
+/* ================= */
+
+/* TABLETTE */
+@media (max-width: 1023px) {
+    #registerPopup .rp-overlay {
+        align-items: flex-start;
+        padding-top: calc(var(--navbar-height) + 40px);
+    }
+
+    #registerPopup .rp-modal {
+        width: 90%;
+    }
 }
 
-.password-rules .rule.valid::before {
-    content: "✔";
-    color: #2e8b57;
+/* MOBILE */
+@media (max-width: 699px) {
+    #registerPopup .rp-overlay {
+        align-items: flex-start;
+        padding-top: calc(var(--navbar-height) + 20px);
+    }
+
+    #registerPopup .rp-modal {
+        width: 95%;
+        padding: 22px 18px;
+    }
+
+    #registerPopup .rp-grid {
+        grid-template-columns: 1fr;
+    }
 }

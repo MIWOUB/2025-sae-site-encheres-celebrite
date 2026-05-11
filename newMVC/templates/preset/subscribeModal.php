@@ -36,7 +36,7 @@
 
                 <button class="nl-submit"
                     onclick="window.location.href='index.php?action=login'">
-                    Login
+                    Se connecter
                 </button>
 
             <?php endif; ?>

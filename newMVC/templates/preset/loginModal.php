@@ -5,7 +5,7 @@
     <div id="loginModal" class="modal-overlay" style="display: none;">
         <div class="modal-content">
             <button class="close-btn" id="closeLogin">&times;</button>
-            <h2>Connectez-vous</h2>
+            <h3>Connectez-vous</h3>
 
             <?php if (isset($_SESSION['error'])): ?>
                 <div class="alert alert-error">

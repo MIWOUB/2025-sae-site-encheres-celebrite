@@ -1,0 +1,351 @@
+/* ======== */
+/* TEXTES   */
+/* ======== */
+h1 {
+    font-size: var(--text-h1);
+    font-family: var(--font-title);
+    color: var(--color-blue) !important;
+    font-weight: bold;
+
+    display: inline-block;
+    border-bottom: 2px solid var(--color-gold);
+    padding-bottom: 5px;
+    padding-right: 60px;
+    padding-left: 60px;
+    margin-top: 0 !important;
+    margin-bottom: 50px !important;
+}
+
+h2 {
+    font-size: var(--text-h2);
+    font-family: var(--font-title);
+}
+
+h3 {
+    font-size: var(--text-h3);
+    font-family: var(--font-title);
+}
+
+p {
+    font-size: var(--text-body);
+    font-family: var(--font-body);
+}
+
+.page-vendre {
+    text-align: center;
+    padding-top: 105px !important;
+}
+
+/* ========================= */
+/* FORMULAIRE GLOBAL         */
+/* ========================= */
+.form-vente-produit {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding: 0 4rem 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+/* ========================= */
+/* GRID DE 2 COLONNES        */
+/* ========================= */
+.vente-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.col-left,
+.col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* ========================= */
+/* LABELS                    */
+/* ========================= */
+.form-label {
+    display: block;
+    font-family: var(--font-title);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-blue);
+    margin-bottom: 0.4rem;
+}
+
+/* ========================= */
+/* GROUPES DE FORMULAIRE     */
+/* ========================= */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-gold);
+    background: var(--color-white);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-blue);
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="date"]:focus {
+    border-color: var(--color-blue-light);
+    outline: none;
+}
+
+/* ========================= */
+/* Catégorie & Célébrité     */
+/* ========================= */
+#categorie_results select,
+#celebrity_results select {
+    width: 100%;
+    padding: 10px 5px;
+    border: none;
+    border-bottom: 2px solid var(--color-gold);
+    background: transparent;
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-blue);
+    outline: none;
+    cursor: pointer;
+}
+
+#categorie_results p,
+#celebrity_results p {
+    font-size: var(--text-sm);
+    color: var(--color-sapphire);
+    font-style: italic;
+    padding: 4px 0;
+    margin: 0;
+}
+
+/* ========================= */
+/* RÉSERVE                   */
+/* ========================= */
+.reserve-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    color: var(--color-blue);
+}
+
+.reserve-row input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--color-gold);
+    cursor: pointer;
+}
+
+#input_prix_reserve {
+    margin-top: 0.5rem;
+}
+
+#input_prix_reserve input[type="number"] {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-gold);
+    background: var(--color-cream);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-blue);
+}
+
+#input_prix_reserve input[type="number"]:focus {
+    border-color: var(--color-blue-light);
+    outline: none;
+}
+
+/* ========================= */
+/* UPLOAD IMAGES             */
+/* ========================= */
+.img-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.img-info {
+    font-size: var(--text-body);
+    color: var(--color-sapphire);
+    margin: 0;
+}
+
+.img-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+.input-selector-image {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Input file */
+.img_selector_input {
+    display: none !important;
+}
+
+/* Boutons image */
+.main-btn {
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
+    font-family: var(--font-accent);
+    font-size: 1.15rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.main-btn:hover {
+    background: var(--color-gold);
+    color: var(--color-white);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px) scale(1.05);
+}
+
+/* Visualisation image */
+.img-preview {
+    width: 100%;
+    height: 150px;
+    display: none;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-gold);
+}
+
+/* ========================= */
+/* CERTIFICAT PDF            */
+/* ========================= */
+.certificat-authenticite-vente {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Bouton choisir fichier */
+.certificat-btn {
+    width: auto;
+    align-self: flex-start;
+}
+
+/* Nom du fichier sélectionné */
+.certificat-filename {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-sapphire);
+    font-style: italic;
+}
+
+#pdf_preview {
+    width: 100%;
+    height: 500px;
+    margin-top: 1rem;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+}
+
+/* ========================= */
+/* DESCRIPTION               */
+/* ========================= */
+.description-produit-vente {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.description-produit-vente textarea {
+    width: 100%;
+    min-height: 180px;
+    resize: vertical;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 2px solid var(--color-gold);
+    background: var(--color-white);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-blue);
+}
+
+.description-produit-vente textarea:focus {
+    border-color: var(--color-blue-light);
+    outline: none;
+}
+
+/* ========================= */
+/* BOUTON PUBLIER            */
+/* ========================= */
+.submit-btn {
+    width: 260px;
+    margin: 0 auto;
+    padding: 10px 30px;
+    font-size: var(--text-body);
+    font-family: var(--font-accent);
+    background: var(--gradient-blue);
+    color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.submit-btn:hover {
+    background: var(--color-blue-light);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px) scale(1.05);
+}
+
+/* =============== */
+/* RESPONSIVE      */
+/* =============== */
+
+/* TABLETTE */
+@media (max-width: 1023px) {
+    .form-vente-produit {
+        padding: 0 2rem 2rem 2rem;
+    }
+
+    .vente-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .col-left {
+        width: 70%;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 699px) {
+    .form-vente-produit {
+        padding: 0 1rem 2rem 1rem;
+    }
+
+    .col-left {
+        width: 100%;
+    }
+}
