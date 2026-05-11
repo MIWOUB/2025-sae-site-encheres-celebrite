@@ -30,15 +30,6 @@
                     <label for="login-password">Mot de passe</label>
                     <input type="password" id="login-password" name="password" required placeholder="Mot de passe">
                 </div>
-                <div class="password-rules">
-                    <div class="rule length">8 caractères minimum</div>
-                    <div class="rule number">Au moins un numéro</div>
-                    <div class="rule lower">Au moins une lettre minuscule</div>
-                    <div class="rule upper">Au moins une lettre majuscule</div>
-                    <div class="rule special">Au moins un caractère spécial</div>
-
-                </div>
-
 
                 <div class="actions">
                     <button type="submit" class="btn-submit" id="loginSubmit">Se connecter</button>
