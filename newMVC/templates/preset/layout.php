@@ -12,7 +12,7 @@ if (isset($_SESSION['user'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title><?= htmlspecialchars($title ?? '') ?> </title>
+    <title><?= htmlspecialchars($title ?? '') ?></title>
     <link rel="stylesheet" href="templates/Style/variables.css">
     <?php if (!empty($style)) : ?>
         <link href="<?= htmlspecialchars($style) ?>" rel="stylesheet">
