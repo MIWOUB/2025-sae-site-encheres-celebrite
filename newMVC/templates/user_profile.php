@@ -1,11 +1,11 @@
 <?php
 $title = "Page d'utilisateur";
-$style = "templates/style/Accueil.css";
+$style = "templates/Style/Accueil.css";
 ?>
 
 <?php ob_start(); ?>
 
-<?php include('preset/header.php'); ?>
+<?php include __DIR__ . '/preset/header.php'; ?>
 
 <?php if (empty($products)) { ?>
     <style>
@@ -20,13 +20,13 @@ $style = "templates/style/Accueil.css";
 
     <section id="profil">
         <div>
-            <img src="./templates/images/profil-icon.png" alt="Logo du vendeur">
+            <img src="./templates/Images/profil-icon.png" alt="Logo du vendeur">
         </div>
         <h2><?= $u['firstname'] . " " . $u['name'] ?></h2>
     </section>
 
     <section id="stars">
-        <img data-alt=<?= $score ?> id="starsImg" src="./templates/images/stars_design.png" alt="étoiles de notation">
+        <img data-alt=<?= $score ?> id="starsImg" src="./templates/Images/stars_design.png" alt="étoiles de notation">
         <div id="c1" style="width : <?= ($score * 100 / 5) . '%' ?>;"></div>
     </section>
 
@@ -55,17 +55,16 @@ $style = "templates/style/Accueil.css";
                         </div>
                     <?php endfor; ?>
                 <?php endif; ?>
-            </div>
+                </div>
     </section>
 
 </main>
 
-<?php include('preset/footer.php'); ?>
+<?php include __DIR__ . '/preset/footer.php'; ?>
 
 <script src="templates/JS/timer.js"></script>
 
 <script>
-
     const div = document.querySelector("#stars");
     const img = div.querySelector('#starsImg');
 
@@ -86,8 +85,7 @@ $style = "templates/style/Accueil.css";
         const endDate = el.getAttribute('data-end');
         startCountdown(endDate, el); // Fonction importée depuis timer.js
     });
-
 </script>
 <?php $content = ob_get_clean(); ?>
 
-<?php require('preset/layout.php'); ?>
+<?php require __DIR__ . '/preset/layout.php'; ?>

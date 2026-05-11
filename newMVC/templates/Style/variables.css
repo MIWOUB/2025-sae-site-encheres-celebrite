@@ -2,7 +2,7 @@
 /* VARIABLES GLOBALES - NE PAS MODIFIER AILLEURS */
 /* ============================================ */
 :root {
-    /* === Couleurs principales === */
+    /* === Couleurs === */
     --color-blue:        #002366;   /* Bleu marine principal */
     --color-blue-light:  #0046CC;   /* Bleu clair (hover, gradient) */
     --color-sapphire:    #3C507D;   /* Bleu saphir (cartes) */
@@ -11,7 +11,7 @@
     --color-green:       #3A7F4F;   /* Succès */
     --color-red:         #C0392B;   /* Erreur */
 
-    /* === Couleurs secondaires si besoin === */
+    /* === Couleurs secondaires (si besoin === */
     --color-gold-light:  #E0C58F;   /* Or clair (textes sur fond sombre) */
     --color-orange:      #FFA347;   /* Orange secondaire */
     --color-background:  #F5F8FA;   /* Fond général de la page */
@@ -46,11 +46,5 @@
     /* === Navbar === */
     --navbar-height: 75px;
 
-    /* Responsive 
 
-Mobile : 0–699px  
-Tablette : 700–1023px  
-Desktop : 1024px+
-
-*/
 }

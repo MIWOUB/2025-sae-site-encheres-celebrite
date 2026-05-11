@@ -4,7 +4,6 @@
 
 <div id="newsletterPopup" style="display:none;">
     <div class="nl-overlay">
-
         <div class="nl-modal">
 
             <button class="nl-close" id="nlClose">&times;</button>
@@ -22,8 +21,7 @@
                         name="email"
                         value="<?= htmlspecialchars($_SESSION['user']['email']) ?>"
                         readonly
-                        class="nl-email"
-                    >
+                        class="nl-email">
 
                     <button type="submit" class="nl-submit">
                         Confirmer l’abonnement
@@ -37,8 +35,8 @@
                 </p>
 
                 <button class="nl-submit"
-                    onclick="window.location.href='index.php?action=connection'">
-                    Se connecter
+                    onclick="window.location.href='index.php?action=login'">
+                    Login
                 </button>
 
             <?php endif; ?>
@@ -48,33 +46,20 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const popup = document.getElementById('newsletterPopup');
-    const overlay = popup.querySelector('.nl-overlay');
-    const closeBtn = document.getElementById('nlClose');
+    document.addEventListener('DOMContentLoaded', () => {
+        const popup = document.getElementById('newsletterPopup');
+        const closeBtn = document.getElementById('nlClose');
 
-    const openPopup = () => {
-        popup.style.display = 'block';
-        overlay.style.display = 'flex';
-    };
+        closeBtn.addEventListener('click', () => popup.style.display = 'none');
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') popup.style.display = 'none';
+        });
 
-    const closePopup = () => {
-        overlay.style.display = 'none';
-        popup.style.display = 'none';
-    };
-
-    closeBtn.addEventListener('click', closePopup);
-
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closePopup();
+        const showNewsletter = <?= isset($_SESSION['show_newsletter_modal']) ? 'true' : 'false' ?>;
+        if (showNewsletter) {
+            popup.style.display = 'flex';
+        }
     });
-
-    const showNewsletter = <?= isset($_SESSION['show_newsletter_modal']) ? 'true' : 'false' ?>;
-
-    if (showNewsletter) {
-        openPopup();
-    }
-});
 </script>
 
 <?php unset($_SESSION['show_newsletter_modal']); ?>

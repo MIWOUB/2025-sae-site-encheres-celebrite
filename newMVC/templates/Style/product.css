@@ -1,28 +1,5 @@
-:root {
-    --Sapphire: #3C507D;
-    --Royal-blue: #112250;
-    --Quicksand: #E0C58F;
-    --Swan-wing: #F5F0E9;
-    --Sheelstone: #D9CBC2;
-    --Gold: #D2A047;
-    --Green: #3A7F4F;
-    --Red: #C0392B;
 
-    --H1-font: "Lora", serif;
-    --H1-size: 40px;
-    --H1-weight: 700;
-
-    --H2-font: "Lora", serif;
-    --H2-size: 32px;
-    --H2-weight: 700;
-
-    --H3-font: "Lora", serif;
-    --H3-size: 24px;
-    --H3-weight: 700;
-
-    --p-font: "Poppins", serif;
-    --p-size: 16px;
-}
+@import url('../style/variables.css');
 
 * {
     margin: 0;
@@ -30,189 +7,309 @@
     box-sizing: border-box;
 }
 
-/* POP UP */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-background);
+}
+main {
 
-.popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(17, 34, 80, 0.5);
-    z-index: 1000;
+    max-width: 100%;
+    padding: 40px 24px;
+    padding-top: calc(var(--navbar-height) + 40px);
+    background-color: var(--color-background);
+    font-family: var(--font-body);
+    color: var(--color-blue);
 }
 
-#closeBtn {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    background-color: var(--Gold);
-    padding: 20px;
-    border: 2px solid var(--Gold);
-    border-radius: 50px;
+/* ============================================ */
+/* TITRE H1                                     */
+/* ============================================ */
+
+main h1 {
+    font-family: var(--font-title);
+    font-size: var(--text-h1);
+    font-weight: 700;
+    color: var(--color-blue);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-gold);
 }
 
-#closeBtn span {
-    top: 50%;
-    left: 50%;
-    height: 3px;
-    width: 60%;
-    background-color: var(--Royal-blue);
-    border-radius: 25px;
-    position: absolute;
+/* ============================================ */
+/* BLOC HAUT DE PAGE : timer + prix + bouton    */
+/* ============================================ */
+
+.product-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gold);
+    border-radius: var(--radius-md);
+    padding: 24px 32px;
+    margin-bottom: 32px;
+    box-shadow: var(--shadow-sm);
 }
 
-#closeBtn span:nth-child(1) {
-    transform: translate(-50%, -50%) rotate(45deg);
+/* Timer */
+.timer {
+    font-family: var(--font-title);
+    font-size: var(--text-h2);
+    font-weight: 700;
+    color: var(--color-blue);
+    letter-spacing: 1px;
+    white-space: nowrap;
 }
 
-#closeBtn span:nth-child(2) {
-    transform: translate(-50%, -50%) rotate(-45deg);
-}
-
-.popup div {
-    position: relative;
-    top: 100px;
-    background-color: var(--Swan-wing);
-    color: var(--Royal-blue);
-    margin: 10px auto;
-    padding: 20px;
-    width: 400px;
-    border-radius: 20px;
-    font-size: var(--H3-size);
-    font-family: var(--H3-font);
-}
-
-.popup div h2 {
-    padding-top: 10px;
+/* Bloc prix */
+.product-price p {
+    font-family: var(--font-title);
+    font-size: var(--text-h3);
+    font-weight: 700;
+    color: var(--color-gold);
     text-align: center;
-    font-size: var(--H2-size);
-    font-family: var(--H2-font);
-    font-weight: normal;
-    margin: 10px;
 }
 
-.popup-form {
-    margin-top: 10px;
+.product-price span {
+    display: block;
+    font-family: var(--font-title);
+    font-size: var(--text-h2);
+    font-weight: 700;
+    color: var(--color-gold) !important;
+    margin-top: 4px;
+}
+
+/* Bouton enchérir */
+#bid_button {
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
+    font-family: var(--font-accent);
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+#bid_button:hover {
+    background: var(--color-gold);
+    color: var(--color-white);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px) scale(1.06);
+}
+
+/* Favori */
+#fav {
+    font-size: 1.5rem;
+    color: var(--color-gold);
+    cursor: pointer;
+    transition: none;
+    display: inline-block;
+    margin-bottom: 24px;
+}
+
+#fav:hover {
+    transform:none;
+}
+
+/* ============================================ */
+/* LAYOUT IMAGE + DESCRIPTION                   */
+/* ============================================ */
+
+.product-layout {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    gap: 24px;
+    align-items: start;
+    margin-bottom: 40px;
+}
+
+.container {
+    width: 100%;
+    min-width: 0;
+}
+
+.mySwiper2 {
+    width: 100%;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.mySwiper2 img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+}
+
+.mySwiper {
+    margin-top: 8px;
+    width: 100%;
+}
+
+.mySwiper img {
+    width: 100%;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.mySwiper .swiper-slide-thumb-active img {
+    opacity: 1;
+    border: 2px solid var(--color-gold);
+}
+
+/* Description droite */
+#product-description {
+    background-color: var(--color-white);
+    border-radius: var(--radius-sm);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    border-left: 3px solid var(--color-gold);
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+#product-description h2 {
+    font-family: var(--font-title);
+    font-size: var(--text-h2);
+    color: var(--color-blue);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-gold);
+}
+
+#product-description p {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-blue);
+    line-height: 1.7;
+    text-align: left;
+}
+
+/* ============================================ */
+/* COMMENTAIRES                                 */
+/* ============================================ */
+
+.product-title {
+    display: flex !important;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 40px 0 24px 0;
+    text-align: left;
+}
+
+.product-title hr {
+    flex: 1;
+    border: none;
+    border-top: 1px solid var(--color-gold);
+}
+
+.product-title h2 {
+    font-family: var(--font-title);
+    font-size: var(--text-h2);
+    color: var(--color-blue);
+    white-space: nowrap;
+    text-align: left !important;
+}
+
+#product-comment {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 60px;
+}
+
+#product-comment h3 {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-sapphire);
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+#product-comment h3 a {
+    color: var(--color-gold);
+    text-decoration: none;
+}
+
+#product-comment h3 a:hover {
+    text-decoration: underline;
+}
+
+#product-comment > p {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-blue);
+    background: var(--color-white);
+    border-left: 3px solid var(--color-gold);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 8px;
+}
+
+/* Formulaire commentaire */
+#comment-form {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    text-align: center;
+    margin-top: 8px;
+    background: var(--color-white);
+    border-radius: var(--radius-sm);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    border-top: 3px solid var(--color-gold);
 }
 
-.popup-form label {
-    text-align: center;
-    padding: 10px;
-}
-
-input {
-    font-size: var(--H2-size);
-    font-family: var(--H2-font);
-    text-align: center;
-    color: var(--Royal-blue);
-    background-color: var(--Swan-wing);
-    border: 1px solid var(--Royal-blue);
-    border-radius: 10px;
-    box-shadow: none;
+#comment-comment {
+    width: 100%;
+    min-height: 120px;
+    padding: 12px 16px;
+    border: 1px solid var(--color-gold);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-blue);
+    background-color: var(--color-white);
+    resize: vertical;
     outline: none;
 }
 
-.error-msg {
-    color: var(--Red);
+#comment-comment:focus {
+    border-color: var(--color-blue);
+    box-shadow: var(--shadow-sm);
 }
 
-.btn {
-    color: var(--Sheelstone);
-    background-color: var(--Royal-blue);
-    border: 1px solid var(--Royal-blue);
-    border-radius: 10px;
-    font-size: var(--H2-size);
-    font-family: var(--H2-font);
-    font-weight: var(--H2-weight);
-    padding: 10px;
+/* Bouton Publier */
+#comment-form button {
+    align-self: flex-end;
+    padding: 10px 30px;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-blue);
+    color: var(--color-white);
+    font-size: var(--text-body);
+    font-family: var(--font-body);
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.btn-second {
-    color: var(--Royal-blue);
-    background-color: var(--Swan-wing);
-    border: 1px solid var(--Royal-blue);
-    border-radius: 10px;
-    font-size: var(--H2-size);
-    font-family: var(--H2-font);
-    font-weight: var(--H2-weight);
-    padding: 10px;
-}
-
-/* TOAST */
-
-#toastBox {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    display: flex;
-    align-items: flex-end;
-    flex-direction: column;
-    overflow: hidden;
-    padding: 20px;
-}
-
-.toast {
-    width: 400px;
-    height: 80px;
-    background: white;
-    font-weight: 500;
-    margin: 15px 0;
-    box-shadow: 0 0 20px black;
-    z-index: 100000;
-    display: flex;
-    align-items: center;
-    position: relative;
-    transform: translateX(100%);
-    animation: moveToast 0.5s linear forwards;
-}
-
-@keyframes moveToast {
-    100%  {
-        transform: translateX(0);
-    }
-}
-
-.toast i {
-    margin: 0 20px;
-    font-size: 35px;
-    color: green;
-}
-
-.toast.error i {
-    color: red;
-}
-
-.toast.invalid i {
-    color: orange;
-}
-
-.toast::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 5px;
-    background: green;
-    animation: toastAnim 5s linear forwards;
-}
-
-.toast.error::after {
-    background: red;
-}
-
-.toast.invalid::after {
-    background: orange;
-}
-
-@keyframes toastAnim {
-    100% {
-        width: 0;
-    }
+#comment-form button:hover {
+    background: var(--color-blue-light);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-4px) scale(1.05);
 }

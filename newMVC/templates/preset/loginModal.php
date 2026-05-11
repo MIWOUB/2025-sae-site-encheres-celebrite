@@ -21,7 +21,7 @@
                 <?php unset($_SESSION['success']); ?>
             <?php endif; ?>
 
-            <form action="index.php?action=userConnection" method="post" id="login-form">
+            <form action="index.php?action=userLogin" method="post" id="login-form">
                 <div class="field">
                     <label for="login-email">Email</label>
                     <input type="email" id="login-email" name="email" required placeholder="Email">
@@ -41,9 +41,9 @@
 
 
                 <div class="actions">
-                    <button type="submit" class="btn-submit" id="loginSubmit">Connexion</button>
+                    <button type="submit" class="btn-submit" id="loginSubmit">Se connecter</button>
                     <button type="button" class="btn-secondary"
-                        onclick="window.location.href='index.php?action=inscription'">
+                        onclick="window.location.href='index.php?action=register'">
                         Pas de compte ?
                     </button>
                 </div>
@@ -130,5 +130,5 @@
     if (isset($_SESSION['show_login_modal'])) {
         unset($_SESSION['show_login_modal']);
     }
-?>
+    ?>
 <?php endif; ?>

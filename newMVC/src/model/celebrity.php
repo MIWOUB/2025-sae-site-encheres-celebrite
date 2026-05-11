@@ -12,8 +12,9 @@ class CelebrityRepository
         $this->connection = $pdo;
     }
 
-    
-    function getCelebrityFromAnnoncement($id_product){
+
+    function getCelebrityFromAnnouncement(int $id_product)
+    {
         $pdo = $this->connection;
         $requete = "SELECT name 
                     from celebrity as c
@@ -22,47 +23,50 @@ class CelebrityRepository
                         from concerned as c 
                         where c.id_product  = :id
                         LIMIT 1);";
-        try{
+        try {
             $tmp = $pdo->prepare($requete);
             $tmp->execute([
                 ":id" => $id_product
             ]);
-        }catch(PDOException $e){
-            die("Error on get categorie from a annoncement : " .$e->getMessage());
+        } catch (PDOException $e) {
+            die("Error on get categorie from a annoncement : " . $e->getMessage());
         }
         return $tmp->fetch(PDO::FETCH_ASSOC);
     }
 
-    function insertCelebrity($name, $statut){
+    function insertCelebrity(string $name, int $statut)
+    {
         $pdo = $this->connection;
         $requete = "insert into celebrity (name, statut) VALUES (:name, :statut);";
-        try{
+        try {
             $tmp = $pdo->prepare($requete);
             $tmp->execute([
                 ':name' => $name,
                 ':statut' => $statut
             ]);
-        } catch (PDOException $e){
-            die("Error on setting catégorie from a annoncement :" .$e->getMessage());
+        } catch (PDOException $e) {
+            die("Error on setting catégorie from a annoncement :" . $e->getMessage());
         }
     }
 
-    function linkCelebrityProduct($id_annoncement, $name){
+    function linkCelebrityProduct(int $id_annoncement, string $name)
+    {
         $pdo = $this->connection;
         $requete = "INSERT INTO concerned (id_product, id_celebrity) Values (:id_annoncement, (SELECT id_celebrity from celebrity where name like :name limit 1));";
-        try{
+        try {
             $tmp = $pdo->prepare($requete);
             $tmp->execute([
                 ':id_annoncement' => $id_annoncement,
                 ":name" => $name
             ]);
-        } catch (PDOException $e){
-            die("Error on linking your product and the celebrity :" .$e->getMessage());
+        } catch (PDOException $e) {
+            die("Error on linking your product and the celebrity :" . $e->getMessage());
         }
     }
 
     //Recherche autonome celebrity 
-    function getCelebrityMod($writting){
+    function searchCelebrities(string $writting)
+    {
         $pdo = $this->connection;
         $requete = "SELECT * from celebrity where name like :writting and statut = 1";
         $tmp = $pdo->prepare($requete);
@@ -73,8 +77,9 @@ class CelebrityRepository
         return $tmp->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
-    function deleteCelebrity($id_product, $nameCelebrity){
+
+    function deleteCelebrity(int $id_product, string $nameCelebrity)
+    {
         $pdo = $this->connection;
 
         try {
@@ -83,23 +88,22 @@ class CelebrityRepository
             $tmpCheck->execute([
                 ':nameCelebrity' => $nameCelebrity
             ]);
-
         } catch (PDOException $e) {
             $pdo->rollBack();
             die("Error deleting celebrity or link: " . $e->getMessage());
         }
     }
-    
-    function UpdateStatutCelebrity($id_product){
+
+    function updateCelebrityStatus(int $id_product)
+    {
         $pdo = $this->connection;
         $requete = "UPDATE celebrity SET statut = 1 where id_celebrity = (SELECT id_celebrity from concerned where id_product = :id)";
-        try{
+        try {
             $tmp = $pdo->prepare($requete);
             $succes = $tmp->execute([':id' => $id_product]);
             return $succes;
         } catch (PDOException $e) {
-            die("Error on updating your celebrity statut : " .$e->getMessage());
+            die("Error on updating your celebrity statut : " . $e->getMessage());
         }
     }
-
 }

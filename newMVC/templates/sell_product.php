@@ -1,6 +1,6 @@
 <?php
 if (!isset($_SESSION['user'])) {
-    header('location: index.php?action=connection');
+    redirectTo('index.php?action=login');
     exit();
 }
 

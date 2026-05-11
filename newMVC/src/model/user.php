@@ -105,6 +105,23 @@ class UserRepository
         }
     }
 
+    function updateNewsletterUser($id_user, int $newsletter)
+    {
+        $pdo = $this->connection;
+        $requete = "UPDATE users
+                SET newsletter = :newsletter
+                where id_user = :id_user";
+        try {
+            $tmp = $pdo->prepare($requete);
+            $tmp->execute([
+                ":newsletter" => $newsletter,
+                ":id_user" => $id_user
+            ]);
+        } catch (PDOException $e) {
+            die("Error during the newsletter subscription update, try again !\nError : " . $e->getMessage());
+        }
+    }
+
     function getAddress($id_user)
     {
         $pdo = $this->connection;

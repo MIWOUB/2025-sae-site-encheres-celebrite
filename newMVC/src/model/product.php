@@ -39,7 +39,7 @@ class ProductRepository
         return $tmp->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function getProduct($id_product)
+    function getProduct(int $id_product)
     {
         $pdo = $this->connection;
         $requete = "SELECT * FROM product WHERE id_product = ?";
@@ -52,7 +52,7 @@ class ProductRepository
         return $tmp->fetch(PDO::FETCH_ASSOC);
     }
 
-    function get_termined_annonces_by_client($id_client)
+    function getFinishedAnnouncementsByClient(int $id_client)
     {
         $pdo = $this->connection;
         $requete = "
@@ -82,7 +82,7 @@ class ProductRepository
         return $tmp->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function get_actual_annonces_by_client($id_client)
+    function get_actual_annonces_by_client(int $id_client)
     {
         $pdo = $this->connection;
         $requete = "
@@ -112,18 +112,19 @@ class ProductRepository
         return $tmp->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function createProduct($title, $description, $start_date, $end_date, $reserve_price, $id_user, $status)
+    function createProduct(string $title, string $description, string $start_date, string $end_date, ?string $reserve_price, int $id_user, int $status)
     {
         $pdo = $this->connection;
-        $requete1 = "INSERT INTO Product (title, description, start_date, end_date, reserve_price, status)
-                values (:title, :description, :start_date, :end_date, :reserve_price, :status);
-    ";
 
-        $requete2 = "INSERT INTO Published (id_product, id_user) values (:id_product, :id_user);";
+        $requete1 = "INSERT INTO product 
+            (title, description, start_date, end_date, reserve_price, status)
+            VALUES (:title, :description, :start_date, :end_date, :reserve_price, :status)";
+
+        $requete2 = "INSERT INTO published (id_product, id_user) VALUES (:id_product, :id_user)";
 
         try {
-            $temp = $pdo->prepare($requete1);
-            $temp->execute([
+            $stmt = $pdo->prepare($requete1);
+            $stmt->execute([
                 ":title" => $title,
                 ":description" => $description,
                 ":start_date" => $start_date,
@@ -134,19 +135,19 @@ class ProductRepository
 
             $id_product = $pdo->lastInsertId();
 
-            $temp = $pdo->prepare($requete2);
-            $temp->execute([
+            $stmt = $pdo->prepare($requete2);
+            $stmt->execute([
                 ":id_product" => $id_product,
                 ":id_user" => $id_user
             ]);
 
             return $id_product;
         } catch (PDOException $e) {
-            die("Error inserting your product into the database, try again !\n Error : " . $e->getMessage());
+            die("Error inserting product: " . $e->getMessage());
         }
     }
 
-    function deleteProduct($id_product)
+    function deleteProduct(int $id_product)
     {
         $pdo = $this->connection;
         $request = "DELETE FROM product WHERE id_product = ?";
@@ -156,7 +157,72 @@ class ProductRepository
         return $success;
     }
 
-    function addImage($id_product, $path_image, $name_image)
+    function isProductOwnedByUser(int $id_product, int $id_user)
+    {
+        $pdo = $this->connection;
+        $request = "SELECT 1 FROM published WHERE id_product = :id_product AND id_user = :id_user LIMIT 1";
+
+        try {
+            $temp = $pdo->prepare($request);
+            $temp->execute([
+                ':id_product' => $id_product,
+                ':id_user' => $id_user,
+            ]);
+        } catch (PDOException $e) {
+            die("Error checking product ownership, try again !\nError : " . $e->getMessage());
+        }
+
+        return (bool) $temp->fetchColumn();
+    }
+
+    function republishProduct(int $id_product, string $start_date, string $end_date)
+    {
+        $pdo = $this->connection;
+        $request = "UPDATE product
+                    SET start_date = :start_date,
+                        end_date = :end_date,
+                        mailIsSent = 0
+                    WHERE id_product = :id_product";
+
+        try {
+            $temp = $pdo->prepare($request);
+            return $temp->execute([
+                ':id_product' => $id_product,
+                ':start_date' => $start_date,
+                ':end_date' => $end_date,
+            ]);
+        } catch (PDOException $e) {
+            die("Error republishing product, try again !\nError : " . $e->getMessage());
+        }
+    }
+
+    function updateProduct(int $id_product, string $title, string $description, string $start_date, string $end_date, ?string $reserve_price)
+    {
+        $pdo = $this->connection;
+        $request = "UPDATE product
+                    SET title = :title,
+                        description = :description,
+                        start_date = :start_date,
+                        end_date = :end_date,
+                        reserve_price = :reserve_price
+                    WHERE id_product = :id_product";
+
+        try {
+            $temp = $pdo->prepare($request);
+            return $temp->execute([
+                ':id_product' => $id_product,
+                ':title' => $title,
+                ':description' => $description,
+                ':start_date' => $start_date,
+                ':end_date' => $end_date,
+                ':reserve_price' => $reserve_price,
+            ]);
+        } catch (PDOException $e) {
+            die("Error updating product, try again !\nError : " . $e->getMessage());
+        }
+    }
+
+    function addImage(int $id_product, string $path_image, string $name_image)
     {
         $pdo = $this->connection;
         try {
@@ -170,13 +236,12 @@ class ProductRepository
             ]);
 
             return true;
-
         } catch (PDOException $e) {
             die("Error inserting your image into the database, try again !\nError : " . $e->getMessage());
         }
     }
 
-    function get_Annonce_User($id_client)
+    function getUserAnnouncements(int $id_client)
     {
         $pdo = $this->connection;
         $request = "SELECT * 
@@ -196,7 +261,7 @@ class ProductRepository
         return $temp->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function getLastPrice($id_product)
+    function getLastPrice(int $id_product)
     {
         $pdo = $this->connection;
         $requete1 = "SELECT MAX(new_price) as last_price
@@ -213,7 +278,7 @@ class ProductRepository
         return $tmp->fetch(PDO::FETCH_ASSOC);
     }
 
-    function getViewsWithOption($id_product, $option)
+    function getViewsWithOption(int $id_product, string $option)
     {
         $pdo = $this->connection;
         switch ($option) {
@@ -253,7 +318,7 @@ class ProductRepository
         }
     }
 
-    function getPriceWithOption($id_product, $option)
+    function getPriceWithOption(int $id_product, string $option)
     {
         $pdo = $this->connection;
         switch ($option) {
@@ -294,11 +359,12 @@ class ProductRepository
                     ":id" => $id_product
                 ]);
                 return $temp->fetchall(PDO::FETCH_ASSOC);
-            }
+        }
     }
 
     /// used for admin
-    function getCategoryFromAnnoncement($id_product){
+    function getCategoryFromAnnouncement(int $id_product)
+    {
         $pdo = $this->connection;
         $requete = "SELECT name 
                     from category as c
@@ -307,20 +373,21 @@ class ProductRepository
                         from belongsto as b 
                         where b.id_product = :id 
                         LIMIT 1);";
-        try{
+        try {
             $tmp = $pdo->prepare($requete);
             $tmp->execute([
                 ":id" => $id_product,
             ]);
-        }catch(PDOException $e){
-            die("Error on get categorie from a annoncement : " .$e->getMessage());
+        } catch (PDOException $e) {
+            die("Error on get categorie from a annoncement : " . $e->getMessage());
         }
         return $tmp->fetch(PDO::FETCH_ASSOC);
     }
 
 
     // Recherche autonome categorie 
-    function getCategoryMod($writting){
+    function searchCategories(string $writting)
+    {
         $pdo = connection();
         $requete = "SELECT * from category where name like :writting and statut = 1";
         $tmp = $pdo->prepare($requete);
@@ -331,70 +398,74 @@ class ProductRepository
         return $tmp->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function insertCategorie($name, $statut){
+    function insertCategory(string $name, int $statut)
+    {
         $pdo = $this->connection;
         $requete = "insert into category (name, statut) VALUES (:name, :statut);";
-        try{
+        try {
             $tmp = $pdo->prepare($requete);
             $tmp->execute([
                 ':name' => $name,
                 ':statut' => $statut
             ]);
-        } catch (PDOException $e){
-            die("Error on insert catégorie from your annoncement :" .$e->getMessage());
+        } catch (PDOException $e) {
+            die("Error on insert catégorie from your annoncement :" . $e->getMessage());
         }
     }
 
-    function linkCategoryProduct($id_annoncement, $name){
+    function linkCategoryProduct(int $id_annoncement, string $name)
+    {
         $pdo = $this->connection;
         $requete = "INSERT INTO belongsto (id_product, id_category) Values (:id_annoncement, (SELECT id_category from category where name like :name Limit 1));";
-        try{
+        try {
             $tmp = $pdo->prepare($requete);
             $tmp->execute([
                 ':id_annoncement' => $id_annoncement,
                 ":name" => $name
             ]);
-        } catch (PDOException $e){
-            die("Error on linking your category to your annoncement :" .$e->getMessage());
+        } catch (PDOException $e) {
+            die("Error on linking your category to your annoncement :" . $e->getMessage());
         }
     }
 
-    function UpdateStatut($id_product){
+    function updateStatus(int $id_product)
+    {
         $pdo = $this->connection;
         $requete = "UPDATE product SET status = 1 where id_product = :id";
-        try{
+        try {
             $tmp = $pdo->prepare($requete);
             $succes = $tmp->execute([':id' => $id_product]);
             return $succes;
         } catch (PDOException $e) {
-            die("Error on linking your categorie to your annonce : " .$e->getMessage());
+            die("Error on linking your categorie to your annonce : " . $e->getMessage());
         }
     }
 
-    function UpdateStatutCategorie($id_product){
+    function updateCategoryStatus(int $id_product)
+    {
         $pdo = $this->connection;
         $requete = "UPDATE category SET statut = 1 where id_category = (SELECT id_category from belongsto where id_product = :id)";
-        try{
+        try {
             $tmp = $pdo->prepare($requete);
             $succes = $tmp->execute([':id' => $id_product]);
             return $succes;
         } catch (PDOException $e) {
-            die("Error on updating your category statut : " .$e->getMessage());
+            die("Error on updating your category statut : " . $e->getMessage());
         }
     }
 
-    function deleteCategory($id_product, $nameCategory){
+    function deleteCategory(int $id_product, string $nameCategory)
+    {
         $pdo = $this->connection;
         $requete2 = "DELETE from category where name = :nameC";
 
-        try{
+        try {
             $tmp2 = $pdo->prepare($requete2);
             $tmp2->execute([
                 ':nameC' => $nameCategory
             ]);
-            
-        } catch (PDOException $e){
-            die("Error on deleting Category and his link to annoncement : " .$e->getMessage());
+        } catch (PDOException $e) {
+            die("Error on deleting Category and his link to annoncement : " . $e->getMessage());
         }
     }
 }

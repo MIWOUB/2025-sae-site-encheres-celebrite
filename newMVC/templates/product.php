@@ -12,7 +12,7 @@ $script = "templates/JS/favorite.js";
 
 <?php ob_start(); ?>
 
-<!-- <?php include('preset/header.php'); ?> -->
+<?php include('preset/header.php'); ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <link href="templates/style/stylePopup.css" rel="stylesheet" />
 
@@ -26,39 +26,32 @@ $script = "templates/JS/favorite.js";
 <main>
     <h1><?= $p['title']; ?></h1>
 
-    <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
-
-    <div class="product-price">
-        <?php if ($current_price === null) {
-            $current_price = $p['start_price'];
-        }
-        ?>
-        <p>Offre actuelle : <br><span style="color: green">
-                <?= htmlspecialchars(number_format($current_price, 0, ',', ' ')) ?> €
-            </span>
-        </p>
+    <div class="product-header">
+        <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
+        <div class="product-price">
+            <?php if ($current_price === null) { $current_price = $p['start_price']; } ?>
+            <p>Offre actuelle :<br>
+                <span><?= htmlspecialchars(number_format($current_price, 0, ',', ' ')) ?> €</span>
+            </p>
+        </div>
+        <button class="main_btn" id="bid_button" type="button" onclick="ouvrirPopup('BidForm')">Enchérir</button>
+    </div>
+    <div id="fav" data-is-fav="<?= $isFav ? 'true' : 'false' ?>">
+        <?= $isFav ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>'; ?>
     </div>
 
     <input id="currentPrice" type="hidden" name="currentPrice" value=<?= $current_price ?>>
     <input id="idProduct" type="hidden" name="idProduct" value=<?= $p['id_product'] ?>>
 
-    <button class="btn" id="bid_button" type="button" onclick="ouvrirPopup('BidForm')">Enchérir</button>
 
+    <div class="product-layout">
 
-    <div style="font-size: 2em" data-is-fav="<?= $isFav ? 'true' : 'false' ?>" id="fav">
-        <?= $isFav ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>'; ?>
-    </div>
-    <p><?= $like ?></p>
-
-
-    
-
-    <!-- Swiper -->
+    <!-- Swiper GAUCHE -->
     <div class="container">
         <?php if (empty($images)) { ?>
             <p>Aucune image disponible pour cette annonce.</p>
         <?php } else { ?>
-            <div style="--swiper-navigation-color: #000000; --swiper-pagination-color: #000000;" class="swiper mySwiper2">
+            <div style="--swiper-navigation-color: var(--color-gold); --swiper-pagination-color: var(--color-gold);" class="swiper mySwiper2">
                 <div class="swiper-wrapper">
                     <?php foreach ($images as $image) { ?>
                         <div class="swiper-slide">
@@ -66,12 +59,8 @@ $script = "templates/JS/favorite.js";
                         </div>
                     <?php } ?>
                 </div>
-                <div class="swiper-button-wrapper">
-                    <div class="swiper-button-next"></div>
-                </div>
-                <div class="swiper-button-wrapper">
-                    <div class="swiper-button-prev"></div>
-                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
             <div thumbsSlider="" class="swiper mySwiper">
                 <div class="swiper-wrapper">
@@ -85,12 +74,15 @@ $script = "templates/JS/favorite.js";
         <?php } ?>
     </div>
 
+    <!-- Description DROITE -->
     <section id="product-description">
         <h2>Description</h2>
-        <p><?= htmlspecialchars(strip_tags($p['description'])) ?></p>
+        <p><?= strip_tags($p['description']) ?></p>
     </section>
 
-    <section class="product-title">
+</div>
+
+<section class="product-title">
         <hr>
         <h2>Commentaires</h2>
         <hr>
@@ -98,28 +90,23 @@ $script = "templates/JS/favorite.js";
 
     <section id="product-comment">
         <?php foreach ($comments as $comment) { ?>
-            <h3><a
-                    href="index.php?action=user&id=<?= $comment['id_user'] ?>"><?= htmlspecialchars(strip_tags($comment['full_name'])) ?></a><?= " " . $comment["comment_date"] ?>
+            <h3>
+                <a href="index.php?action=user&id=<?= $comment['id_user'] ?>">
+                    <?= htmlspecialchars(strip_tags($comment['full_name'])) ?>
+                </a>
+                <?= " " . $comment["comment_date"] ?>
             </h3>
             <p><?= htmlspecialchars(strip_tags($comment['comment'])) ?></p>
         <?php } ?>
         <form id="comment-form" method="POST" action="index.php?action=addComment">
             <input type="hidden" name="id" value=<?= $p['id_product'] ?>>
-            <br>
-            <textarea id="comment-comment" name="comment" placeholder="Laissez un commentaire ici !" type="text"
-                required></textarea>
-            <br>
-            <button class="btn" type="submit">Publier</button>
+            <textarea id="comment-comment" name="comment" placeholder="Laissez un commentaire ici !" required></textarea>
+            <button type="submit">Publier</button>
         </form>
     </section>
-</main>
+    
 
-<!-- <section>
-    <form method="POST" action="index.php?action=deleteProduct">
-        <input type="hidden" name="id" value=<?= $p['id_product'] ?>>
-        <button type="submit">Supprimer</button>
-    </form>
-</section> -->
+    
 
 <?php include('preset/footer.php'); ?>
 

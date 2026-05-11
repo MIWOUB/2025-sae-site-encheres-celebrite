@@ -8,12 +8,12 @@ $style = "templates/style/buy.css";
 
 <?php ob_start(); ?>
 
-<?php include("src/controllers/update-index.php"); ?>
+<?php include("src/controllers/SearchIndexUpdateController.php"); ?>
 
 <main>
     <?php
-    $pdo = DatabaseConnection::getConnection();
-    $productRepository = new ProductRepository($pdo);
+    $pdo = \DatabaseConnection::getConnection();
+    $productRepository = new \ProductRepository($pdo);
     $products = $productRepository->getAllProduct();
     ?>
 
@@ -86,7 +86,6 @@ $style = "templates/style/buy.css";
                 <?php foreach ($products as $p): ?>
                     <?php if ($count_displayed >= $max_to_display) break; ?>
                     <?php if (new DateTime($p['end_date']) > new DateTime()): ?>
-
                         <div class="announce-card">
 
                             <div class="card-top">
@@ -154,7 +153,7 @@ $style = "templates/style/buy.css";
 </script>
 
 <script>
-    document.querySelector('.searchbar_btn').addEventListener('click', async function () {
+    document.getElementById('searchButton').addEventListener('click', async function() {
         const q = document.getElementById('searchInput').value.trim();
         if (q.length < 2) return;
 
@@ -201,7 +200,7 @@ $style = "templates/style/buy.css";
     const searchInput = document.getElementById('searchInput');
     const suggestionsBox = document.getElementById('suggestions');
 
-    searchInput.addEventListener('keyup', async function () {
+    searchInput.addEventListener('keyup', async function() {
         const q = this.value.trim();
 
         if (q.length < 2) {
@@ -256,7 +255,9 @@ $style = "templates/style/buy.css";
     });
 
     async function loadCategory(categoryId) {
-        const response = await fetch("src/controllers/filterByCategory.php?id=" + categoryId);
+        const response = await fetch(
+            "src/controllers/ProductFilterByCategoryController.php?id=" + categoryId
+        );
         const products = await response.json();
 
         const container = document.querySelector('.announces');
@@ -277,7 +278,9 @@ $style = "templates/style/buy.css";
     }
 
     async function loadCelebrity(celebrityId) {
-        const response = await fetch("src/controllers/filterByCelebrity.php?id=" + celebrityId);
+        const response = await fetch(
+            "src/controllers/ProductFilterByCelebrityController.php?id=" + celebrityId
+        );
         const products = await response.json();
 
         const container = document.querySelector('.announces');
