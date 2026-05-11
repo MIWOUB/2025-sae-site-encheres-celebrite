@@ -7,6 +7,8 @@ $user = $_SESSION['user'] ?? null;
 
 <?php ob_start(); ?>
 
+<?php include('preset/header.php'); ?>
+
 <?php
 if (!$user) {
     echo "<p>Vous devez être connecté.</p>";
@@ -88,6 +90,8 @@ $favorites = $favoriteRepository->getUserFavorites($user['id_user']);
         });
     });
 </script>
+
+<?php include('preset/footer.php'); ?>
 
 <?php $content = ob_get_clean(); ?>
 
