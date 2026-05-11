@@ -39,7 +39,7 @@ class ProductController
         // AddNewView($p);
 
         // COMMENTAIRES
-        $comments = [];
+        $comments = $commentRepository->getCommentsFromProduct($id_product);
 
         // PRIX ACTUEL
         $priceRow = $productRepository->getLastPrice($id_product);

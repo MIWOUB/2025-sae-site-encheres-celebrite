@@ -5,22 +5,40 @@ require_once('src/lib/database.php');
 
 function addComment()
 {
-    if (isset($_POST['id']) && $_POST['id'] >= 0 && isset($_POST['comment']) && strlen($_POST['comment']) > 0) {
-        if (!isset($_SESSION['user'])) {
-            redirectTo('index.php?action=login');
-            exit;
-        }
+    // Vérifie si utilisateur connecté
+    if (!isset($_SESSION['user'])) {
+        header('Location: index.php?action=connection');
+        exit();
+    }
 
-        $id_product = $_POST['id'];
-        $comment = $_POST['comment'];
-        $id_user = $_SESSION['user']['id_user'];
+    // Vérifie les données POST
+    if (
+        !isset($_POST['id']) ||
+        !isset($_POST['comment']) ||
+        empty(trim($_POST['comment']))
+    ) {
+        die("Erreur : données du commentaire invalides.");
+    }
+
+    $id_product = (int) $_POST['id'];
+    $comment = trim($_POST['comment']);
+    $id_user = $_SESSION['user']['id_user'];
+
+    try {
 
         $pdo = \DatabaseConnection::getConnection();
         $commentRepository = new \CommentRepository($pdo);
-        $commentRepository->addCommentToProduct($id_product, $id_user, $comment);
+
+        $commentRepository->addCommentToProduct(
+            $id_product,
+            $id_user,
+            $comment
+        );
+
         header("Location: index.php?action=product&id=" . $id_product);
-        exit;
-    } else {
-        throw new Exception("Échoue sur l'ajout du commentaire");
+        exit();
+
+    } catch (Exception $e) {
+        die("Erreur ajout commentaire : " . $e->getMessage());
     }
 }

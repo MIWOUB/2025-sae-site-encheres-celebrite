@@ -11,29 +11,41 @@ class CommentRepository
         $this->connection = $pdo;
     }
 
-    function getCommentsFromProduct($id_product)
+    public function getCommentsFromProduct($id_product)
     {
-        $pdo = $this->connection;
-        $request = "SELECT CONCAT(u.firstname, ' ', u.name) AS full_name, c.comment, c.comment_date, c.id_user FROM Comment c JOIN Users u ON u.id_user = c.id_user WHERE id_product = :id_product ORDER BY comment_date DESC";
-        $temp = $pdo->prepare($request);
-        $temp->execute([
-            "id_product" => $id_product
+        $sql = "
+            SELECT 
+                CONCAT(u.firstname, ' ', u.name) AS full_name,
+                c.comment,
+                c.comment_date,
+                c.id_user
+            FROM comment c
+            JOIN users u ON u.id_user = c.id_user
+            WHERE c.id_product = :id_product
+            ORDER BY c.comment_date DESC
+        ";
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute([
+            'id_product' => $id_product
         ]);
 
-        return $temp->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    function addCommentToProduct($id_product, $id_user, $comment)
+    public function addCommentToProduct($id_product, $id_user, $comment)
     {
-        $pdo = $this->connection;
-        $request = "INSERT INTO Comment VALUES (:id_product, :id_user, :comment, NOW())";
-        $temp = $pdo->prepare($request);
-        $success = $temp->execute([
-            "id_product" => $id_product,
-            "id_user" => $id_user,
-            "comment" => $comment
-        ]);
+        $sql = "
+            INSERT INTO comment (id_product, id_user, comment, comment_date)
+            VALUES (:id_product, :id_user, :comment, NOW())
+        ";
 
-        return $success;
+        $stmt = $this->connection->prepare($sql);
+
+        return $stmt->execute([
+            'id_product' => $id_product,
+            'id_user' => $id_user,
+            'comment' => $comment
+        ]);
     }
 }
