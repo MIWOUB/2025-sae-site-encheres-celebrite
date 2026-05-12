@@ -29,91 +29,107 @@ function ouvrirPopup(page) {
       break;
     case "Bid": {
 
-      const bidInput = document.querySelector("#bid_input_form");
-      const productInput = document.querySelector("#idProduct_form");
+        const bidInput = document.querySelector("#bid_input_form");
+        const productInput = document.querySelector("#idProduct_form");
 
-      if (!bidInput || !productInput) {
-        console.error("Popup values missing");
-        return;
-      }
+        if (!bidInput || !productInput) {
+            console.error("Popup values missing");
+            return;
+        }
 
-      const newPrice = parseInt(bidInput.value);
+        const newPrice = parseInt(bidInput.value);
 
-      const currentPrice = parseInt(
-        document.querySelector(".product-price span")
-          .textContent
-          .replace(/\s/g, "")
-          .replace("€", "")
-      );
+        const priceSpan = document.querySelector(".product-price span");
+        const currentPrice = parseInt(
+            priceSpan.textContent
+                .replace(/\s/g, "")
+                .replace("€", "")
+        );
 
-      const idProduct = parseInt(productInput.value);
+        const idProduct = parseInt(productInput.value);
 
-      console.log("Bid send:", newPrice, currentPrice, idProduct);
+        console.log("Bid send:", newPrice, currentPrice, idProduct);
 
-      if (!newPriceIsValid(newPrice, currentPrice)) {
-        return;
-      }
+        if (!newPriceIsValid(newPrice, currentPrice)) {
+            return;
+        }
 
-      fetch(`index.php?action=bid&id=${idProduct}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: new URLSearchParams({
-          newPrice: newPrice
-        }),
-      })
+        fetch(`index.php?action=bid&id=${idProduct}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams({
+                newPrice: newPrice
+            }),
+        })
         .then(res => res.text())
         .then(data => {
 
-          console.log("SERVER RESPONSE:", data);
+            console.log("RAW RESPONSE:", JSON.stringify(data));
 
-          if (data === "not_logged") {
-            window.location.href = "index.php?action=login";
-            return;
-          }
+            //  nettoyage robuste
+            data = data.trim().replaceAll('"', '');
 
-          if (data === "same") {
-            showToast(2, "Tu ne peux pas enchérir sur ton propre produit !");
-            return;
-          }
+            console.log("CLEAN RESPONSE:", data);
 
-          if (data === "finished") {
-            showToast(2, "L'enchère est terminée !");
-            return;
-          }
+            // =========================
+            // AUTH / ERROR CASES
+            // =========================
+            if (data.includes("not_logged")) {
+                window.location.href = "index.php?action=login";
+                return;
+            }
 
-          if (data === "user_not_accepted") {
-            showToast(1, "Tu es déjà le dernier enchérisseur !");
-            return;
-          }
+            if (data.includes("same")) {
+                showToast(2, "Tu ne peux pas enchérir sur ton propre produit !");
+                return;
+            }
 
-          if (data === "price_not_accepted") {
-            showToast(2, "Prix trop bas !");
-            return;
-          }
+            if (data.includes("finished")) {
+                showToast(2, "L'enchère est terminée !");
+                return;
+            }
 
-          if (data === "success" || data === "time_extended") {
+            if (data.includes("user_not_accepted")) {
+                showToast(3, "Vous êtes déjà le dernier enchérisseur !");
+                return;
+            }
 
-            document.querySelector(".product-price span").textContent =
-              newPrice.toLocaleString("fr-FR") + " €";
+            if (data.includes("price_not_accepted")) {
+                showToast(2, "Prix trop bas !");
+                return;
+            }
 
-            document.querySelector("#currentPrice").value = newPrice;
+            // =========================
+            // SUCCESS CASES
+            // =========================
+            if (data.includes("success") || data.includes("time_extended")) {
 
-            fermerPopupBidForm();
-            showToast(0, "Enchère validée !");
+                if (priceSpan) {
+                    priceSpan.textContent =
+                        newPrice.toLocaleString("fr-FR") + " €";
+                }
 
-            return;
-          }
+                const hidden = document.querySelector("#currentPrice");
+                if (hidden) {
+                    hidden.value = newPrice;
+                }
 
-          showToast(2, "Erreur serveur");
+                fermerPopupBidForm();
+                showToast(0, "Enchère validée !");
+                return;
+            }
+
+            // fallback
+            showToast(2, "Erreur serveur");
         })
         .catch(err => {
-          console.error("Fetch error:", err);
-          showToast(2, "Erreur réseau");
+            console.error("Fetch error:", err);
+            showToast(2, "Erreur réseau");
         });
 
-      break;
+        break;
     }
     case "BidForm":
     {
@@ -242,4 +258,42 @@ function newPriceIsValid(newPrice, currentPrice) {
   }
 
   return true;
+}
+
+// =========================
+// TOAST GLOBAL
+// =========================
+window.showToast = function(type, msg) {
+
+    const toastBox = document.querySelector('#toastBox');
+
+    if (!toastBox) {
+        console.error("toastBox introuvable");
+        return;
+    }
+
+    const toast = document.createElement('div');
+    toast.classList.add('toast');
+
+    if (type === 3) {
+        toast.classList.add('warning');
+        toast.innerHTML = `🔔 ${msg}`;
+    }
+    else if (type === 1) {
+        toast.classList.add('invalid');
+        toast.innerHTML = `⚠️ ${msg}`;
+    }
+    else if (type > 1) {
+        toast.classList.add('error');
+        toast.innerHTML = `❌ ${msg}`;
+    }
+    else {
+        toast.innerHTML = `✅ ${msg}`;
+    }
+
+    toastBox.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
 }

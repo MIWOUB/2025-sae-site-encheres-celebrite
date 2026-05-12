@@ -19,7 +19,7 @@ class BidRepository
     {
         $pdo = $this->connection;
 
-        // 🔥 récupération safe du prix actuel
+        //  récupération safe du prix actuel
         if ($currentPrice === null) {
 
             $productRepository = new ProductRepository($this->connection);

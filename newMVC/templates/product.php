@@ -181,23 +181,119 @@ document.addEventListener('DOMContentLoaded', function () {
 
 const toastBox = document.querySelector('#toastBox');
 
-function showToast(numberValidation, msg) {
-    const toast = document.createElement('div');
-    toast.classList.add('toast');
+function showToast(type, msg) {
 
-    if (numberValidation === 1) {
-        toast.classList.add('invalid');
-        toast.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${msg}`;
-    } else if (numberValidation > 1) {
-        toast.classList.add('error');
-        toast.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ${msg}`;
-    } else {
-        toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
+    const toastBox = document.querySelector('#toastBox');
+
+    if (!toastBox) return;
+
+    const toast = document.createElement('div');
+
+    // container
+    toast.style.position = "fixed";
+    toast.style.top = "25px";
+    toast.style.right = "25px";
+    toast.style.minWidth = "320px";
+    toast.style.padding = "16px 22px";
+    toast.style.borderRadius = "14px";
+    toast.style.zIndex = "999999";
+    toast.style.fontWeight = "500";
+    toast.style.fontSize = "15px";
+    toast.style.fontFamily = "Poppins, sans-serif";
+    toast.style.boxShadow = "0 10px 25px rgba(0,0,0,0.15)";
+    toast.style.backdropFilter = "blur(10px)";
+    toast.style.display = "flex";
+    toast.style.alignItems = "center";
+    toast.style.gap = "12px";
+    toast.style.animation = "toastSlide 0.3s ease";
+
+    // styles selon type
+    if (type === 3) {
+        toast.style.background = "#fff8e6";
+        toast.style.borderLeft = "5px solid #f0b429";
+        toast.style.color = "#7a5a00";
+
+        toast.innerHTML = `
+            <div style="
+                width:10px;
+                height:10px;
+                border-radius:50%;
+                background:#f0b429;
+                flex-shrink:0;
+            "></div>
+
+            <div>
+                <strong>Information</strong><br>
+                ${msg}
+            </div>
+        `;
+    }
+    else if (type === 1) {
+
+        toast.style.background = "#eef6ff";
+        toast.style.borderLeft = "5px solid #3498db";
+        toast.style.color = "#1f4f7a";
+
+        toast.innerHTML = `
+            <div style="
+                width:10px;
+                height:10px;
+                border-radius:50%;
+                background:#3498db;
+                flex-shrink:0;
+            "></div>
+
+            <div>${msg}</div>
+        `;
+    }
+    else if (type > 1) {
+
+        toast.style.background = "#fff1f0";
+        toast.style.borderLeft = "5px solid #e74c3c";
+        toast.style.color = "#7a1f1f";
+
+        toast.innerHTML = `
+            <div style="
+                width:10px;
+                height:10px;
+                border-radius:50%;
+                background:#e74c3c;
+                flex-shrink:0;
+            "></div>
+
+            <div>${msg}</div>
+        `;
+    }
+    else {
+
+        toast.style.background = "#edfdf3";
+        toast.style.borderLeft = "5px solid #2ecc71";
+        toast.style.color = "#17663a";
+
+        toast.innerHTML = `
+            <div style="
+                width:10px;
+                height:10px;
+                border-radius:50%;
+                background:#2ecc71;
+                flex-shrink:0;
+            "></div>
+
+            <div>${msg}</div>
+        `;
     }
 
     toastBox.appendChild(toast);
 
-    setTimeout(() => toast.remove(), 6000);
+    setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(40px)";
+
+        setTimeout(() => {
+            toast.remove();
+        }, 300);
+
+    }, 4500);
 }
 
 function enableEdit(btn) {

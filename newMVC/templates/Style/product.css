@@ -490,3 +490,22 @@ main h1 {
     border-left-color: var(--color-blue);
     background: var(--color-background);
 }
+
+#toastBox {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 999999;
+}
+
+@keyframes toastSlide {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
