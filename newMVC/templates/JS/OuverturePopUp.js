@@ -8,7 +8,7 @@ function ouvrirPopup(page) {
         .then((response) => response.text())
         .then((html) => {
           document.getElementById("popup").innerHTML = html;
-          document.getElementById("popup_adresse").style.display = "block";
+          document.getElementById("popupAdresse").style.display = "flex";
         });
       break;
     case "Email":
@@ -16,7 +16,7 @@ function ouvrirPopup(page) {
         .then((response) => response.text())
         .then((html) => {
           document.getElementById("popup").innerHTML = html;
-          document.getElementById("popup_email").style.display = "block";
+          document.getElementById("popupEmail").style.display = "flex";
         });
       break;
     case "Password":
@@ -24,7 +24,7 @@ function ouvrirPopup(page) {
         .then((response) => response.text())
         .then((html) => {
           document.getElementById("popup").innerHTML = html;
-          document.getElementById("popup_password").style.display = "block";
+          document.getElementById("popupPassword").style.display = "flex";
         });
       break;
     case "Bid": {
@@ -166,16 +166,16 @@ function ouvrirPopup(page) {
 }
 
 //#region close popup
-function fermerPopupMail() {
-  document.getElementById("popup_email").style.display = "none";
+function fermerPopupEmail() {
+  document.getElementById("popupEmail").style.display = "none";
 }
 
 function fermerPopupPassword() {
-  document.getElementById("popup_password").style.display = "none";
+  document.getElementById("popupPassword").style.display = "none";
 }
 
 function fermerPopupAdresse() {
-  document.getElementById("popup_adresse").style.display = "none";
+  document.getElementById("popupAdresse").style.display = "none";
 }
 
 function fermerPopupBid() {

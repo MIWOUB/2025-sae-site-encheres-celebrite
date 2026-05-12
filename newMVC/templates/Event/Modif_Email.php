@@ -1,18 +1,173 @@
-<div id="popup_email" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:1000;">
-    <div style="background:#fff; margin:10vh auto; padding:2em; width:300px; border-radius:8px; position:relative;">
+<style>
+    /* Overlay */
+    #popupEmail.modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
 
-        <button onclick="fermerPopupMail()" style="position:absolute; top:10px; right:10px;">X</button>
-        
-        <h1>Modifier votre email</h1>
-        
-        <form action="index.php?action=update_email" class="form_modif_mail" method="POST">
-            <p>Taper votre mail</p>
-            <input type="email" name="email" placeholder="Votre nouvel email">
-            <button type="submit" name="action" value="update_email">Valider</button>
-        
+        justify-content: center;
+
+        align-items: flex-start;
+
+        padding-top: calc(var(--navbar-height) + 50px);
+
+        z-index: 9999;
+    }
+
+    /* Conteneur */
+    #popupEmail .modal-content {
+        background: var(--color-background);
+        width: 420px;
+        padding: 30px 28px;
+        border-radius: var(--radius-sm);
+        position: relative;
+        font-family: var(--font-body);
+    }
+
+    /* Titre */
+    #popupEmail .modal-content h3 {
+        text-align: center;
+        font-size: var(--text-h3);
+        font-family: var(--font-title);
+        color: var(--color-blue) !important;
+        font-weight: bold;
+
+        display: inline-block;
+        border-bottom: 2px solid var(--color-gold);
+        padding: 0 50px 5px;
+        margin-bottom: 30px;
+    }
+
+    /* Bouton fermer */
+    #popupEmail .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 34px;
+        height: 34px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: transparent;
+        border: none;
+        padding: 0;
+        font-size: 30px;
+        color: var(--color-blue);
+
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        box-shadow: none;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+    #popupEmail .close-btn:hover {
+        color: var(--color-gold);
+        transform: scale(1.3);
+    }
+
+    /* Labels */
+    #popupEmail .field label {
+        display: block;
+        text-align: start;
+        font-family: var(--font-title);
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--color-blue);
+        margin-bottom: 0.4rem;
+    }
+
+    #popupEmail .field {
+        margin-bottom: 15px;
+    }
+
+    /* Inputs */
+    #popupEmail .field input[type="email"] {
+        width: 100%;
+        padding: 0.5rem 1rem;
+        border-radius: var(--radius-sm);
+        border: 2px solid var(--color-gold);
+        background: var(--color-white);
+        font-family: var(--font-body);
+        font-size: var(--text-body);
+        color: var(--color-blue);
+        transition: border-color 0.2s ease;
+    }
+
+    /* Focus inputs */
+    #popupEmail .field input[type="email"]:focus {
+        border-color: var(--color-blue-light);
+        outline: none;
+    }
+
+    /* Boutons */
+    #popupEmail .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 30px;
+    }
+
+    #popupEmail .btn-submit {
+        background: var(--color-blue);
+        color: var(--color-white);
+        padding: 12px;
+        border-radius: var(--radius-sm);
+        border: none;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    #popupEmail .btn-submit:hover {
+        background: var(--color-blue-light);
+        box-shadow: var(--shadow-sm);
+        transform: translateY(-2px);
+    }
+
+    #popupEmail .btn-secondary {
+        background: var(--color-white);
+        border: 2px solid var(--color-blue);
+        color: var(--color-blue);
+        padding: 10px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    #popupEmail .btn-secondary:hover {
+        background: var(--color-blue);
+        color: var(--color-white);
+        box-shadow: var(--shadow-sm);
+    }
+</style>
+
+<div id="popupEmail" class="modal-overlay">
+    <div class="modal-content">
+
+        <button class="close-btn" onclick="fermerPopupEmail()" aria-label="Fermer">&#x2715;</button>
+
+        <h3>Modifier votre email</h3>
+
+        <div class="div-erreur"></div>
+
+        <form id="form_modif_email" action="index.php?action=update_email" method="POST">
+            <div class="field">
+                <label for="email">Nouvelle adresse email</label>
+                <input type="email" id="email" name="email" placeholder="Votre nouvel email">
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn-submit">Valider</button>
+                <button type="button" class="btn-secondary" onclick="fermerPopupEmail()">Annuler</button>
+            </div>
         </form>
 
     </div>
-
 </div>
+
 <script src="templates/JS/OuverturePopUp.js"></script>

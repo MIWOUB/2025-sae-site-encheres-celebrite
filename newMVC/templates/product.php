@@ -17,31 +17,27 @@ $script = "templates/JS/favorite.js";
 <script src="https://kit.fontawesome.com/645d3e5fd2.js" crossorigin="anonymous"></script>
 
 <?php
-//  PRIX PROPRE (IMPORTANT)
 $lastPrice = $productRepository->getLastPrice($p['id_product']);
 $current_price = $lastPrice ?? (int)$p['reserve_price'];
 ?>
 
 <main>
-    <h1><?= $p['title']; ?></h1>
+    <div style="text-align: center;">
+        <h1><?= mb_convert_encoding(html_entity_decode($p['title'], ENT_QUOTES | ENT_HTML5, 'UTF-8'), 'UTF-8', 'UTF-8') ?></h1>
+    </div>
 
     <div class="product-header">
 
         <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
 
         <div class="product-price">
-            <p>
-                Offre actuelle :<br>
-                <span>
-                    <?= number_format($current_price, 0, ',', ' ') ?> €
-                </span>
+            <?php if ($current_price === null) $current_price = $p['start_price']; ?>
+            <p>Offre actuelle :<br>
+                <span><?= htmlspecialchars(number_format($current_price, 0, ',', ' ')) ?> €</span>
             </p>
         </div>
 
-        <button class="main_btn" id="bid_button" type="button"
-            onclick="ouvrirPopup('BidForm')">
-            Enchérir
-        </button>
+        <button class="main_btn" id="bid_button" type="button" onclick="ouvrirPopup('BidForm')">Enchérir</button>
     </div>
 
     <div id="fav" data-is-fav="<?= $isFav ? 'true' : 'false' ?>">
@@ -50,7 +46,6 @@ $current_price = $lastPrice ?? (int)$p['reserve_price'];
             : '<i class="fa-regular fa-star"></i>'; ?>
     </div>
 
-    <!-- 🔥 SOURCE UNIQUE DU PRIX -->
     <input id="currentPrice" type="hidden" value="<?= (int)$current_price ?>">
     <input id="idProduct" type="hidden" value="<?= (int)$p['id_product'] ?>">
 
@@ -73,7 +68,7 @@ $current_price = $lastPrice ?? (int)$p['reserve_price'];
                     <div class="swiper-button-prev"></div>
                 </div>
 
-                <div class="swiper mySwiper">
+                <div thumbsSlider="" class="swiper mySwiper">
                     <div class="swiper-wrapper">
                         <?php foreach ($images as $image) { ?>
                             <div class="swiper-slide">
@@ -89,9 +84,7 @@ $current_price = $lastPrice ?? (int)$p['reserve_price'];
         <section id="product-description">
             <h2>Description</h2>
             <p><?= mb_convert_encoding(html_entity_decode(strip_tags($p['description']), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 'UTF-8', 'UTF-8') ?></p>
-
         </section>
-
     </div>
 
     <!-- COMMENTAIRES -->
@@ -106,33 +99,36 @@ $current_price = $lastPrice ?? (int)$p['reserve_price'];
         <?php $currentUserId = $_SESSION['user']['id_user'] ?? null; ?>
 
         <?php foreach ($comments as $comment) { ?>
-            <div class="comment-item">
+            <div class="comment-item" data-comment-id="<?= $comment['id_comment'] ?>">
 
                 <h3>
                     <a href="index.php?action=user&id=<?= $comment['id_user'] ?>">
                         <?= htmlspecialchars($comment['full_name']) ?>
                     </a>
-
                     <time data-local-datetime="<?= $comment['comment_date'] ?>"></time>
                 </h3>
 
-                <p><?= htmlspecialchars($comment['comment']) ?></p>
+                <p class="comment-text"><?= htmlspecialchars(strip_tags($comment['comment'])) ?></p>
 
-                <?php if ($currentUserId == $comment['id_user']) { ?>
+                <?php if ($currentUserId && (int)$currentUserId === (int)$comment['id_user']) { ?>
+                    <div class="comment-actions">
+                        <button class="btn-edit" onclick="enableEdit(this)">Modifier</button>
+                        <form method="POST" action="index.php?action=deleteComment">
+                            <input type="hidden" name="id" value="<?= $p['id_product'] ?>">
+                            <input type="hidden" name="id_comment" value="<?= $comment['id_comment'] ?>">
+                            <button class="btn-delete" type="submit">Supprimer</button>
+                        </form>
+                    </div>
 
-                    <form method="POST" action="index.php?action=updateComment">
+                    <form class="edit-form" method="POST" action="index.php?action=updateComment">
                         <input type="hidden" name="id" value="<?= $p['id_product'] ?>">
                         <input type="hidden" name="id_comment" value="<?= $comment['id_comment'] ?>">
-                        <textarea name="comment"><?= htmlspecialchars($comment['comment']) ?></textarea>
-                        <button type="submit">Modifier</button>
+                        <textarea name="comment" required><?= htmlspecialchars($comment['comment']) ?></textarea>
+                        <div class="edit-buttons">
+                            <button type="submit" class="btn-save">Enregistrer</button>
+                            <button type="button" class="btn-cancel" onclick="cancelEdit(this)">Annuler</button>
+                        </div>
                     </form>
-
-                    <form method="POST" action="index.php?action=deleteComment">
-                        <input type="hidden" name="id" value="<?= $p['id_product'] ?>">
-                        <input type="hidden" name="id_comment" value="<?= $comment['id_comment'] ?>">
-                        <button type="submit">Supprimer</button>
-                    </form>
-
                 <?php } ?>
 
             </div>
@@ -150,7 +146,6 @@ $current_price = $lastPrice ?? (int)$p['reserve_price'];
 
 <?php include('preset/footer.php'); ?>
 
-<!-- SWIPER -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
@@ -183,25 +178,42 @@ document.addEventListener('DOMContentLoaded', function () {
         startCountdown(endDate, el);
     });
 });
-</script>
 
-<script>
 const toastBox = document.querySelector('#toastBox');
 
-function showToast(type, msg) {
+function showToast(numberValidation, msg) {
     const toast = document.createElement('div');
     toast.classList.add('toast');
 
-    if (type === 1) {
+    if (numberValidation === 1) {
         toast.classList.add('invalid');
-    } else if (type > 1) {
+        toast.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${msg}`;
+    } else if (numberValidation > 1) {
         toast.classList.add('error');
+        toast.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ${msg}`;
+    } else {
+        toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
     }
 
-    toast.innerHTML = msg;
     toastBox.appendChild(toast);
 
-    setTimeout(() => toast.remove(), 5000);
+    setTimeout(() => toast.remove(), 6000);
+}
+
+function enableEdit(btn) {
+    const item = btn.closest('.comment-item');
+    item.classList.add('edit-mode');
+    item.querySelector('.comment-text').style.display = "none";
+    item.querySelector('.comment-actions').style.display = "none";
+    item.querySelector('.edit-form').style.display = "flex";
+}
+
+function cancelEdit(btn) {
+    const item = btn.closest('.comment-item');
+    item.classList.remove('edit-mode');
+    item.querySelector('.comment-text').style.display = "";
+    item.querySelector('.comment-actions').style.display = "flex";
+    item.querySelector('.edit-form').style.display = "none";
 }
 </script>
 
