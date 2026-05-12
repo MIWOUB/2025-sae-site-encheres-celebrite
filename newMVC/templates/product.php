@@ -24,7 +24,7 @@ $script = "templates/JS/favorite.js";
 <script src="https://kit.fontawesome.com/645d3e5fd2.js" crossorigin="anonymous"></script>
 
 <main>
-    <h1><?= $p['title']; ?></h1>
+    <h1><?= mb_convert_encoding(html_entity_decode($p['title'], ENT_QUOTES | ENT_HTML5, 'UTF-8'), 'UTF-8', 'UTF-8') ?></h1>
 
     <div class="product-header">
         <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
@@ -79,7 +79,8 @@ $script = "templates/JS/favorite.js";
         <!-- Description DROITE -->
         <section id="product-description">
             <h2>Description</h2>
-            <p><?= strip_tags($p['description']) ?></p>
+            <p><?= mb_convert_encoding(html_entity_decode(strip_tags($p['description']), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 'UTF-8', 'UTF-8') ?></p>
+
         </section>
 
     </div>
