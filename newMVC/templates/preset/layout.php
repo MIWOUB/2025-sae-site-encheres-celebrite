@@ -5,6 +5,8 @@ if (isConnected()) {
     $loginController->checkconnection($_SESSION['user']['DateConnexion']);
 }
 
+$content = $content ?? '';
+
 ?>
 
 <!DOCTYPE html>

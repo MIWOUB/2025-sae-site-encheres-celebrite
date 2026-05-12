@@ -43,13 +43,8 @@ class ProductController
         $comments = $commentRepository->getCommentsFromProduct($id_product);
 
         // PRIX ACTUEL
-        $priceRow = $productRepository->getLastPrice($id_product);
-
-        $current_price = (!empty($priceRow)
-            && isset($priceRow[0]['MAX(new_price)'])
-            && $priceRow[0]['MAX(new_price)'] !== null)
-            ? $priceRow[0]['MAX(new_price)']
-            : ($p['start_price'] ?? 0);
+        $current_price = $productRepository->getLastPrice($id_product)
+            ?? ($p['start_price'] ?? 0);
 
         // IMAGES
         $images = getImage($id_product);

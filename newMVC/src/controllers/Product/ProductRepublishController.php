@@ -36,7 +36,7 @@ class ProductRepublishController
         }
 
         $lastPrice = $productRepository->getLastPrice($id_product);
-        if (!empty($lastPrice['last_price']) && (float) $lastPrice['last_price'] > 0) {
+        if ($lastPrice !== null && (float) $lastPrice > 0) {
             throw new Exception('Cette annonce a déjà reçu des enchères.');
         }
 

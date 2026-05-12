@@ -1,13 +1,15 @@
 <?php
 
 require 'vendor/autoload.php';
+
 use \Mailjet\Resources;
 
 $apiKey = 'dd1eee2440b4bd6cf36a174f2dacf8c6';
 $apisecret = '5ddabb00a7f6a8e75f50491865966284';
 
-function routeurMailing($action, $param){
-    switch($action){
+function routeurMailing(string $action, array $param): bool
+{
+    switch ($action) {
 
         case 'sendEmailConfirmationPlublish':
             return sendEmailConfirmationPlublish($param);
@@ -25,12 +27,13 @@ function routeurMailing($action, $param){
             return SendNewsletter($param);
 
         default:
-            error_log("Action emailing non reconnue");
+            error_log('Action emailing non reconnue');
             return false;
     }
 }
 
-function sendEmailConfirmationPlublish($param){
+function sendEmailConfirmationPlublish(array $param): bool
+{
     global $apiKey, $apisecret;
 
     $mj = new \Mailjet\Client($apiKey, $apisecret, true, ['version' => 'v3.1']);
@@ -38,8 +41,8 @@ function sendEmailConfirmationPlublish($param){
     $body = [
         'Messages' => [[
             'From' => [
-                'Email' => "barthoux44@gmail.com",
-                'Name' => "Admin MaBonneEnchere"
+                'Email' => 'barthoux44@gmail.com',
+                'Name' => 'Admin MaBonneEnchere'
             ],
             'To' => [[
                 'Email' => $param[0],
@@ -56,7 +59,8 @@ function sendEmailConfirmationPlublish($param){
     return $response->success();
 }
 
-function InscriptionNewsletter($param){
+function InscriptionNewsletter(array $param): bool
+{
     global $apiKey, $apisecret;
 
     $mj = new \Mailjet\Client($apiKey, $apisecret, true, ['version' => 'v3.1']);
@@ -64,8 +68,8 @@ function InscriptionNewsletter($param){
     $body = [
         'Messages' => [[
             'From' => [
-                'Email' => "barthoux44@gmail.com",
-                'Name' => "Admin MaBonneEnchere"
+                'Email' => 'barthoux44@gmail.com',
+                'Name' => 'Admin MaBonneEnchere'
             ],
             'To' => [[
                 'Email' => $param[0],
@@ -82,7 +86,8 @@ function InscriptionNewsletter($param){
     return $response->success();
 }
 
-function InscriptionWebsite($param){
+function InscriptionWebsite(array $param): bool
+{
     global $apiKey, $apisecret;
 
     $mj = new \Mailjet\Client($apiKey, $apisecret, true, ['version' => 'v3.1']);
@@ -90,8 +95,8 @@ function InscriptionWebsite($param){
     $body = [
         'Messages' => [[
             'From' => [
-                'Email' => "barthoux44@gmail.com",
-                'Name' => "Admin MaBonneEnchere"
+                'Email' => 'barthoux44@gmail.com',
+                'Name' => 'Admin MaBonneEnchere'
             ],
             'To' => [[
                 'Email' => $param[0],
@@ -108,7 +113,8 @@ function InscriptionWebsite($param){
     return $response->success();
 }
 
-function EndAnnoncement($param){
+function EndAnnoncement(array $param): bool
+{
     global $apiKey, $apisecret;
 
     $mj = new \Mailjet\Client($apiKey, $apisecret, true, ['version' => 'v3.1']);
@@ -116,8 +122,8 @@ function EndAnnoncement($param){
     $body = [
         'Messages' => [[
             'From' => [
-                'Email' => "barthoux44@gmail.com",
-                'Name' => "Admin MaBonneEnchere"
+                'Email' => 'barthoux44@gmail.com',
+                'Name' => 'Admin MaBonneEnchere'
             ],
             'To' => [[
                 'Email' => $param[0],
@@ -134,7 +140,8 @@ function EndAnnoncement($param){
     return $response->success();
 }
 
-function SendNewsletter($param){
+function SendNewsletter(array $param): bool
+{
     global $apiKey, $apisecret;
 
     $mj = new \Mailjet\Client($apiKey, $apisecret, true, ['version' => 'v3.1']);
@@ -142,8 +149,8 @@ function SendNewsletter($param){
     $body = [
         'Messages' => [[
             'From' => [
-                'Email' => "barthoux44@gmail.com",
-                'Name' => "Admin MaBonneEnchere"
+                'Email' => 'barthoux44@gmail.com',
+                'Name' => 'Admin MaBonneEnchere'
             ],
             'To' => [[
                 'Email' => $param[0],

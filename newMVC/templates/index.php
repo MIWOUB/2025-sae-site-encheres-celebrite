@@ -36,10 +36,8 @@ $style = "templates/style/index.css";
                     <?php if (new DateTime($p['end_date']) > new DateTime()): ?>
 
                         <?php
-                        $priceRow = $productRepository->getLastPrice($p['id_product']);
-                        $current_price = (!empty($priceRow) && isset($priceRow[0]['MAX(new_price)']))
-                            ? $priceRow[0]['MAX(new_price)']
-                            : $p['start_price'];
+                        $current_price = $productRepository->getLastPrice($p['id_product'])
+                            ?? $p['start_price'];
 
                         // FAVORIS STATE
                         $isFav = isConnected()
@@ -47,7 +45,7 @@ $style = "templates/style/index.css";
                             : false;
                         ?>
 
-                        <a href="index.php?action=product&id=<?= htmlspecialchars($p['id_product']) ?>" class="swiper-slide slide-link">
+                        <a href="index.php?action=product&id=<?= htmlspecialchars((string) $p['id_product']) ?>" class="swiper-slide slide-link">
 
                             <div class="image-container">
 
