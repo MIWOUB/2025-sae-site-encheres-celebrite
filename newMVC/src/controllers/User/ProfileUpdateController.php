@@ -2,9 +2,12 @@
 
 require_once __DIR__ . '/../../model/user.php';
 require_once __DIR__ . '/../../lib/database.php';
+require_once __DIR__ . '/../../lib/auth.php';
 
 function updateEmail(string $email)
 {
+    requireLogin();
+
     if (!empty($email)) {
         $user = $_SESSION["user"];
         $id_user = $user["id_user"];
@@ -24,9 +27,11 @@ function updateEmail(string $email)
 
 function updatePassword(string $password)
 {
+    requireLogin();
+
     if (!empty($password)) {
         $user = $_SESSION["user"];
-        $id_user = $user["id_user"];
+        $id_user = $user['id_user'];
         $pass = trim((password_hash($password, PASSWORD_ARGON2ID)));
 
         $pdo = \DatabaseConnection::getConnection();
@@ -43,8 +48,10 @@ function updatePassword(string $password)
 
 function updateAddress(array $input)
 {
+    requireLogin();
+
     $user = $_SESSION["user"];
-    $id_user = $user["id_user"];
+    $id_user = $user['id_user'];
     $address = $input["address"];
     $city = $input["city"];
     $postal_code = $input["postal_code"];
@@ -67,10 +74,7 @@ function updateAddress(array $input)
 
 function subscribeNewsletter(array $input)
 {
-    if (!isset($_SESSION['user'])) {
-        redirectTo('index.php?action=login');
-        exit();
-    }
+    requireLogin();
 
     $user = $_SESSION['user'];
     $email = $input['email'] ?? $user['email'];

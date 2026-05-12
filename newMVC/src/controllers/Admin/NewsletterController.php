@@ -1,25 +1,32 @@
 <?php
 
-require_once('src/lib/database.php');
-require_once('src/model/user.php');
+require_once __DIR__ . '/../../lib/database.php';
+require_once __DIR__ . '/../../lib/auth.php';
+require_once __DIR__ . '/../../model/user.php';
+require_once __DIR__ . '/../../services/NewsletterService.php';
 
-require_once('src/controllers/EmailingController.php');
-
-function PostNewsletter(array $input)
+class NewsletterController
 {
-    if (isset($input)) {
-        $title = $input['title_news'];
-        $content = $input['content_mail_newsletter'];
-        $pdo = \DatabaseConnection::getConnection();
-        $userRepo = new \UserRepository($pdo);
-        $lst_user = $userRepo->getUserNewsletter();
-        foreach ($lst_user as $u) {
-            sleep(1);
-            $param = [$u['email'], $u['name'], $title, $content];
-            routeurMailing('Newsletter', $param);
+    public function postNewsletter(array $input): void
+    {
+        if (!isAdmin()) {
+            throw new Exception('Acces administrateur requis.');
         }
-        header('location: index.php?action=admin');
-    } else {
-        die("Error on recuperation of data from sending a new newsletter");
+
+        $title = trim((string) ($input['title_news'] ?? ''));
+        $content = trim((string) ($input['content_mail_newsletter'] ?? ''));
+
+        if ($title === '' || $content === '') {
+            throw new Exception('Titre et contenu de la newsletter requis.');
+        }
+
+        $pdo = \DatabaseConnection::getConnection();
+        $userRepository = new \UserRepository($pdo);
+        $subscribers = $userRepository->getUserNewsletter();
+
+        $newsletterService = new \NewsletterService();
+        $newsletterService->sendToSubscribers($subscribers, $title, $content);
+
+        redirectTo('index.php?action=admin');
     }
 }

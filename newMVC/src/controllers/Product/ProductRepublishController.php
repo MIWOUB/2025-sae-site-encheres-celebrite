@@ -16,7 +16,7 @@ class ProductRepublishController
         $pdo = \DatabaseConnection::getConnection();
         $productRepository = new \ProductRepository($pdo);
 
-        if (!isset($_SESSION['user'])) {
+        if (!isConnected()) {
             throw new Exception('Vous devez être connecté pour republier une annonce.');
         }
 

@@ -24,13 +24,13 @@ require_once(dirname(__DIR__, 2) . '/src/script/verif_online_annoncement.php');
                         <a id="btn_achat" class="nav-link" href="index.php?action=buy">Acheter</a>
                     </li>
 
-                    <?php if (isset($_SESSION['user'])) { ?>
+                    <?php if (isConnected()) { ?>
                         <li class="nav-item">
                             <a id="btn_vente" class="nav-link" href="index.php?action=sell">Vendre</a>
                         </li>
                     <?php } ?>
 
-                    <?php if (isset($_SESSION['user']['admin']) && $_SESSION['user']['admin'] != 0) { ?>
+                    <?php if (isAdmin()) { ?>
                         <li class="nav-item">
                             <a id="btn_admin" class="nav-link" href="index.php?action=admin">Panneau Admin</a>
                         </li>
@@ -39,7 +39,7 @@ require_once(dirname(__DIR__, 2) . '/src/script/verif_online_annoncement.php');
 
                 <ul class="navbar-nav">
 
-                    <?php if (isset($_SESSION['user'])) { ?>
+                    <?php if (isConnected()) { ?>
 
                         <li class="nav-item">
                             <a id="btn_historique" class="nav-link" href="index.php?action=historique_annonces_publiees">

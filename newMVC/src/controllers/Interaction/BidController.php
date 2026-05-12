@@ -16,7 +16,7 @@ class BidController
     public function bid()
     {
         if (isset($_GET['id']) && $_GET['id'] >= 0) {
-            if (!isset($_SESSION['user'])) {
+            if (!isConnected()) {
                 // Utilisateur non connecté
                 http_response_code(401); // optionnel, HTTP Unauthorized
                 echo "not_logged";

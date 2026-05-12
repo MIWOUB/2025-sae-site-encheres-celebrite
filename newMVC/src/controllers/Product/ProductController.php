@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../lib/database.php';
+require_once __DIR__ . '/../../lib/auth.php';
 require_once __DIR__ . '/../../model/product.php';
 require_once __DIR__ . '/../../model/comment.php';
 require_once __DIR__ . '/../../model/favorite.php';
@@ -59,7 +60,7 @@ class ProductController
 
         // FAVORI USER
         $isFav = false;
-        if (isset($_SESSION['user'])) {
+        if (isConnected()) {
             $isFav = $favoriteRepository->isProductFavorite(
                 $id_product,
                 $_SESSION['user']['id_user']

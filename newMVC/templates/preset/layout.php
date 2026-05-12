@@ -1,6 +1,6 @@
 <?php
 
-if (isset($_SESSION['user'])) {
+if (isConnected()) {
     $loginController = new \LoginController();
     $loginController->checkconnection($_SESSION['user']['DateConnexion']);
 }

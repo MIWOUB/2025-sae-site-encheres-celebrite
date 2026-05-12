@@ -8,7 +8,7 @@ class CommentController
     public function addComment()
     {
         //  Redirection si non connecté
-        if (!isset($_SESSION['user'])) {
+        if (!isConnected()) {
             header('Location: index.php?action=login');
             exit();
         }
@@ -26,8 +26,8 @@ class CommentController
         $id_user = (int) $_SESSION['user']['id_user'];
 
         try {
-            $pdo = DatabaseConnection::getConnection();
-            $commentRepository = new CommentRepository($pdo);
+            $pdo = \DatabaseConnection::getConnection();
+            $commentRepository = new \CommentRepository($pdo);
 
             $commentRepository->addCommentToProduct(
                 $id_product,
@@ -45,7 +45,7 @@ class CommentController
     public function updateComment()
     {
         //  Redirection si non connecté
-        if (!isset($_SESSION['user'])) {
+        if (!isConnected()) {
             header('Location: index.php?action=login');
             exit();
         }
@@ -65,8 +65,8 @@ class CommentController
         $id_user = (int) $_SESSION['user']['id_user'];
 
         try {
-            $pdo = DatabaseConnection::getConnection();
-            $commentRepository = new CommentRepository($pdo);
+            $pdo = \DatabaseConnection::getConnection();
+            $commentRepository = new \CommentRepository($pdo);
 
             if (!$commentRepository->isCommentOwnedByUser($id_comment, $id_user)) {
                 die("Erreur : vous ne pouvez modifier que vos propres commentaires.");
@@ -84,7 +84,7 @@ class CommentController
     public function deleteComment()
     {
         //  Redirection si non connecté
-        if (!isset($_SESSION['user'])) {
+        if (!isConnected()) {
             header('Location: index.php?action=login');
             exit();
         }
@@ -98,8 +98,8 @@ class CommentController
         $id_user = (int) $_SESSION['user']['id_user'];
 
         try {
-            $pdo = DatabaseConnection::getConnection();
-            $commentRepository = new CommentRepository($pdo);
+            $pdo = \DatabaseConnection::getConnection();
+            $commentRepository = new \CommentRepository($pdo);
 
             if (!$commentRepository->isCommentOwnedByUser($id_comment, $id_user)) {
                 die("Erreur : vous ne pouvez supprimer que vos propres commentaires.");
