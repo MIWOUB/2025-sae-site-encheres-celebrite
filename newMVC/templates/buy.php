@@ -4,6 +4,7 @@ $style = "templates/Style/buy.css";
 ?>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
 <?php ob_start(); ?>
@@ -11,11 +12,6 @@ $style = "templates/Style/buy.css";
 <?php include('preset/header.php'); ?>
 
 <main>
-    <?php
-    $pdo = \DatabaseConnection::getConnection();
-    $productRepository = new \ProductRepository($pdo);
-    $products = $productRepository->getAllProduct();
-    ?>
 
     <?php if (empty($products)): ?>
         <p class="error-message">Aucune annonce disponible pour le moment.</p>
@@ -23,37 +19,25 @@ $style = "templates/Style/buy.css";
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
                 <?php foreach ($products as $p): ?>
-                    <?php if (new DateTime($p['end_date']) > new DateTime()): ?>
+                    <a href="index.php?action=product&id=<?= htmlspecialchars($p['id_product']) ?>"
+                        class="swiper-slide swiper-slide-link">
 
-                        <a href="index.php?action=product&id=<?= htmlspecialchars($p['id_product']) ?>"
-                            class="swiper-slide swiper-slide-link">
+                        <div class="image-container">
+                            <?php if (!empty($p['image_url'])): ?>
+                                <img src="<?= htmlspecialchars($p['image_url']) ?>" alt="Image annonce">
+                            <?php else: ?>
+                                <div class="no-image-placeholder">Aucune image disponible</div>
+                            <?php endif; ?>
 
-                            <div class="image-container">
-                                <?php
-                                $images = getImage($p['id_product']);
-                                if (!empty($images)) {
-                                    echo '<img src="' . htmlspecialchars($images[0]['url_image']) . '" alt="Image annonce">';
-                                } else {
-                                    echo '<div class="no-image-placeholder">Aucune image disponible</div>';
-                                }
-                                ?>
-
-                                <div class="text-content-overlay">
-                                    <h3><?= htmlspecialchars($p['title']) ?></h3>
-
-                                    <?php
-                                    $lastPrice = $productRepository->getLastPrice($p['id_product']);
-                                    $current_price = $lastPrice ?? $p['start_price'];
-                                    ?>
-
-                                    <p>Prix actuel : <?= htmlspecialchars($current_price) ?> €</p>
-                                    <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
-                                </div>
+                            <div class="text-content-overlay">
+                                <h3><?= htmlspecialchars($p['title']) ?></h3>
+                                <p><?= htmlspecialchars($p['celebrity_name'] ?? 'Non spécifiée') ?></p>
+                                <p>Prix actuel : <?= htmlspecialchars((string) $p['current_price']) ?> €</p>
+                                <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
                             </div>
+                        </div>
 
-                        </a>
-
-                    <?php endif; ?>
+                    </a>
                 <?php endforeach; ?>
             </div>
 
@@ -85,32 +69,38 @@ $style = "templates/Style/buy.css";
 
                 <?php foreach ($products as $p): ?>
                     <?php if ($count_displayed >= $max_to_display) break; ?>
-                    <?php if (new DateTime($p['end_date']) > new DateTime()): ?>
-                        <div class="announce-card">
 
-                            <div class="card-top">
-                                <?php
-                                $images = getImage($p['id_product']);
-                                if (!empty($images)) {
-                                    echo '<img src="' . htmlspecialchars($images[0]['url_image']) . '" alt="Image annonce">';
-                                } else {
-                                    echo '<div class="no-image">Aucune image disponible</div>';
-                                }
-                                ?>
-                                <h3>
-                                    <?= htmlspecialchars($p['title']) ?>
-                                </h3>
+                    <div class="announce-card">
+
+                        <div class="card-top">
+                            <?php if (!empty($p['image_url'])): ?>
+                                <img src="<?= htmlspecialchars($p['image_url']) ?>" alt="Image annonce">
+                            <?php else: ?>
+                                <div class="no-image">Aucune image disponible</div>
+                            <?php endif; ?>
+                            <h3><?= htmlspecialchars($p['title']) ?></h3>
+                        </div>
+
+                        <div class="card-bottom">
+
+                            <div class="card-meta">
+                                <p class="card-celebrity">Célébrité: <?= htmlspecialchars($p['celebrity_name'] ?? 'Non spécifiée') ?></p>
+                                <p class="card-price">Prix: <?= htmlspecialchars((string) $p['current_price']) ?> €</p>
+                                <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
                             </div>
 
-                            <div class="card-bottom">
-                                <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
-                                <a class="main_btn" href="index.php?action=product&id=<?= $p['id_product'] ?>">Voir</a>
+                            <div class="card-actions">
+                                <button class="fav-btn" data-id="<?= $p['id_product'] ?>" data-isfav="false">
+                                    <i class="fa-regular fa-heart"></i>
+                                </button>
+                                <a class="main_btn" href="index.php?action=product&id=<?= $p['id_product'] ?>">Enchérir</a>
                             </div>
 
                         </div>
 
-                        <?php $count_displayed++; ?>
-                    <?php endif; ?>
+                    </div>
+
+                    <?php $count_displayed++; ?>
                 <?php endforeach; ?>
 
                 <?php if ($count_displayed === 0): ?>

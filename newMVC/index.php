@@ -22,6 +22,7 @@ require_once __DIR__ . '/src/controllers/Product/ProductController.php';
 require_once __DIR__ . '/src/controllers/Admin/NewsletterController.php';
 require_once __DIR__ . '/src/controllers/Admin/AdminPanelController.php';
 require_once __DIR__ . '/src/controllers/Admin/AnnouncementModerationController.php';
+require_once __DIR__ . '/src/controllers/Page/BuyController.php';
 require_once __DIR__ . '/src/controllers/Page/HomeController.php';
 require_once __DIR__ . '/src/controllers/EmailingController.php';
 require_once __DIR__ . '/src/controllers/ViewCounterController.php';
@@ -130,7 +131,8 @@ try {
             renderView('templates/sell_product.php');
         },
         'buy' => function (): void {
-            renderView('templates/buy.php');
+            $controller = new \BuyController();
+            $controller->showBuyPage();
         },
         'favorites' => function (): void {
             renderView('templates/favorites.php');

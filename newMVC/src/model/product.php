@@ -481,4 +481,19 @@ class ProductRepository
             die("Error on deleting Category and his link to annoncement : " . $e->getMessage());
         }
     }
+
+    public function getImages(int $id_product): array
+    {
+        $pdo = $this->connection;
+        $requete = "SELECT path_image as url_image, alt from image where id_product = :id";
+        try {
+            $tmp = $pdo->prepare($requete);
+            $tmp->execute([
+                ":id" => $id_product
+            ]);
+        } catch (PDOException $e) {
+            die("Error retrieving images: " . $e->getMessage());
+        }
+        return $tmp->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
