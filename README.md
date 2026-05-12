@@ -1,13 +1,12 @@
 # Tâches à faire
 
 - Refactoriser le code pour passer sur une architecture MVC
-- Harmoniser les connexions BDD et Meilisearch avec des singleton et des variables d'environnement
 - Améliorer la gestion des erreurs
 - Améliorer le CSS
 
 # Prérequis
 
-- Copier le .env.example en .env et remplir les variables d'environnement nécessaires (ex: identifiants BDD, clé Meilisearch) mais ne surtout commit le .env
+- Copier le .env.example en .env et remplir les variables d'environnement nécessaires (ex: identifiants BDD, clé Meilisearch) mais ne surtout pas commit le .env
 - Docker Desktop (ou Docker Engine + Docker Compose)
 - Ports disponibles: `80`, `3306`, `7700`
 

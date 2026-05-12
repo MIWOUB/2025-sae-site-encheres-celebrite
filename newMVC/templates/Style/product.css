@@ -42,71 +42,146 @@ main h1 {
 /* ============================================ */
 /* BLOC HAUT DE PAGE : timer + prix + bouton    */
 /* ============================================ */
-
 .product-header {
-    display: flex;
+    display: grid;
+    grid-template-columns: 260px 1fr 220px;
     align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
     gap: 20px;
     background-color: var(--color-white);
-    border: 1px solid var(--color-gold);
+    border: 2px solid var(--color-gold);
     border-radius: var(--radius-md);
     padding: 24px 32px;
-    margin-bottom: 32px;
     box-shadow: var(--shadow-sm);
+    max-width: 80%;
+    margin: 0 auto 30px auto;
 }
+
+/* ============================================ */
+/* TIMER                                        */
+/* ============================================ */
+
+.timer-informations {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    min-height: 90px;
+}
+
+/* Temps restant */
+.timer-label {
+    font-family: var(--font-title);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    color: var(--color-blue);
+
+    margin-bottom: 2px;
+}
+
 /* Timer */
 .timer {
+    min-width: 220px;
+    text-align: start;
     font-family: var(--font-title);
     font-size: var(--text-h2);
     font-weight: 700;
+
     color: var(--color-blue);
+
     letter-spacing: 1px;
     white-space: nowrap;
 }
-/* Bloc prix */
+
+/* Fini le ... */
+.end-date {
+    margin-top: 4px;
+    text-align: start;
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-sapphire);
+}
+
+.local-date {
+    color: var(--color-gold);
+    font-weight: 600;
+}
+
+/* ============================================ */
+/* BLOC PRIX                                    */
+/* ============================================ */
+.product-price {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+}
+
+/* Offre actuelle */
 .product-price p {
     font-family: var(--font-title);
     font-size: var(--text-h3);
-    font-weight: 700;
-    color: var(--color-gold);
-    text-align: center;
+    font-weight: 600;
+
+    color: var(--color-blue);
+
+    margin-bottom: 2px;
 }
 
 .product-price span {
     display: block;
+
     font-family: var(--font-title);
     font-size: var(--text-h2);
     font-weight: 700;
+
     color: var(--color-gold) !important;
-    margin-top: 4px;
+
+    margin-top: 2px;
 }
 
-/* Bouton enchérir */
+/* ============================================ */
+/* BOUTON ENCHERIR                              */
+/* ============================================ */
 #bid_button {
+    justify-self: end;
+
     display: inline-block;
+
     padding: 10px 30px;
+
     border-radius: var(--radius-lg);
+
     background: var(--color-white);
+
     border: 2px solid var(--color-gold);
+
     color: var(--color-gold);
+
     font-family: var(--font-accent);
     font-size: 1.15rem;
     font-weight: 600;
+
     cursor: pointer;
+
     box-shadow: var(--shadow-sm);
+
     transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
 }
 
 #bid_button:hover {
     background: var(--color-gold);
     color: var(--color-white);
+
     box-shadow: var(--shadow-md);
+
     transform: translateY(-4px) scale(1.06);
 }
 
-/* Favori */
+/* ============================================ */
+/* FAVORI                                       */
+/* ============================================ */
 #fav {
     font-size: 1.5rem;
     color: var(--color-gold);
@@ -123,7 +198,6 @@ main h1 {
 /* ============================================ */
 /* LAYOUT IMAGE + DESCRIPTION                   */
 /* ============================================ */
-
 .product-layout {
     display: grid;
     grid-template-columns: 55% 45%;
@@ -201,7 +275,6 @@ main h1 {
 /* ============================================ */
 /* COMMENTAIRES                                 */
 /* ============================================ */
-
 .product-title {
     display: flex !important;
     align-items: center;
@@ -489,6 +562,7 @@ main h1 {
 .comment-item.edit-mode {
     border-left-color: var(--color-blue);
     background: var(--color-background);
+<<<<<<< HEAD
 }
 
 #toastBox {
@@ -508,4 +582,6 @@ main h1 {
         opacity: 1;
         transform: translateX(0);
     }
+=======
+>>>>>>> 59c2599a2764892c6e73db6fb5316eddba868328
 }

@@ -1,8 +1,7 @@
 <?php
 header('Content-Type: application/json');
 require __DIR__ . '/../../vendor/autoload.php';
-
-use Meilisearch\Client;
+require __DIR__ . '/../lib/meilisearch.php';
 
 $q = $_GET['q'] ?? '';
 if (strlen($q) < 1) {
@@ -10,13 +9,13 @@ if (strlen($q) < 1) {
     exit;
 }
 
-$client = new Client('http://meilisearch:7700', 'CLE_TEST_SAE_SITE');
+$client = \MeilisearchConnection::getClient();
 $index = $client->index('search');
 
 // Recherche
 $results = $index->search($q, [
     'limit' => 10,
-    'attributesToRetrieve' => ['id','type','title','product_id','category_id','celebrity_id']
+    'attributesToRetrieve' => ['id', 'type', 'title', 'product_id', 'category_id', 'celebrity_id']
 ]);
 
 $hits = $results->getHits(); // <-- méthode publique

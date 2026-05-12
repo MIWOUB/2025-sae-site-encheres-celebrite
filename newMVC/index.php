@@ -29,6 +29,7 @@ require_once __DIR__ . '/src/controllers/ViewCounterController.php';
 require_once __DIR__ . '/src/lib/auth.php';
 require_once __DIR__ . '/src/lib/database.php';
 require_once __DIR__ . '/src/model/pdo.php';
+require_once __DIR__ . '/src/lib/meilisearch.php';
 require_once __DIR__ . '/src/model/user.php';
 require_once __DIR__ . '/src/model/product.php';
 require_once __DIR__ . '/src/model/celebrity.php';

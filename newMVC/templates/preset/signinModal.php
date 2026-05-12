@@ -54,7 +54,7 @@
 
                         <label>Mot de passe</label>
                         <input type="password" name="password" required>
-                        <div class="password-rules">
+                        <div class="rp-password-rules">
                             <div class="rule length">8 caractères minimum</div>
                             <div class="rule number">Au moins un numéro</div>
                             <div class="rule lower">Au moins une lettre minuscule</div>
@@ -82,11 +82,11 @@
             const form = popup.querySelector('form');
 
             const rules = {
-                length: popup.querySelector('.rule.length'),
-                number: popup.querySelector('.rule.number'),
-                lower: popup.querySelector('.rule.lower'),
-                upper: popup.querySelector('.rule.upper'),
-                special: popup.querySelector('.rule.special'),
+                length: popup.querySelector('.rp-password-rules .rule.length'),
+                number: popup.querySelector('.rp-password-rules .rule.number'),
+                lower: popup.querySelector('.rp-password-rules .rule.lower'),
+                upper: popup.querySelector('.rp-password-rules .rule.upper'),
+                special: popup.querySelector('.rp-password-rules .rule.special'),
             };
 
             // fermeture

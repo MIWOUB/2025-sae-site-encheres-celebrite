@@ -167,19 +167,16 @@
     margin: 12px 0 22px;
 }
 
-#registerPopup .rp-password-rules .ok {
-    color: var(--color-green);
-}
-
-#registerPopup .rp-password-rules .ko {
-    color: var(--color-red);
-}
-
 #registerPopup .rp-password-rules .rule {
     display: flex;
+    color: var(--color-red);
     align-items: center;
     font-size: var(--text-sm);
     margin-bottom: 6px;
+}
+
+#registerPopup .rp-password-rules .rule.valid {
+    color: var(--color-green);
 }
 
 #registerPopup .rp-password-rules .rule::before {

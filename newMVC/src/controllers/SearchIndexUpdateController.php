@@ -1,18 +1,18 @@
 <?php
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../lib/meilisearch.php';
 
-use Meilisearch\Client;
+require_once __DIR__ . '/../lib/database.php';
 
-$client = new Client('http://meilisearch:7700', 'CLE_TEST_SAE_SITE');
-
+$client = \MeilisearchConnection::getClient();
 try {
     $client->createIndex('search', ['primaryKey' => 'id']);
 } catch (Exception $e) {
 }
+
 $index = $client->index('search');
 
-$pdo = new PDO("mysql:host=db;dbname=auction_site;charset=utf8", "root", "root");
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$pdo = \DatabaseConnection::getConnection();
 
 $documents = [];
 
@@ -67,8 +67,8 @@ $index->addDocuments($documents);
 
 $index->updateSettings([
     'searchableAttributes' => ['title'],
-    'filterableAttributes' => ['type','category_id','celebrity_id'],
-    'displayedAttributes' => ['id','type','title','product_id','category_id','celebrity_id']
+    'filterableAttributes' => ['type', 'category_id', 'celebrity_id'],
+    'displayedAttributes' => ['id', 'type', 'title', 'product_id', 'category_id', 'celebrity_id']
 ]);
 
 echo "Index 'search' mis à jour avec succès. Total documents : " . count($documents);
