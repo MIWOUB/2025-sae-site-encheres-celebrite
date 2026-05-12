@@ -1,118 +1,148 @@
+@import url('../style/variables.css');
 
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  background-color: #F0F0F0;
-  /* fond doux */
-  color: #000;
+    background-color: var(--color-background);
+    font-family: var(--font-body);
+    color: var(--color-blue);
 }
 
-/* ====================== */
-/* HEADER */
-/* ====================== */
-header nav {
-  background: linear-gradient(to right, #002366, #0046CC);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30px;
-  font-size: 20px;
-  color: #F5F5DC;
+main {
+    width: 100%;
+    padding: 40px 48px;
+    padding-top: calc(var(--navbar-height) + 40px);
+    background-color: var(--color-background);
 }
 
-header ul {
-  list-style: none;
-  display: flex;
-  gap: 100px;
+.Annonces_en_cours h1 {
+    font-family: var(--font-title);
+    font-size: var(--text-h1);
+    font-weight: 700;
+    color: var(--color-blue);
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-gold);
+    margin-bottom: 24px;
 }
 
-header a {
-  text-decoration: none;
-  color: #f0f0f0;
+.Historique_annonces h2 {
+    font-family: var(--font-title);
+    font-size: var(--text-h2);
+    color: var(--color-blue);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--color-gold);
+    margin-bottom: 24px;
+    text-align: left;
 }
 
-header img {
-  position: absolute;
-  background-color: black;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  right: 50%;
-  top: 20px;
+.Annonces-list-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+    padding: 0;
 }
 
-/* ====================== */
-/* FOOTER */
-/* ====================== */
-footer {
-  background: linear-gradient(to top, #002366, #0046CC);
-  padding: 30px;
-  width: 100%;
-  color: #f0f0f0;
+.card {
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gold);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    padding: 20px 24px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
-footer section {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+.card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px);
 }
 
-footer img {
-  background-color: black;
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
+.card h3 {
+    font-family: var(--font-title);
+    font-size: var(--text-h3);
+    color: var(--color-blue);
+    margin: 0;
+    text-align: left;
 }
 
-h2 {
-  text-align: center;
-  margin: 30px 0;
-  color: #002366;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 25px;
-  font-style: bold;
+.card p {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-sapphire);
+    margin: 0;
+    text-align: left;
 }
 
-.btn {
-  display: inline-block;
-  background-color: #ffffff;
-  color: #002366;
-  border: 2px solid #D4AF37;
-  text-transform: uppercase;
-  font-weight: 500;
-  font-size: 18px;
-  font-family: 'Cormorant Garamond', serif;
-  padding: 5px 30px;
-  border-radius: 60px;
-  box-shadow: 0px 0px 6px -1px;
-  text-decoration: none;
-  margin-bottom: 15px;
-  transition: background-color 0.3s ease;
+.card .timer {
+    font-family: var(--font-body);
+    font-weight: 700;
+    color: var(--color-blue);
 }
 
-button.btn:hover {
-  background-color: #D4AF37;
-  color: #ffffff;
+/* Bouton Voir — style main_btn Théo */
+.card .btns,
+.card a.btns,
+.card a {
+    align-self: flex-start;
+    padding: 8px 24px;
+    border-radius: var(--radius-lg);
+    background: var(--color-white);
+    border: 2px solid var(--color-gold);
+    color: var(--color-gold);
+    font-family: var(--font-accent);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    margin: 0;
 }
 
-button {
-     display: inline-block;
-  background-color: #ffffff;
-  color: #002366;
-  border: 2px solid #D4AF37;
-  text-transform: uppercase;
-  font-weight: 500;
-  font-size: 18px;
-  font-family: 'Cormorant Garamond', serif;
-  padding: 5px 30px;
-  border-radius: 60px;
-  box-shadow: 0px 0px 6px -1px;
-  text-decoration: none;
-  margin-bottom: 15px;
-  transition: background-color 0.3s ease;
+.card .btns:hover,
+.card a.btns:hover,
+.card a:hover {
+    background: var(--color-gold);
+    color: var(--color-white);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px) scale(1.04);
+}
+
+/* Bouton Valider — style searchbar_btn Théo */
+.card button {
+    align-self: flex-start;
+    padding: 8px 24px;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-blue);
+    color: var(--color-white);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    margin: 0;
+}
+
+.card button:hover {
+    background: var(--color-blue-light);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-3px) scale(1.04);
+}
+
+.Annonces_en_cours > p {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-sapphire);
+    font-style: italic;
+    margin-bottom: 16px;
 }
