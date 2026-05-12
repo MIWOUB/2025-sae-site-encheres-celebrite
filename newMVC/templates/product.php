@@ -18,36 +18,52 @@ $script = "templates/JS/favorite.js";
 
 <?php
 $lastPrice = $productRepository->getLastPrice($p['id_product']);
-$current_price = $lastPrice ?? (int)$p['reserve_price'];
+$current_price = $lastPrice ?? (int) $p['reserve_price'];
 ?>
 
 <main>
     <div style="text-align: center;">
-        <h1><?= mb_convert_encoding(html_entity_decode($p['title'], ENT_QUOTES | ENT_HTML5, 'UTF-8'), 'UTF-8', 'UTF-8') ?></h1>
+        <h1><?= mb_convert_encoding(html_entity_decode($p['title'], ENT_QUOTES | ENT_HTML5, 'UTF-8'), 'UTF-8', 'UTF-8') ?>
+        </h1>
     </div>
 
     <div class="product-header">
 
-        <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
+        <div class="timer-box">
 
-        <div class="product-price">
-            <?php if ($current_price === null) $current_price = $p['start_price']; ?>
-            <p>Offre actuelle :<br>
-                <span><?= htmlspecialchars(number_format($current_price, 0, ',', ' ')) ?> €</span>
+            <h3 class="header-title">Temps restant :</h3>
+
+            <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>">
             </p>
+
+            <p class="end-date">
+                Fini le
+                <time class="local-date" data-local-datetime="<?= htmlspecialchars($p['end_date']) ?>"></time>
+            </p>
+
         </div>
 
-        <button class="main_btn" id="bid_button" type="button" onclick="ouvrirPopup('BidForm')">Enchérir</button>
+        <div class="product-price">
+
+            <?php if ($current_price === null)
+                $current_price = $p['start_price']; ?>
+
+            <h3 class="header-title">Offre actuelle :</h3>
+
+            <span>
+                <?= htmlspecialchars(number_format($current_price, 0, ',', ' ')) ?> €
+            </span>
+
+        </div>
+
+        <button class="main_btn" id="bid_button" type="button" onclick="ouvrirPopup('BidForm')">
+            Enchérir
+        </button>
+
     </div>
 
-    <div id="fav" data-is-fav="<?= $isFav ? 'true' : 'false' ?>">
-        <?= $isFav
-            ? '<i class="fa-solid fa-star"></i>'
-            : '<i class="fa-regular fa-star"></i>'; ?>
-    </div>
-
-    <input id="currentPrice" type="hidden" value="<?= (int)$current_price ?>">
-    <input id="idProduct" type="hidden" value="<?= (int)$p['id_product'] ?>">
+    <input id="currentPrice" type="hidden" value="<?= (int) $current_price ?>">
+    <input id="idProduct" type="hidden" value="<?= (int) $p['id_product'] ?>">
 
     <div class="product-layout">
 
@@ -83,7 +99,8 @@ $current_price = $lastPrice ?? (int)$p['reserve_price'];
         <!-- DESCRIPTION -->
         <section id="product-description">
             <h2>Description</h2>
-            <p><?= mb_convert_encoding(html_entity_decode(strip_tags($p['description']), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 'UTF-8', 'UTF-8') ?></p>
+            <p><?= mb_convert_encoding(html_entity_decode(strip_tags($p['description']), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 'UTF-8', 'UTF-8') ?>
+            </p>
         </section>
     </div>
 
@@ -110,7 +127,7 @@ $current_price = $lastPrice ?? (int)$p['reserve_price'];
 
                 <p class="comment-text"><?= htmlspecialchars(strip_tags($comment['comment'])) ?></p>
 
-                <?php if ($currentUserId && (int)$currentUserId === (int)$comment['id_user']) { ?>
+                <?php if ($currentUserId && (int) $currentUserId === (int) $comment['id_user']) { ?>
                     <div class="comment-actions">
                         <button class="btn-edit" onclick="enableEdit(this)">Modifier</button>
                         <form method="POST" action="index.php?action=deleteComment">
@@ -149,72 +166,72 @@ $current_price = $lastPrice ?? (int)$p['reserve_price'];
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-var swiper = new Swiper(".mySwiper", {
-    spaceBetween: 10,
-    slidesPerView: 4,
-    freeMode: true,
-    watchSlidesProgress: true,
-});
+    var swiper = new Swiper(".mySwiper", {
+        spaceBetween: 10,
+        slidesPerView: 4,
+        freeMode: true,
+        watchSlidesProgress: true,
+    });
 
-var swiper2 = new Swiper(".mySwiper2", {
-    spaceBetween: 10,
-    navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-    },
-    thumbs: {
-        swiper: swiper,
-    },
-});
+    var swiper2 = new Swiper(".mySwiper2", {
+        spaceBetween: 10,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        thumbs: {
+            swiper: swiper,
+        },
+    });
 </script>
 
 <script src="templates/JS/OuverturePopUp.js"></script>
 <script src="templates/JS/timer.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.timer').forEach(el => {
-        const endDate = el.getAttribute('data-end');
-        startCountdown(endDate, el);
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.timer').forEach(el => {
+            const endDate = el.getAttribute('data-end');
+            startCountdown(endDate, el);
+        });
     });
-});
 
-const toastBox = document.querySelector('#toastBox');
+    const toastBox = document.querySelector('#toastBox');
 
-function showToast(numberValidation, msg) {
-    const toast = document.createElement('div');
-    toast.classList.add('toast');
+    function showToast(numberValidation, msg) {
+        const toast = document.createElement('div');
+        toast.classList.add('toast');
 
-    if (numberValidation === 1) {
-        toast.classList.add('invalid');
-        toast.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${msg}`;
-    } else if (numberValidation > 1) {
-        toast.classList.add('error');
-        toast.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ${msg}`;
-    } else {
-        toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
+        if (numberValidation === 1) {
+            toast.classList.add('invalid');
+            toast.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${msg}`;
+        } else if (numberValidation > 1) {
+            toast.classList.add('error');
+            toast.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> ${msg}`;
+        } else {
+            toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`;
+        }
+
+        toastBox.appendChild(toast);
+
+        setTimeout(() => toast.remove(), 6000);
     }
 
-    toastBox.appendChild(toast);
+    function enableEdit(btn) {
+        const item = btn.closest('.comment-item');
+        item.classList.add('edit-mode');
+        item.querySelector('.comment-text').style.display = "none";
+        item.querySelector('.comment-actions').style.display = "none";
+        item.querySelector('.edit-form').style.display = "flex";
+    }
 
-    setTimeout(() => toast.remove(), 6000);
-}
-
-function enableEdit(btn) {
-    const item = btn.closest('.comment-item');
-    item.classList.add('edit-mode');
-    item.querySelector('.comment-text').style.display = "none";
-    item.querySelector('.comment-actions').style.display = "none";
-    item.querySelector('.edit-form').style.display = "flex";
-}
-
-function cancelEdit(btn) {
-    const item = btn.closest('.comment-item');
-    item.classList.remove('edit-mode');
-    item.querySelector('.comment-text').style.display = "";
-    item.querySelector('.comment-actions').style.display = "flex";
-    item.querySelector('.edit-form').style.display = "none";
-}
+    function cancelEdit(btn) {
+        const item = btn.closest('.comment-item');
+        item.classList.remove('edit-mode');
+        item.querySelector('.comment-text').style.display = "";
+        item.querySelector('.comment-actions').style.display = "flex";
+        item.querySelector('.edit-form').style.display = "none";
+    }
 </script>
 
 <?php $content = ob_get_clean(); ?>

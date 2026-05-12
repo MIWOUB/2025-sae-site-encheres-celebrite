@@ -49,7 +49,6 @@ $style = "templates/style/buy.css";
 
                                     <p>Prix actuel : <?= htmlspecialchars($current_price) ?> €</p>
                                     <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
-                                    <p><time class="local-date" data-local-datetime="<?= htmlspecialchars($p['end_date']) ?>"></time></p>
                                 </div>
                             </div>
 
@@ -106,7 +105,6 @@ $style = "templates/style/buy.css";
 
                             <div class="card-bottom">
                                 <p class="timer" data-end="<?= htmlspecialchars($p['end_date']) ?>"></p>
-                                <p><time class="local-date" data-local-datetime="<?= htmlspecialchars($p['end_date']) ?>"></time></p>
                                 <a class="main_btn" href="index.php?action=product&id=<?= $p['id_product'] ?>">Voir</a>
                             </div>
 
