@@ -19,7 +19,7 @@ class ProductUpdateController
         $productRepository = new \ProductRepository($pdo);
         $celebrityRepository = new \CelebrityRepository($pdo);
 
-        if (!isset($_SESSION['user'])) {
+        if (!isConnected()) {
             throw new Exception('Vous devez être connecté pour modifier une annonce.');
         }
 

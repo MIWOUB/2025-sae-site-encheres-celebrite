@@ -1,4 +1,4 @@
-<?php if (!isset($_SESSION['user'])): ?>
+<?php if (!isConnected()): ?>
     <style>
         <?php include 'templates/Style/popupInscription.css'; ?>
     </style>

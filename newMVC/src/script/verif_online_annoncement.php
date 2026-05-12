@@ -3,7 +3,9 @@
 // Executer dans le header pour garder une constance dans le temps
 // Permet d'envoyer le mail de fin d'annonce 
 
-if (!isset($_SESSION['user'])) {
+require_once __DIR__ . '/../lib/auth.php';
+
+if (!isConnected()) {
     return;
 }
 
@@ -27,7 +29,7 @@ if (($date_now - $_SESSION['last_check']) >= $delai) {
     $_SESSION['last_check'] = time();
 }
 
-function verif($user)
+function verif(array $user): void
 {
     $annoncementClient = get_all_annoncement_notMailed();
     foreach ($annoncementClient as $annonce) {

@@ -20,10 +20,13 @@ require_once __DIR__ . '/src/controllers/Product/ProductDeleteController.php';
 require_once __DIR__ . '/src/controllers/Product/ProductRepublishController.php';
 require_once __DIR__ . '/src/controllers/Product/ProductController.php';
 require_once __DIR__ . '/src/controllers/Admin/NewsletterController.php';
+require_once __DIR__ . '/src/controllers/Admin/AdminPanelController.php';
+require_once __DIR__ . '/src/controllers/Admin/AnnouncementModerationController.php';
 require_once __DIR__ . '/src/controllers/Page/HomeController.php';
 require_once __DIR__ . '/src/controllers/EmailingController.php';
 require_once __DIR__ . '/src/controllers/ViewCounterController.php';
 
+require_once __DIR__ . '/src/lib/auth.php';
 require_once __DIR__ . '/src/lib/database.php';
 require_once __DIR__ . '/src/model/pdo.php';
 require_once __DIR__ . '/src/model/user.php';
@@ -57,6 +60,24 @@ function renderErrorPage(string $message, int $statusCode = 404): void
     $errorMessage = $message;
     require __DIR__ . '/templates/preset/error.php';
     exit();
+}
+
+function ensureAdminAccess(bool $expectsJson = false): void
+{
+    if (isAdmin()) {
+        return;
+    }
+
+    if ($expectsJson) {
+        jsonResponse([
+            'success' => false,
+            'error' => 'Acces administrateur requis.',
+        ], 403);
+    }
+
+    requireLogin();
+
+    renderErrorPage('<i class="fa-solid fa-lock"></i> <span>Erreur 403 :</span> Acces administrateur requis.', 403);
 }
 
 try {
@@ -141,9 +162,7 @@ try {
             subscribeNewsletter($_POST);
         },
         'addProduct' => function (): void {
-            if (!isset($_SESSION['user'])) {
-                redirectTo('index.php?action=login');
-            }
+            requireLogin();
 
             $controller = new \ProductCreateController();
             $controller->createProduct($_SESSION['user'], $_POST);
@@ -168,19 +187,15 @@ try {
             throw new Exception('Impossible to delete this product !');
         },
         'validateAnnouncement' => function (): void {
-            if (isset($_POST['id_product']) && (int) $_POST['id_product'] >= 0) {
-                $idProduct = (int) $_POST['id_product'];
-                $pdo = \DatabaseConnection::getConnection();
-                $productRepository = new \ProductRepository($pdo);
-                $celebrityRepository = new \CelebrityRepository($pdo);
+            ensureAdminAccess(true);
 
-                $productRepository->updateStatus($idProduct);
-                $productRepository->updateCategoryStatus($idProduct);
-                $celebrityRepository->updateCelebrityStatus($idProduct);
-                return;
+            if (!isset($_POST['id_product']) || (int) $_POST['id_product'] < 0) {
+                jsonResponse(['success' => false, 'error' => 'Impossible to update product statut !'], 400);
             }
 
-            throw new Exception('Impossible to update product statut !');
+            $controller = new \AnnouncementModerationController();
+            $result = $controller->validateAnnouncement((int) $_POST['id_product']);
+            jsonResponse($result);
         },
         'updateProduct' => function (): void {
             if (isset($_POST['id_product']) && (int) $_POST['id_product'] >= 0) {
@@ -351,19 +366,25 @@ try {
             jsonResponse($celebrityRepository->searchCelebrities($_GET['writting']));
         },
         'admin' => function (): void {
-            renderView('templates/admin_panel.php');
+            ensureAdminAccess();
+            $controller = new \AdminPanelController();
+            $controller->showPanel();
         },
         'sendNewsletter' => function (): void {
-            PostNewsletter($_POST);
+            ensureAdminAccess();
+            $controller = new \NewsletterController();
+            $controller->postNewsletter($_POST);
         },
         'deleteProductAsAdmin' => function (): void {
-            if (isset($_POST['id_product']) && (int) $_POST['id_product'] >= 0) {
-                $controller = new \ProductDeleteController();
-                $controller->deleteProductAsAdmin((int) $_POST['id_product']);
-                return;
+            ensureAdminAccess(true);
+
+            if (!isset($_POST['id_product']) || (int) $_POST['id_product'] < 0) {
+                jsonResponse(['success' => false, 'error' => 'Impossible de supprimer l\'annonce depuis l\'admin.'], 400);
             }
 
-            throw new Exception('Impossible de supprimer l\'annonce depuis l\'admin.');
+            $controller = new \ProductDeleteController();
+            $controller->deleteProductAsAdmin((int) $_POST['id_product']);
+            jsonResponse(['success' => true]);
         },
     ];
 

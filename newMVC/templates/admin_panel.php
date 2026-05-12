@@ -3,21 +3,7 @@ $title = "Panneau admin";
 $style = "templates/style/adminPannel.css";
 $script = "";
 
-if (!isset($_SESSION['user'])) {
-    redirectTo('index.php?action=login');
-    exit();
-}
-
-require_once __DIR__ . '/../src/model/pdo.php';
-require_once __DIR__ . '/../src/model/celebrity.php';
-require_once __DIR__ . '/../src/model/product.php';
-
-$pdo = \DatabaseConnection::getConnection();
-$celebrityRepository = new \CelebrityRepository($pdo);
-$productRepository = new \ProductRepository($pdo);
-
-$user = $_SESSION['user'];
-$products = getAllProduct_admin();
+$products = $productsWithMeta ?? [];
 ?>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -78,13 +64,10 @@ $products = getAllProduct_admin();
                 <?php
                 if ($count_displayed >= $max_to_display)
                     break;
-                $images = getImage($p['id_product']);
-                $cate = $productRepository->getCategoryFromAnnouncement($p['id_product']);
-                $cele = $celebrityRepository->getCelebrityFromAnnouncement($p['id_product']);
                 ?>
                 <div class="announce-card">
-                    <?php if (!empty($images)): ?>
-                        <img src="<?= htmlspecialchars($images[0]['url_image']) ?>" alt="Image annonce">
+                    <?php if (!empty($p['image_url'])): ?>
+                        <img src="<?= htmlspecialchars($p['image_url']) ?>" alt="Image annonce">
                     <?php else: ?>
                         <div class="announce-card-no-image">Aucune image disponible</div>
                     <?php endif; ?>
@@ -94,11 +77,11 @@ $products = getAllProduct_admin();
                         <div class="announce-card-meta">
                             <span>
                                 <span class="meta-label">Catégorie :</span>
-                                <?= ($cate && isset($cate['name'])) ? htmlspecialchars($cate['name']) : 'Non spécifiée' ?>
+                                <?= htmlspecialchars($p['category_name'] ?? 'Non specifiee') ?>
                             </span>
                             <span>
                                 <span class="meta-label">Célébrité :</span>
-                                <?= ($cele && isset($cele['name'])) ? htmlspecialchars($cele['name']) : 'Non spécifiée' ?>
+                                <?= htmlspecialchars($p['celebrity_name'] ?? 'Non specifiee') ?>
                             </span>
                         </div>
                         <div class="admin-actions">

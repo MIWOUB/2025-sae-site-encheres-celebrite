@@ -1,9 +1,9 @@
 <?php
 $title = "Page d'utilisateur";
-$style = "templates/style/Accueil.css";
+$style = "templates/style/user.css";
 $script = "";
 
-if (!isset($_SESSION['user'])) {
+if (!isConnected()) {
     redirectTo('index.php?action=login');
     exit();
 }

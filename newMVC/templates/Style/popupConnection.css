@@ -105,50 +105,12 @@
     outline: none;
 }
 
-/* Checklist mot de passe */
-.password-rules {
-    font-size: var(--text-sm);
-    margin: 10px 0 18px;
-}
-
-.password-rules div {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.password-rules .valid {
-    color: var(--color-green);
-}
-
-.password-rules .invalid {
-    color: var(--color-red);
-}
-
-.password-rules .rule {
-    display: flex;
-    align-items: center;
-    font-size: var(--text-sm);
-    margin-bottom: 4px;
-}
-
-.password-rules .rule::before {
-    content: "✖";
-    margin-right: 8px;
-    color: var(--color-red);
-    font-weight: bold;
-}
-
-.password-rules .rule.valid::before {
-    content: "✔";
-    color: var(--color-green);
-}
-
 /* Boutons */
 #loginModal .actions {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 30px;
 }
 
 #loginModal .btn-submit {

@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION['user'])) {
+if (!isConnected()) {
     redirectTo('index.php?action=login');
     exit();
 }

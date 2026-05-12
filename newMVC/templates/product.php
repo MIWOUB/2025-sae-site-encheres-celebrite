@@ -17,13 +17,13 @@ $script = "templates/JS/favorite.js";
 <script src="https://kit.fontawesome.com/645d3e5fd2.js" crossorigin="anonymous"></script>
 
 <?php
-// 🔥 PRIX PROPRE (IMPORTANT)
+//  PRIX PROPRE (IMPORTANT)
 $lastPrice = $productRepository->getLastPrice($p['id_product']);
 $current_price = $lastPrice ?? (int)$p['reserve_price'];
 ?>
 
 <main>
-    <h1><?= htmlspecialchars($p['title']) ?></h1>
+    <h1><?= $p['title']; ?></h1>
 
     <div class="product-header">
 
@@ -88,7 +88,8 @@ $current_price = $lastPrice ?? (int)$p['reserve_price'];
         <!-- DESCRIPTION -->
         <section id="product-description">
             <h2>Description</h2>
-            <p><?= strip_tags($p['description']) ?></p>
+            <p><?= mb_convert_encoding(html_entity_decode(strip_tags($p['description']), ENT_QUOTES | ENT_HTML5, 'UTF-8'), 'UTF-8', 'UTF-8') ?></p>
+
         </section>
 
     </div>

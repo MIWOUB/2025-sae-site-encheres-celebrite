@@ -18,7 +18,7 @@ class FavoriteController
             exit;
         }
 
-        if (!isset($_SESSION['user'])) {
+        if (!isConnected()) {
             echo "not_logged";
             exit;
         }
@@ -47,7 +47,7 @@ class FavoriteController
             exit;
         }
 
-        if (!isset($_SESSION['user'])) {
+        if (!isConnected()) {
             echo "not_logged";
             exit;
         }

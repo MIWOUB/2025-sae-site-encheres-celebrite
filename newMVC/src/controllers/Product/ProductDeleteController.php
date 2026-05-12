@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/../../lib/database.php');
+require_once(__DIR__ . '/../../lib/auth.php');
 require_once(__DIR__ . '/../../model/product.php');
 require_once(__DIR__ . '/../../model/celebrity.php');
 
@@ -15,6 +16,10 @@ class ProductDeleteController
 
     public function deleteProductAsAdmin(int $id_product)
     {
+        if (!isAdmin()) {
+            throw new Exception('Acces administrateur requis.');
+        }
+
         $pdo = \DatabaseConnection::getConnection();
         $productRepository = new \ProductRepository($pdo);
         $celebrityRepositiory = new \CelebrityRepository($pdo);
@@ -35,7 +40,7 @@ class ProductDeleteController
 
     public function deleteOwnProduct(int $id_product)
     {
-        if (!isset($_SESSION['user'])) {
+        if (!isConnected()) {
             throw new Exception('Vous devez être connecté pour supprimer une annonce.');
         }
 

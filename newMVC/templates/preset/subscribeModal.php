@@ -9,7 +9,7 @@
             <button class="nl-close" id="nlClose">&times;</button>
             <h2 class="nl-title">Newsletter</h2>
 
-            <?php if (isset($_SESSION['user'])): ?>
+            <?php if (isConnected()): ?>
 
                 <p class="nl-text">
                     Voulez-vous recevoir nos actualités à l’adresse suivante ?

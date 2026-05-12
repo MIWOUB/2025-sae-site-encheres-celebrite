@@ -42,7 +42,7 @@ $style = "templates/style/index.css";
                             : $p['start_price'];
 
                         // FAVORIS STATE
-                        $isFav = isset($_SESSION['user'])
+                        $isFav = isConnected()
                             ? $favoriteRepository->isProductFavorite($p['id_product'], $_SESSION['user']['id_user'])
                             : false;
                         ?>
@@ -104,7 +104,7 @@ $style = "templates/style/index.css";
                 if ($count_displayed >= $max_to_display) break;
                 if (new DateTime($p['end_date']) <= new DateTime()) continue;
 
-                $isFav = isset($_SESSION['user'])
+                $isFav = isConnected()
                     ? $favoriteRepository->isProductFavorite($p['id_product'], $_SESSION['user']['id_user'])
                     : false;
                 ?>

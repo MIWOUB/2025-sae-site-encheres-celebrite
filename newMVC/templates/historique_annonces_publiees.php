@@ -1,6 +1,6 @@
 <?php
 $title = "Historique des annonces publiées";
-$style = "templates/style/Accueil.css";
+$style = "templates/style/historique_annonces.css";
 
 $user = $_SESSION['user'];
 ?>
