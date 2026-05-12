@@ -12,7 +12,7 @@ class UserRepository
         $this->connection = $pdo;
     }
 
-    function createUser($name, $firstname, $birth_date, $address, $city, $postal_code, $email, $password)
+    function createUser(string $name, string $firstname, string $birth_date, string $address, string $city, string $postal_code, string $email, string  $password)
     {
         $pdo = $this->connection;
         $requete = "INSERT INTO users (name, firstname, birth_date, address, city, postal_code, email, password) VALUES (:name, :firstname, :birth_date, :address, :city, :postal_code, :email, :password)";
@@ -34,7 +34,7 @@ class UserRepository
     }
 
     // On part du principe que l'email et le password sont déja décriptés
-    function authentication($email, $password)
+    function authentication(string $email, string $password)
     {
         $pdo = $this->connection;
         $requete = "SELECT * from users where email = :email and password = :password";
@@ -50,7 +50,7 @@ class UserRepository
         return $tmp->fetch(PDO::FETCH_ASSOC);
     }
 
-    function updateEmailUser($email, $id_user)
+    function updateEmailUser(string $email, int $id_user)
     {
         $pdo = $this->connection;
         $requete = "UPDATE users
@@ -67,7 +67,7 @@ class UserRepository
         }
     }
 
-    function updatePasswordUser($id_user, $password)
+    function updatePasswordUser(int $id_user, string $password)
     {
         $pdo = $this->connection;
         $requete = "UPDATE users
@@ -77,14 +77,14 @@ class UserRepository
             $tmp = $pdo->prepare($requete);
             $tmp->execute([
                 ":password" => $password,
-                "id_user" => $id_user
+                ":id_user" => $id_user
             ]);
         } catch (PDOException $e) {
             die("Error during the modification of the password, try again !\nError : " . $e->getMessage());
         }
     }
 
-    function updateFullAddress($address, $city, $postal_code, $id_user)
+    function updateFullAddress(string $address, string $city, string $postal_code, int $id_user)
     {
         $pdo = $this->connection;
         $requete = "UPDATE users
@@ -105,7 +105,7 @@ class UserRepository
         }
     }
 
-    function updateNewsletterUser($id_user, int $newsletter)
+    function updateNewsletterUser(int $id_user, int $newsletter)
     {
         $pdo = $this->connection;
         $requete = "UPDATE users
@@ -122,7 +122,7 @@ class UserRepository
         }
     }
 
-    function getAddress($id_user)
+    function getAddress(int $id_user)
     {
         $pdo = $this->connection;
         $requete = "SELECT address, postal_code, city
@@ -142,25 +142,25 @@ class UserRepository
         return $tmp->fetch(PDO::FETCH_ASSOC);
     }
 
-    function getUser($id_user)
+    function getUser(int $id_user)
     {
         $pdo = $this->connection;
         $request = "SELECT * FROM users WHERE id_user = :id_user";
         $temp = $pdo->prepare($request);
         $temp->execute([
-            "id_user" => $id_user
+            ":id_user" => $id_user
         ]);
 
         return $temp->fetch(PDO::FETCH_ASSOC);
     }
 
-    function getRatingUser($id_user)
+    function getRatingUser(int $id_user)
     {
         $pdo = $this->connection;
         $request = "SELECT AVG(rating) as score FROM Rating WHERE id_seller = :id_user";
         $temp = $pdo->prepare($request);
         $temp->execute([
-            "id_user" => $id_user
+            ":id_user" => $id_user
         ]);
 
         return $temp->fetchColumn();

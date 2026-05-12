@@ -11,7 +11,7 @@ class FavoriteRepository
         $this->connection = $pdo;
     }
 
-    public function setProductFavorite($id_product, $id_user)
+    public function setProductFavorite(int $id_product, int $id_user)
     {
         $sql = "INSERT INTO interest (id_product, id_user)
                 VALUES (:id_product, :id_user)";
@@ -24,7 +24,7 @@ class FavoriteRepository
         ]);
     }
 
-    public function unsetProductFavorite($id_product, $id_user)
+    public function unsetProductFavorite(int $id_product, int $id_user)
     {
         $sql = "DELETE FROM interest
                 WHERE id_product = :id_product
@@ -38,7 +38,7 @@ class FavoriteRepository
         ]);
     }
 
-    public function isProductFavorite($id_product, $id_user)
+    public function isProductFavorite(int $id_product, int $id_user)
     {
         $sql = "SELECT COUNT(*) 
                 FROM interest
@@ -55,7 +55,7 @@ class FavoriteRepository
         return $stmt->fetchColumn() > 0;
     }
 
-    public function getLikes($id_product)
+    public function getLikes(int $id_product)
     {
         $sql = "SELECT COUNT(*) AS nbLike
                 FROM interest
@@ -70,7 +70,7 @@ class FavoriteRepository
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getUserFavorites($id_user)
+    public function getUserFavorites(int $id_user)
     {
         $sql = "SELECT p.*
                 FROM interest i
