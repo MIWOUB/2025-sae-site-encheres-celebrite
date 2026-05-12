@@ -1,7 +1,12 @@
 <?php
 $title = "Page du produit";
-$style = "templates/style/product.css";
+$style = "templates/Style/product.css";
 $script = "templates/JS/favorite.js";
+
+// Ensure variables are defined to prevent undefined variable notices
+$p = $p ?? ($product ?? []);
+$comments = $comments ?? [];
+$images = $images ?? [];
 ?>
 
 <?php ob_start(); ?>
@@ -9,7 +14,7 @@ $script = "templates/JS/favorite.js";
 <?php include('preset/header.php'); ?>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<link href="templates/style/stylePopup.css" rel="stylesheet" />
+<link href="templates/Style/stylePopup.css" rel="stylesheet" />
 
 <div id="popup"></div>
 <div id="toastBox"></div>
@@ -166,14 +171,14 @@ $current_price = $lastPrice ?? (int) $p['reserve_price'];
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-    var swiper = new Swiper(".mySwiper", {
+    var swiper = new window.Swiper(".mySwiper", {
         spaceBetween: 10,
         slidesPerView: 4,
         freeMode: true,
         watchSlidesProgress: true,
     });
 
-    var swiper2 = new Swiper(".mySwiper2", {
+    var swiper2 = new window.Swiper(".mySwiper2", {
         spaceBetween: 10,
         navigation: {
             nextEl: ".swiper-button-next",

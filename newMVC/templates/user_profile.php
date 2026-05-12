@@ -1,6 +1,10 @@
 <?php
 $title = "Page d'utilisateur";
 $style = "templates/Style/Accueil.css";
+
+$u = $u ?? [];
+$products = $products ?? [];
+$score = $score ?? 0;
 ?>
 
 <?php ob_start(); ?>

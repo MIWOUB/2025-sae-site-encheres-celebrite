@@ -1,6 +1,8 @@
 <?php
 $title = "Erreur";
-$style = "templates/style/error.css";
+$style = "templates/Style/error.css";
+
+$errorMessage = $errorMessage ?? 'Une erreur est survenue.';
 ?>
 
 <?php ob_start(); ?>

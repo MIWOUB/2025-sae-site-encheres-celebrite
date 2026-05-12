@@ -1,6 +1,6 @@
 <?php
 $title = "Panneau admin";
-$style = "templates/style/adminPannel.css";
+$style = "templates/Style/adminPannel.css";
 $script = "";
 
 $products = $productsWithMeta ?? [];

@@ -1,6 +1,6 @@
 <?php
 $title = "Mes favoris";
-$style = "templates/style/favorites.css";
+$style = "templates/Style/favorites.css";
 
 $user = $_SESSION['user'] ?? null;
 ?>
@@ -43,10 +43,8 @@ $favorites = $favoriteRepository->getUserFavorites($user['id_user']);
         <?php foreach ($favorites as $p): ?>
 
             <?php
-            $priceRow = $productRepository->getLastPrice($p['id_product']);
-            $current_price = (!empty($priceRow) && isset($priceRow[0]['MAX(new_price)']))
-                ? $priceRow[0]['MAX(new_price)']
-                : ($p['reserve_price'] ?? 0);
+            $lastPrice = $productRepository->getLastPrice($p['id_product']);
+            $current_price = $lastPrice ?? ($p['reserve_price'] ?? 0);
             ?>
 
             <div class="card">

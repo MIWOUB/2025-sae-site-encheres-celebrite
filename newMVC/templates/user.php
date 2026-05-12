@@ -1,6 +1,6 @@
 <?php
 $title = "Page d'utilisateur";
-$style = "templates/style/user.css";
+$style = "templates/Style/user.css";
 $script = "";
 
 if (!isConnected()) {
@@ -13,7 +13,7 @@ $user = $_SESSION['user'];
 
 <?php ob_start(); ?>
 <?php include('preset/header.php'); ?>
-<link href="templates/style/stylePopup.css" rel="stylesheet" />
+<link href="templates/Style/stylePopup.css" rel="stylesheet" />
 
 <?php require_once __DIR__ . '/../src/controllers/User/UserController.php'; ?>
 

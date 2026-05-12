@@ -7,7 +7,7 @@ if (!isConnected()) {
 $user = $_SESSION['user'];
 
 $title = "Page de vente";
-$style = "templates/style/sellProduct.css";
+$style = "templates/Style/sellProduct.css";
 ?>
 
 <?php ob_start(); ?>

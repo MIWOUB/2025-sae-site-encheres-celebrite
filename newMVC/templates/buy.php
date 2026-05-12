@@ -1,6 +1,6 @@
 <?php
 $title = "Page d'achats";
-$style = "templates/style/buy.css";
+$style = "templates/Style/buy.css";
 ?>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">
@@ -9,7 +9,6 @@ $style = "templates/style/buy.css";
 <?php ob_start(); ?>
 
 <?php include('preset/header.php'); ?>
-<?php include("src/controllers/SearchIndexUpdateController.php"); ?>
 
 <main>
     <?php
@@ -43,8 +42,8 @@ $style = "templates/style/buy.css";
                                     <h3><?= htmlspecialchars($p['title']) ?></h3>
 
                                     <?php
-                                    $priceRow = $productRepository->getLastPrice($p['id_product']);
-                                    $current_price = $priceRow[0]['MAX(new_price)'] ?? $p['start_price'];
+                                    $lastPrice = $productRepository->getLastPrice($p['id_product']);
+                                    $current_price = $lastPrice ?? $p['start_price'];
                                     ?>
 
                                     <p>Prix actuel : <?= htmlspecialchars($current_price) ?> €</p>
@@ -138,7 +137,7 @@ $style = "templates/style/buy.css";
     document.addEventListener('DOMContentLoaded', function() {
         const slides = document.querySelectorAll('.swiper-slide-link');
 
-        new Swiper('.mySwiper', {
+        new window.Swiper('.mySwiper', {
             autoplay: {
                 delay: 3000,
                 disableOnInteraction: false

@@ -4,7 +4,7 @@ require_once('src/model/product.php');
 require_once('src/model/favorite.php');
 
 $title = "Page d'accueil";
-$style = "templates/style/index.css";
+$style = "templates/Style/index.css";
 ?>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap" rel="stylesheet">

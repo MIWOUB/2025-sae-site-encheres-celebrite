@@ -1,6 +1,6 @@
 <?php
 $title = "Historique des annonces publiées";
-$style = "templates/style/historique_annonces.css";
+$style = "templates/Style/Historique_annonces.css";
 
 $user = $_SESSION['user'];
 ?>
@@ -45,15 +45,8 @@ $annonces_en_cours = $productRepository->get_actual_annonces_by_client($id_clien
                     <p><time class="local-date" data-local-datetime="<?= htmlspecialchars($a['end_date']) ?>"></time></p>
                     <p>Prix actuel :
                         <?php
-                        // get_price_annoncement retourne un array (fetchAll). On convertit en valeur string.
-                        $priceRow = $productRepository->getLastPrice($a['id_product']);
-                        $current_price = null;
-                        if (!empty($priceRow) && isset($priceRow[0]['MAX(new_price)']) && $priceRow[0]['MAX(new_price)'] !== null) {
-                            $current_price = $priceRow[0]['MAX(new_price)'];
-                        } else {
-                            // fallback si pas d'enchère : utiliser reserve_price si présent ou "0"
-                            $current_price = isset($a['reserve_price']) ? $a['reserve_price'] : '0';
-                        }
+                        $lastPrice = $productRepository->getLastPrice($a['id_product']);
+                        $current_price = $lastPrice ?? ($a['reserve_price'] ?? '0');
                         echo htmlspecialchars($current_price);
                         ?> €
                     </p>
@@ -74,14 +67,8 @@ $annonces_en_cours = $productRepository->get_actual_annonces_by_client($id_clien
                     </h3>
                     <p>Prix actuel :
                         <?php
-                        // Même logique que pour les annonces en cours : convertir le résultat de get_price_annoncement en valeur
-                        $priceRow = $productRepository->getLastPrice($a['id_product']);
-                        $current_price = null;
-                        if (!empty($priceRow) && isset($priceRow[0]['MAX(new_price)']) && $priceRow[0]['MAX(new_price)'] !== null) {
-                            $current_price = $priceRow[0]['MAX(new_price)'];
-                        } else {
-                            $current_price = isset($a['reserve_price']) ? $a['reserve_price'] : '0';
-                        }
+                        $lastPrice = $productRepository->getLastPrice($a['id_product']);
+                        $current_price = $lastPrice ?? ($a['reserve_price'] ?? '0');
                         echo htmlspecialchars($current_price);
                         ?> €
                     </p>
