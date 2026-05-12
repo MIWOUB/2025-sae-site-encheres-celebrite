@@ -275,23 +275,26 @@ main h1 {
     border-top: 3px solid var(--color-gold);
 }
 
-#comment-comment {
+#comment-form textarea {
     width: 100%;
     min-height: 120px;
     padding: 12px 16px;
-    border: 2px solid var(--color-gold);
+    border: 2px solid var(--color-gold) !important;
     border-radius: var(--radius-sm);
     font-family: var(--font-body);
     font-size: var(--text-body);
     color: var(--color-blue);
-    background-color: var(--color-white);
+    background-color: var(--color-white) !important;
     resize: vertical;
     outline: none;
+    display: block;
+    box-sizing: border-box;
 }
 
-#comment-comment:focus {
-    border-color: var(--color-blue);
+#comment-form textarea:focus {
+    border-color: var(--color-blue) !important;
     box-shadow: var(--shadow-sm);
+    outline: none;
 }
 
 /* Bouton Publier */
