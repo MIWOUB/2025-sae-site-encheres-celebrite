@@ -69,7 +69,7 @@ function ouvrirPopup(page) {
           console.log("SERVER RESPONSE:", data);
 
           if (data === "not_logged") {
-            window.location.href = "index.php?action=connection";
+            window.location.href = "index.php?action=login";
             return;
           }
 
