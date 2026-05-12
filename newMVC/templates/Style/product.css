@@ -562,7 +562,6 @@ main h1 {
 .comment-item.edit-mode {
     border-left-color: var(--color-blue);
     background: var(--color-background);
-<<<<<<< HEAD
 }
 
 #toastBox {
@@ -582,6 +581,4 @@ main h1 {
         opacity: 1;
         transform: translateX(0);
     }
-=======
->>>>>>> 59c2599a2764892c6e73db6fb5316eddba868328
 }
