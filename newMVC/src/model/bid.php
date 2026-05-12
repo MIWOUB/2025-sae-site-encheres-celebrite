@@ -15,14 +15,14 @@ class BidRepository
     // =========================
     // INSERT BID (SAFE)
     // =========================
-    function bidProduct($id_product, $id_user, $newPrice, $currentPrice = null)
+    function bidProduct(int $id_product, int $id_user, int $newPrice, ?int $currentPrice = null)
     {
         $pdo = $this->connection;
 
         // 🔥 récupération safe du prix actuel
         if ($currentPrice === null) {
 
-            $productRepository = new ProductRepository($this->connection);
+            $productRepository = new \ProductRepository($this->connection);
 
             // produit
             $product = $productRepository->getProduct($id_product);
@@ -36,7 +36,7 @@ class BidRepository
             // dernier bid
             $last = $productRepository->getLastPrice($id_product);
 
-            if ($last && isset($last['last_price']) && $last['last_price'] !== null) {
+            if (is_array($last) && isset($last['last_price']) && $last['last_price'] !== null) {
                 $currentPrice = (int) $last['last_price'];
             }
         }
@@ -60,7 +60,7 @@ class BidRepository
     // =========================
     // LAST BIDDER SAFE
     // =========================
-    function getLastBidder($id_product)
+    function getLastBidder(int $id_product)
     {
         $pdo = $this->connection;
 
@@ -86,7 +86,7 @@ class BidRepository
     // =========================
     // PRODUCT END DATE
     // =========================
-    function getProductDate($id_product)
+    function getProductDate(int $id_product)
     {
         $pdo = $this->connection;
 
@@ -103,7 +103,7 @@ class BidRepository
     // =========================
     // EXTEND TIME
     // =========================
-    function addTime($id_product)
+    function addTime(int $id_product)
     {
         $pdo = $this->connection;
 
@@ -121,7 +121,7 @@ class BidRepository
     // =========================
     // CHECK OWNER
     // =========================
-    function sameUser($id_product, $id_user)
+    function sameUser(int $id_product, int $id_user)
     {
         $pdo = $this->connection;
 
