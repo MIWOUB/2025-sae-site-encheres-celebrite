@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../controllers/config.php';
+require __DIR__ . '/../lib/meilisearch.php';
 
 $q = $_GET['q'] ?? '';
 if (strlen($q) < 1) {

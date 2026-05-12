@@ -1,6 +1,6 @@
 <?php
 require __DIR__ . '/../../vendor/autoload.php';
-require __DIR__ . '/../controllers/config.php';
+require __DIR__ . '/../lib/meilisearch.php';
 
 $client = \MeilisearchConnection::getClient();
 $index = $client->index('search');
