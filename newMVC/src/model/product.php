@@ -42,13 +42,23 @@ class ProductRepository
     function getProduct(int $id_product)
     {
         $pdo = $this->connection;
-        $requete = "SELECT * FROM product WHERE id_product = ?";
+
+        $requete = "
+            SELECT p.*,
+                COALESCE(MAX(b.new_price), p.reserve_price) AS current_price
+            FROM product p
+            LEFT JOIN bid b ON b.id_product = p.id_product
+            WHERE p.id_product = ?
+            GROUP BY p.id_product
+        ";
+
         try {
             $tmp = $pdo->prepare($requete);
             $tmp->execute([$id_product]);
         } catch (PDOException $e) {
-            die("Error retrieving product, try again !\nError : " . $e->getMessage());
+            die("Error retrieving product: " . $e->getMessage());
         }
+
         return $tmp->fetch(PDO::FETCH_ASSOC);
     }
 
@@ -264,20 +274,23 @@ class ProductRepository
     function getLastPrice(int $id_product)
     {
         $pdo = $this->connection;
-        $requete1 = "SELECT MAX(new_price) as last_price
-                from bid
-                where id_product = :id_product";
-        try {
-            $tmp = $pdo->prepare($requete1);
-            $tmp->execute([
-                ':id_product' => $id_product
-            ]);
-        } catch (PDOException $e) {
-            die("Error retrieving the last price for the product, try again !\nError : " . $e->getMessage());
-        }
-        return $tmp->fetch(PDO::FETCH_ASSOC);
-    }
 
+        $req = $pdo->prepare("
+            SELECT MAX(new_price) AS last_price
+            FROM bid
+            WHERE id_product = :id
+        ");
+
+        $req->execute([':id' => $id_product]);
+
+        $data = $req->fetch(PDO::FETCH_ASSOC);
+
+        if (!$data || $data['last_price'] === null) {
+            return null;
+        }
+
+        return (int)$data['last_price'];
+    }
     function getViewsWithOption(int $id_product, string $option)
     {
         $pdo = $this->connection;

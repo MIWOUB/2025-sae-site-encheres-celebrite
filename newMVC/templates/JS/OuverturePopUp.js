@@ -27,124 +27,138 @@ function ouvrirPopup(page) {
           document.getElementById("popup_password").style.display = "block";
         });
       break;
-    case "Bid":
-      newPrice = document.querySelector("#bid_input_form").value;
-      currentPrice = document.querySelector("#currentPrice_form").value;
-      idProduct = document.querySelector("#idProduct_form").value;
+    case "Bid": {
 
-      console.log(newPrice + " " + currentPrice + " " + idProduct);
+      const bidInput = document.querySelector("#bid_input_form");
+      const productInput = document.querySelector("#idProduct_form");
 
-      if (newPriceIsValid(newPrice, currentPrice)) {
-        fetch("templates/Event/Bid_Validation.php")
-          .then((response) => response.text())
-          .then((html) => {
-            document.getElementById("popup").innerHTML = html;
-            document.getElementById("popup_bid").style.display = "block";
-
-            document.getElementById("currentPrice_validation").value =
-              currentPrice;
-            document.getElementById("idProduct_validation").value = idProduct;
-            document.getElementById("newPrice_validation").value = newPrice;
-
-            document.getElementById("bid_validation_text").textContent =
-              "Voulez-vous enchérir " +
-              parseInt(newPrice).toLocaleString("fr-FR") +
-              " € ?";
-
-            // start
-            const bidForm = document.querySelector("#bid-form");
-
-            bidForm.addEventListener("submit", async (event) => {
-              event.preventDefault();
-              try {
-                console.log(currentPrice, newPrice, idProduct);
-
-                // L’utilisateur a cliqué sur OUI
-                console.log("Confirmé !");
-
-                const response = await fetch(
-                  `index.php?action=bid&id=${idProduct}`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    body: new URLSearchParams({ newPrice }),
-                  },
-                );
-                const data = await response.text();
-
-                if (data === "same") {
-                  showToast(
-                    2,
-                    "Vous ne pouvez pas enchérir sur votre propre annonce !",
-                  );
-                  return;
-                }
-                if (data === "not_logged") {
-                  window.location.href = "index.php?action=login";
-                  return;
-                }
-                if (data === "finished") {
-                  showToast(2, "L'annonce est terminé !");
-                  return;
-                }
-                if (data === "user_not_accepted") {
-                  showToast(1, "Vous êtes déjà le dernier à avoir enchéri !");
-                  return;
-                }
-                if (data === "price_not_accepted") {
-                  showToast(2, "Enchérissez au dessus de la valeur actuelle !");
-                  return;
-                }
-                if (data === "price_not_available") {
-                  showToast(2, "Enchérissement avec succès !");
-                  return;
-                }
-
-                // window.alert(data);
-
-                window.location.reload();
-
-                showToast(0, "Enchérissement avec succès !");
-              } catch (e) {
-                console.error("Erreur lors du fetch : ", e);
-              }
-            });
-          });
+      if (!bidInput || !productInput) {
+        console.error("Popup values missing");
+        return;
       }
+
+      const newPrice = parseInt(bidInput.value);
+
+      const currentPrice = parseInt(
+        document.querySelector(".product-price span")
+          .textContent
+          .replace(/\s/g, "")
+          .replace("€", "")
+      );
+
+      const idProduct = parseInt(productInput.value);
+
+      console.log("Bid send:", newPrice, currentPrice, idProduct);
+
+      if (!newPriceIsValid(newPrice, currentPrice)) {
+        return;
+      }
+
+      fetch(`index.php?action=bid&id=${idProduct}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: new URLSearchParams({
+          newPrice: newPrice
+        }),
+      })
+        .then(res => res.text())
+        .then(data => {
+
+          console.log("SERVER RESPONSE:", data);
+
+          if (data === "not_logged") {
+            window.location.href = "index.php?action=connection";
+            return;
+          }
+
+          if (data === "same") {
+            showToast(2, "Tu ne peux pas enchérir sur ton propre produit !");
+            return;
+          }
+
+          if (data === "finished") {
+            showToast(2, "L'enchère est terminée !");
+            return;
+          }
+
+          if (data === "user_not_accepted") {
+            showToast(1, "Tu es déjà le dernier enchérisseur !");
+            return;
+          }
+
+          if (data === "price_not_accepted") {
+            showToast(2, "Prix trop bas !");
+            return;
+          }
+
+          if (data === "success" || data === "time_extended") {
+
+            document.querySelector(".product-price span").textContent =
+              newPrice.toLocaleString("fr-FR") + " €";
+
+            document.querySelector("#currentPrice").value = newPrice;
+
+            fermerPopupBidForm();
+            showToast(0, "Enchère validée !");
+
+            return;
+          }
+
+          showToast(2, "Erreur serveur");
+        })
+        .catch(err => {
+          console.error("Fetch error:", err);
+          showToast(2, "Erreur réseau");
+        });
+
       break;
+    }
     case "BidForm":
-      currentPrice = parseInt(document.querySelector("#currentPrice").value);
-      idProduct = parseInt(document.querySelector("#idProduct").value);
+    {
+      const currentPriceEl = document.querySelector("#currentPrice");
+      const idProductEl = document.querySelector("#idProduct");
+
+      if (!currentPriceEl || !idProductEl) {
+        console.error("Missing product data");
+        return;
+      }
+
+      const currentPrice = parseInt(currentPriceEl.value);
+
+      const idProduct = parseInt(idProductEl.value);
 
       fetch("templates/Event/Bid_Form.php")
-        .then((response) => response.text())
-        .then((html) => {
+        .then(res => res.text())
+        .then(html => {
           document.getElementById("popup").innerHTML = html;
-          document.getElementById("popup_bid_form").style.display = "block";
+
+          const popup = document.getElementById("popup_bid_form");
+          popup.style.display = "block";
 
           document.getElementById("idProduct_form").value = idProduct;
           document.getElementById("currentPrice_form").value = currentPrice;
 
           const bidInput = document.getElementById("bid_input_form");
-          numberToAdd = addToPrice(currentPrice);
-          // bidInput.min = Math.round(currentPrice + numberToAdd);
-          bidInput.value = Math.round(currentPrice + numberToAdd);
-          bidInput.step = numberToAdd;
 
-          document
-            .querySelector("#bid_input_form")
-            .addEventListener("input", () => {
-              document
-                .querySelectorAll(".error-msg")
-                .forEach((e) => e.remove());
-              newPrice = document.querySelector("#bid_input_form").value;
-              currentPrice = document.querySelector("#currentPrice_form").value;
-              newPriceIsValid(parseInt(newPrice), parseInt(currentPrice));
-            });
+          const step = addToPrice(currentPrice);
+
+          bidInput.value = Math.round(currentPrice + step);
+          bidInput.step = step;
+
+          bidInput.addEventListener("input", () => {
+            document.querySelectorAll(".error-msg").forEach(e => e.remove());
+
+            newPriceIsValid(
+              parseInt(bidInput.value),
+              currentPrice
+            );
+          });
         });
+
       break;
+    }
     default:
       console.log("Aucun changement");
       break;
@@ -200,21 +214,32 @@ function addToPrice(currentPrice) {
 }
 
 function newPriceIsValid(newPrice, currentPrice) {
-  newPrice = parseInt(newPrice);
-  currentPrice = parseInt(currentPrice);
+
+  newPrice = Number(newPrice);
+  currentPrice = Number(currentPrice);
+
+  if (isNaN(newPrice) || isNaN(currentPrice)) {
+    console.error("Invalid price values:", newPrice, currentPrice);
+    return false;
+  }
+
   if (newPrice <= currentPrice) {
     const bidLabel = document.querySelector("#bid-label-form");
+
+    if (!bidLabel) return false;
 
     bidLabel.querySelectorAll(".error-msg").forEach((e) => e.remove());
 
     const star = document.createElement("span");
     star.classList.add("error-msg");
-    star.textContent = "Le montant doit être supérieur à " + currentPrice + "*";
+    star.textContent =
+      "Le montant doit être supérieur à " + currentPrice + " €";
     star.style.marginLeft = "5px";
 
     bidLabel.appendChild(star);
 
     return false;
   }
+
   return true;
 }

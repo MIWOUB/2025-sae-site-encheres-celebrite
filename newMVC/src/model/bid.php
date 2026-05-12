@@ -12,65 +12,135 @@ class BidRepository
         $this->connection = $pdo;
     }
 
+    // =========================
+    // INSERT BID (SAFE)
+    // =========================
     function bidProduct($id_product, $id_user, $newPrice, $currentPrice = null)
     {
-        if ($currentPrice === null) {
-            $productRepository = new ProductRepository($this->connection);
-            $currentPrice = $productRepository->getLastPrice($id_product)['last_price'];
-        }
         $pdo = $this->connection;
-        $request = "INSERT INTO Bid(id_product, id_user, current_price, new_price, bid_date) VALUES (:id_product, :id_user, :current_price, :new_price, NOW())";
-        $temp = $pdo->prepare($request);
-        $success = $temp->execute([
+
+        // 🔥 récupération safe du prix actuel
+        if ($currentPrice === null) {
+
+            $productRepository = new ProductRepository($this->connection);
+
+            // produit
+            $product = $productRepository->getProduct($id_product);
+
+            if (!$product) {
+                return false;
+            }
+
+            $currentPrice = (int) $product['reserve_price'];
+
+            // dernier bid
+            $last = $productRepository->getLastPrice($id_product);
+
+            if ($last && isset($last['last_price']) && $last['last_price'] !== null) {
+                $currentPrice = (int) $last['last_price'];
+            }
+        }
+
+        $request = "
+            INSERT INTO bid
+            (id_product, id_user, current_price, new_price, bid_date)
+            VALUES (:id_product, :id_user, :current_price, :new_price, NOW())
+        ";
+
+        $stmt = $pdo->prepare($request);
+
+        return $stmt->execute([
             ':id_product' => $id_product,
             ':id_user' => $id_user,
             ':current_price' => $currentPrice,
             ':new_price' => $newPrice
         ]);
-
-        return $success;
     }
 
+    // =========================
+    // LAST BIDDER SAFE
+    // =========================
     function getLastBidder($id_product)
     {
         $pdo = $this->connection;
-        $request = "SELECT id_user FROM bid WHERE new_price IN (
-    SELECT MAX(new_price) FROM bid WHERE id_product = ?
-    );";
-        $temp = $pdo->prepare($request);
-        $temp->execute([$id_product]);
 
-        return $temp->fetchColumn();
+        $request = "
+            SELECT id_user
+            FROM bid
+            WHERE new_price = (
+                SELECT MAX(new_price)
+                FROM bid
+                WHERE id_product = ?
+            )
+            LIMIT 1
+        ";
+
+        $stmt = $pdo->prepare($request);
+        $stmt->execute([$id_product]);
+
+        $result = $stmt->fetchColumn();
+
+        return $result ?: null;
     }
 
+    // =========================
+    // PRODUCT END DATE
+    // =========================
     function getProductDate($id_product)
     {
         $pdo = $this->connection;
-        $request = "SELECT end_date FROM product WHERE id_product = ?";
-        $temp = $pdo->prepare($request);
-        $temp->execute([$id_product]);
 
-        return $temp->fetchColumn();
+        $request = "SELECT end_date FROM product WHERE id_product = ?";
+
+        $stmt = $pdo->prepare($request);
+        $stmt->execute([$id_product]);
+
+        $result = $stmt->fetchColumn();
+
+        return $result ?: null;
     }
 
+    // =========================
+    // EXTEND TIME
+    // =========================
     function addTime($id_product)
     {
         $pdo = $this->connection;
-        $request = "UPDATE Product SET end_date = DATE_ADD(end_date, INTERVAL 30 SECOND) WHERE id_product = ?";
-        $temp = $pdo->prepare($request);
-        $success = $temp->execute([$id_product]);
 
-        return $success;
+        $request = "
+            UPDATE product
+            SET end_date = DATE_ADD(end_date, INTERVAL 30 SECOND)
+            WHERE id_product = ?
+        ";
+
+        $stmt = $pdo->prepare($request);
+
+        return $stmt->execute([$id_product]);
     }
 
+    // =========================
+    // CHECK OWNER
+    // =========================
     function sameUser($id_product, $id_user)
     {
         $pdo = $this->connection;
-        $request = "SELECT id_user FROM published WHERE id_product = ?";
-        $temp = $pdo->prepare($request);
-        $temp->execute([$id_product]);
-        $result = $temp->fetch(PDO::FETCH_ASSOC);
 
-        return $id_user === $result["id_user"];
+        $request = "
+            SELECT id_user
+            FROM published
+            WHERE id_product = ?
+            LIMIT 1
+        ";
+
+        $stmt = $pdo->prepare($request);
+        $stmt->execute([$id_product]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$result || !isset($result['id_user'])) {
+            return false;
+        }
+
+        return (int)$id_user === (int)$result['id_user'];
     }
 }
