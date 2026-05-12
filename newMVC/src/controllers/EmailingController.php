@@ -4,8 +4,8 @@ require 'vendor/autoload.php';
 
 use \Mailjet\Resources;
 
-$apiKey = 'dd1eee2440b4bd6cf36a174f2dacf8c6';
-$apisecret = '5ddabb00a7f6a8e75f50491865966284';
+$apiKey = getenv('MAILJET_API_KEY') ?: '';
+$apisecret = getenv('MAILJET_API_SECRET') ?: '';
 
 function routeurMailing(string $action, array $param): bool
 {

@@ -1,24 +1,12 @@
 <?php
 
+require_once __DIR__ . '/../lib/database.php';
+
 date_default_timezone_set('Europe/Paris');
 
 function connection()
 {
-    $host = "db";
-    $dbname = "auction_site";
-    $root = "root";
-    $password = "root";
-
-    try {
-        $pdo = new PDO("mysql:host=" . $host . ";dbname=" . $dbname . ";charset=utf8mb4", $root, $password);
-        /// gpt
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo->exec("SET time_zone = '" . date('P') . "'");
-        ///
-        return $pdo;
-    } catch (PDOException $e) {
-        die("Connexion error !\nError : " . $e->getMessage());
-    }
+    return \DatabaseConnection::getConnection();
 }
 
 

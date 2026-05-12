@@ -1,9 +1,8 @@
 <?php
 require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../controllers/config.php';
 
-use Meilisearch\Client;
-
-$client = new Client('http://meilisearch:7700', 'CLE_TEST_SAE_SITE');
+$client = \MeilisearchConnection::getClient();
 $index = $client->index('search');
 
 $results = $index->search('f');

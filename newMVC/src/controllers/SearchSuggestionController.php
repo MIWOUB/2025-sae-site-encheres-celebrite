@@ -6,9 +6,7 @@ header('Content-Type: application/json');
 
 require __DIR__ . '/../../vendor/autoload.php';
 
-require 'config.php';
-
-use Meilisearch\Client;
+require __DIR__ . '/config.php';
 
 $q = $_GET['q'] ?? '';
 
@@ -18,13 +16,13 @@ if (strlen($q) < 2) {
 }
 
 try {
-    $client = new Client(MEILI_HOST, MEILI_KEY);
+    $client = \MeilisearchConnection::getClient();
     $index = $client->index('products');
 
     $results = $index->search($q, ['limit' => 5]);
 
     $hits = $results->getHits();
-    $output = array_map(function($h) {
+    $output = array_map(function ($h) {
         return [
             'id' => $h['id'],
             'titre' => $h['title']
@@ -32,7 +30,6 @@ try {
     }, $hits);
 
     echo json_encode($output);
-
 } catch (Exception $e) {
     echo json_encode([]);
 }
