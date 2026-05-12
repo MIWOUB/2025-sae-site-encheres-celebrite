@@ -7,6 +7,7 @@
 
 # Prérequis
 
+- Copier le .env.example en .env et remplir les variables d'environnement nécessaires (ex: identifiants BDD, clé Meilisearch) mais ne surtout commit le .env
 - Docker Desktop (ou Docker Engine + Docker Compose)
 - Ports disponibles: `80`, `3306`, `7700`
 
