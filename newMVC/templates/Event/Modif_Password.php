@@ -104,6 +104,16 @@
         outline: none;
     }
 
+    #popupPassword .error-zone {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        color: var(--color-red);
+        font-family: var(--font-title);
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
     /* Boutons */
     #popupPassword .actions {
         display: flex;
@@ -149,14 +159,12 @@
 <div id="popupPassword" class="modal-overlay">
     <div class="modal-content">
 
-        <button class="close-btn" onclick="fermerPopupPassword()" aria-label="Fermer">&#x2715;</button>
+        <button class="close-btn" onclick="fermerPopupPassword()" aria-label="Fermer">✕</button>
 
-        <h3>Modifier votre mot </br>de passe</h3>
-
-        <div class="div-erreur"></div>
+        <h3>Modifier votre mot <br>de passe</h3>
 
         <form id="form_modif_password" action="index.php?action=update_password" method="POST"
-            onsubmit="checkupNewPWD(event)">
+            onsubmit="return validatePasswordForm(event)">
             <input type="hidden" name="action" value="update_password">
 
             <div class="field">
@@ -170,6 +178,8 @@
                 <input class="new-password-2" type="password" id="new_password_2" name="new_password_2"
                     placeholder="Répéter le mot de passe">
             </div>
+
+            <div class="error-zone"></div>
 
             <div class="actions">
                 <button type="submit" class="btn-submit">Valider</button>

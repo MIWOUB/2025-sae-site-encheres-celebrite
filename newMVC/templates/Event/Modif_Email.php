@@ -104,6 +104,16 @@
         outline: none;
     }
 
+    #popupEmail .error-zone {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        color: var(--color-red);
+        font-family: var(--font-title);
+        font-size: 0.95rem;
+        font-weight: 600;
+    }
+
     /* Boutons */
     #popupEmail .actions {
         display: flex;
@@ -149,17 +159,19 @@
 <div id="popupEmail" class="modal-overlay">
     <div class="modal-content">
 
-        <button class="close-btn" onclick="fermerPopupEmail()" aria-label="Fermer">&#x2715;</button>
+        <button class="close-btn" onclick="fermerPopupEmail()" aria-label="Fermer">✕</button>
 
         <h3>Modifier votre email</h3>
 
-        <div class="div-erreur"></div>
+        <form id="form_modif_email" action="index.php?action=update_email" method="POST"
+            onsubmit="return validateEmailForm(event)">
 
-        <form id="form_modif_email" action="index.php?action=update_email" method="POST">
             <div class="field">
                 <label for="email">Nouvelle adresse email</label>
                 <input type="email" id="email" name="email" placeholder="Votre nouvel email">
             </div>
+
+            <div class="error-zone"></div>
 
             <div class="actions">
                 <button type="submit" class="btn-submit">Valider</button>

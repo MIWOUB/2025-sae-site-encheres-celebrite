@@ -56,10 +56,6 @@
         color: var(--color-blue);
 
         cursor: pointer;
-        appearance: none;
-        -webkit-appearance: none;
-        box-shadow: none;
-        outline: none;
         transition: all 0.2s ease;
     }
 
@@ -95,11 +91,21 @@
         color: var(--color-blue);
         transition: border-color 0.2s ease;
     }
-
     /* Focus inputs */
     #popupAdresse .field input[type="text"]:focus {
         border-color: var(--color-blue-light);
         outline: none;
+    }
+
+    /* Zone d’erreur */
+    #popupAdresse .error-zone {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        color: var(--color-red);
+        font-family: var(--font-title);
+        font-size: 0.95rem;
+        font-weight: 600;
     }
 
     /* Boutons */
@@ -147,13 +153,11 @@
 <div id="popupAdresse" class="modal-overlay">
     <div class="modal-content">
 
-        <button type="button" class="close-btn" onclick="fermerPopupAdresse()" aria-label="Fermer">&#x2715;</button>
+        <button type="button" class="close-btn" onclick="fermerPopupAdresse()" aria-label="Fermer">✕</button>
 
         <h3>Modifier votre adresse</h3>
 
-        <div class="div-erreur"></div>
-
-        <form id="form_modif_adresse" action="index.php?action=update_address" method="POST">
+        <form id="form_modif_adresse" action="index.php?action=update_address" method="POST" onsubmit="return validateAdresseForm(event)">
             <input type="hidden" name="action" value="update_address">
 
             <div class="field">
@@ -170,6 +174,8 @@
                 <label for="ville">Nouvelle ville</label>
                 <input type="text" id="ville" name="ville" placeholder="Votre nouvelle ville">
             </div>
+
+            <div class="error-zone"></div>
 
             <div class="actions">
                 <button type="submit" class="btn-submit">Valider</button>

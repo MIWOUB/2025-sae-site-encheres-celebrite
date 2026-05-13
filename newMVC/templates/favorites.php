@@ -65,7 +65,6 @@ $favorites = $favoriteRepository->getUserFavorites($user['id_user']);
                 <!-- BAS DE CARTE -->
                 <div class="card-bottom">
                     <p class="timer" data-end="<?= htmlspecialchars($p['end_date'] ?? '') ?>"></p>
-                    <p><time class="local-date" data-local-datetime="<?= htmlspecialchars($p['end_date'] ?? '') ?>"></time></p>
                     <p>Prix actuel : <?= htmlspecialchars($current_price) ?> €</p>
                     <a class="main-btn" href="index.php?action=product&id=<?= $p['id_product'] ?>">
                         Voir
