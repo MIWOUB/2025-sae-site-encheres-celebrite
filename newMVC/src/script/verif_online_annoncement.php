@@ -12,7 +12,6 @@ if (!isConnected()) {
 $user = $_SESSION['user'];
 
 require_once __DIR__ . '/../model/pdo.php';
-require_once __DIR__ . '/../controllers/EmailingController.php';
 
 //Définition du délais entre chaque vérification de fin d'annonce pour l'envoi de mail de 5 minutes
 // La 300 c'est 5min en secondes
@@ -43,7 +42,8 @@ function verif(array $user): void
             $user_name = $user['name'];
             // var_dump("hello");
             $params = [$user_email, $user_name, $annonce['title']];
-            routeurMailing('EndAnnoncement', $params);
+            $emailingService = new \EmailingService();
+            $emailingService->notifyEndAnnouncement($user_email, $user_name, $annonce['title']);
             closeAnnoncement($annonce['id_product']);
         }
     }

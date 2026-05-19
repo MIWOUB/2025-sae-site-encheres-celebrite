@@ -85,7 +85,8 @@ function subscribeNewsletter(array $input)
     $userRepository->updateNewsletterUser($id_user, 1);
 
     $_SESSION['user']['newsletter'] = 1;
-    routeurMailing('InscriptionNewsletter', [$email, $user['name']]);
+    $emailingService = new \EmailingService();
+    $emailingService->subscribeNewsletter($email, $user['name']);
 
     $_SESSION['success'] = 'Abonnement confirmé 🎉';
     header('Location: index.php');

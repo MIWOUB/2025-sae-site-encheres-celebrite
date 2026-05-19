@@ -1,9 +1,16 @@
 <?php
 
-require_once __DIR__ . '/../controllers/EmailingController.php';
+require_once __DIR__ . '/EmailingService.php';
 
 class NewsletterService
 {
+    private $emailingService;
+
+    public function __construct($emailingService = null)
+    {
+        $this->emailingService = $emailingService ?? new \EmailingService();
+    }
+
     public function sendToSubscribers(array $subscribers, string $title, string $content): int
     {
         $sentCount = 0;
@@ -13,8 +20,7 @@ class NewsletterService
                 continue;
             }
 
-            $params = [$user['email'], $user['name'], $title, $content];
-            $wasSent = routeurMailing('Newsletter', $params);
+            $wasSent = $this->emailingService->sendNewsletter($user['email'], $user['name'], $title, $content);
 
             if ($wasSent) {
                 $sentCount++;

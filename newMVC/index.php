@@ -24,7 +24,6 @@ require_once __DIR__ . '/src/controllers/Admin/AdminPanelController.php';
 require_once __DIR__ . '/src/controllers/Admin/AnnouncementModerationController.php';
 require_once __DIR__ . '/src/controllers/Page/BuyController.php';
 require_once __DIR__ . '/src/controllers/Page/HomeController.php';
-require_once __DIR__ . '/src/controllers/EmailingController.php';
 require_once __DIR__ . '/src/controllers/ViewCounterController.php';
 
 require_once __DIR__ . '/src/lib/auth.php';

@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../../lib/database.php';
 require_once __DIR__ . '/../../model/product.php';
-require_once __DIR__ . '/../EmailingController.php';
+require_once __DIR__ . '/../../services/EmailingService.php';
 require_once __DIR__ . '/../../model/pdo.php';
 require_once __DIR__ . '/../../model/celebrity.php';
 
@@ -72,67 +72,67 @@ class ProductCreateController
             $user_email = $user['email'];
             $user_name = $user['name'];
             $param = [$user_email, $user_name];
-            routeurMailing('sendEmailConfirmationPlublish', $param);
+            $emailingService = new \EmailingService();
+            $emailingService->sendEmailConfirmationPublish($user_email, $user_name);
             header("Location: index.php?action=user");
             exit();
         }
     }
 
     private function uploadImages(int $id_product, \ProductRepository $productRepository)
-{
-    try {
+    {
+        try {
 
-        // Vérifie si images envoyées
-        if (!isset($_FILES['image_produit'])) {
-            return;
-        }
+            // Vérifie si images envoyées
+            if (!isset($_FILES['image_produit'])) {
+                return;
+            }
 
-        // Dossier annonce
-        $DirAnnonce = __DIR__ . "/../../../Annonce/" . $id_product;
+            // Dossier annonce
+            $DirAnnonce = __DIR__ . "/../../../Annonce/" . $id_product;
 
-        // Création dossier seulement si inexistant
-        if (!is_dir($DirAnnonce)) {
-            mkdir($DirAnnonce, 0777, true);
-        }
+            // Création dossier seulement si inexistant
+            if (!is_dir($DirAnnonce)) {
+                mkdir($DirAnnonce, 0777, true);
+            }
 
-        // Upload images
-        for ($i = 0; $i < count($_FILES["image_produit"]['name']); $i++) {
+            // Upload images
+            for ($i = 0; $i < count($_FILES["image_produit"]['name']); $i++) {
 
-            $tmpFilePath = $_FILES['image_produit']['tmp_name'][$i];
+                $tmpFilePath = $_FILES['image_produit']['tmp_name'][$i];
 
-            if (!empty($tmpFilePath)) {
+                if (!empty($tmpFilePath)) {
 
-                $name_image = $id_product . "_" . $i . ".jpg";
+                    $name_image = $id_product . "_" . $i . ".jpg";
 
-                $newFilePath = $DirAnnonce . "/" . $name_image;
+                    $newFilePath = $DirAnnonce . "/" . $name_image;
 
-                if (move_uploaded_file($tmpFilePath, $newFilePath)) {
+                    if (move_uploaded_file($tmpFilePath, $newFilePath)) {
 
-                    $dbPath = "Annonce/" . $id_product . "/" . $name_image;
+                        $dbPath = "Annonce/" . $id_product . "/" . $name_image;
 
-                    $productRepository->addImage(
-                        $id_product,
-                        $dbPath,
-                        $name_image
-                    );
+                        $productRepository->addImage(
+                            $id_product,
+                            $dbPath,
+                            $name_image
+                        );
+                    }
                 }
             }
+
+            // Certificat
+            if (
+                isset($_FILES['certificat_autenticite']) &&
+                !empty($_FILES['certificat_autenticite']['tmp_name'])
+            ) {
+
+                $this->uploadCertificate($id_product, $DirAnnonce);
+            }
+        } catch (Exception $e) {
+
+            die("Erreur upload image : " . $e->getMessage());
         }
-
-        // Certificat
-        if (
-            isset($_FILES['certificat_autenticite']) &&
-            !empty($_FILES['certificat_autenticite']['tmp_name'])
-        ) {
-
-            $this->uploadCertificate($id_product, $DirAnnonce);
-        }
-
-    } catch (Exception $e) {
-
-        die("Erreur upload image : " . $e->getMessage());
     }
-}
 
     private function uploadCertificate(int $id_annonce, string $DirAnnonce)
     {
